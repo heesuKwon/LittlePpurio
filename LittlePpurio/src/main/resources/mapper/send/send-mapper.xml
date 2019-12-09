@@ -3,5 +3,9 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="send">
+<insert id="insertSms" useGeneratedKeys="true" parameterType="Send">
+  insert into send ( send_no, sms_content, sms_date )
+  values ( #{sms_content}, now())
+</insert>
 	
 </mapper>
