@@ -95,6 +95,7 @@
         height:450px;
         background-color:#ededed;
         border-radius: 10px;
+        font-size: 2em;
     }
     .transferButton{
         background-color: rgb(52,152,219);

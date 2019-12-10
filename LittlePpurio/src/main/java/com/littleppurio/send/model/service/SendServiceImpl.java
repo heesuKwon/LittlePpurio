@@ -1,6 +1,7 @@
 package com.littleppurio.send.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,9 +16,18 @@ public class SendServiceImpl implements SendService {
 	SendDAO sendDAO;
 	
 	@Override
-	public List<Send> sendSms(){
+	public int insertSend(String param){
 		
-		return sendDAO.sendSms();
+		return sendDAO.insertSend(param);
 		
+	}
+	@Override
+	public int selectSendNo() {
+		return sendDAO.selectSendNo();
+	}
+	
+	@Override
+	public int insertSms(Map param){
+		return sendDAO.insertSms(param);
 	}
 }

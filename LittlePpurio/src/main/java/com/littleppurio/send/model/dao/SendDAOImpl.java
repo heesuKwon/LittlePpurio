@@ -2,6 +2,7 @@ package com.littleppurio.send.model.dao;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +17,18 @@ public class SendDAOImpl implements SendDAO {
 	SqlSessionTemplate sqlSession;
 	
 	@Override
-	public List<Send> sendSms() {
-		return sqlSession.selectOne("result.selectSmsCnt");
+	public int insertSend(String param) {
+		return sqlSession.insert("send.insertSend",param);
+	}
+	
+	@Override
+	public int selectSendNo() {
+		return sqlSession.selectOne("send.selectSendNo");
+	}
+	
+	@Override
+	public int insertSms(Map param) {
+		return sqlSession.insert("send.insertSms",param);
 	}
 	
 }
