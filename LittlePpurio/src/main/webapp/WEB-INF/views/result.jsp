@@ -9,20 +9,19 @@
 <meta charset="UTF-8">
 <title>statistic page</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous">
- </script>
+
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.js"></script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/result.css" type="text/css">
 </head>
 <body>
-<div lang="ko" style="background-color: rgb(255,255,255)">
-	<h1 id="title" style="color:rgba(41,128,185); font-size: 50px; margin-left:70px;"> Little Ppurio </h1>
-	<h2 style="position: relative; top:-20px; font-size: 40px; margin-left:70px;"> 통계 보기</h2>
+<div lang="ko" class="header">
+	<h1 id="title"> Little Ppurio </h1>
+	<h2>통계 보기</h2>
 	<div style = "position: relative; top: -10vh; float: right;">
-		<form action="a.html">
-		<input class="sendButton" type="button" value="발송하기">
+		<!-- <form action="a.html">
+			<input class="sendButton" type="button" value="발송하기">
+		</form> -->
+		<button id="btn-send">발송하기</button>
 	</div>
 </div>
 <div align="center" class="chart-container">
@@ -171,6 +170,10 @@ var horizontalChart = new Chart(horizontalContext,{
 			}
 		}
 	}
+});
+
+$('#btn-send').click(function(){
+	document.location.href="${pageContext.request.contextPath}/sendBtn";	
 });
 </script>
 </html>

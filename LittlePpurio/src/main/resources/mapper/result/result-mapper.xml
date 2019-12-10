@@ -5,6 +5,6 @@
 <mapper namespace="result">
 	<select id="selectSmsCnt" resultType="int">
 		SELECT count(*)
-		FROM send
+		FROM sms
 	</select>
 </mapper>
