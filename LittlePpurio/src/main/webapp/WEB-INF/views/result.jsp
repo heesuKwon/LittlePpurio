@@ -9,6 +9,11 @@
 <meta charset="UTF-8">
 <title>statistic page</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+ </script>
 <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/result.css" type="text/css">
 </head>
 <body>

@@ -42,6 +42,7 @@ public class SendController {
 		sendService.insertSend(insertSend);
 		int sendNo=sendService.selectSendNo();
 		Map insertSms = new HashMap();
+		System.out.println(insertSms);
 		insertSms.put("receiver", req.getParameter("sendReceiver"));
 		insertSms.put("send_no", sendNo);
 		System.out.println(insertSms);
