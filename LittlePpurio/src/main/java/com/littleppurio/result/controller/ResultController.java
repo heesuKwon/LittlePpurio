@@ -24,10 +24,13 @@ public class ResultController {
 	}
 	
 	@RequestMapping("/sendBtn")
-	public String sendBtn() {
+	public ModelAndView sendBtn(ModelAndView mav) {
 		System.out.println("sendBtn메소드");
 		SMSSender smsSender = new SMSSender();
 		smsSender.send();
-		return "result";
+		System.out.println("sendBtn메소드 종료");
+		
+		mav.setViewName("result");
+		return mav;
 	}
 }
