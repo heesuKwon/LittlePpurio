@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.littleppurio.result.model.service.ResultService;
@@ -24,7 +25,7 @@ public class SendController {
 	SendService sendService;
 	
 	@RequestMapping(value = "/send",method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView send(HttpServletRequest req) {
+	public String send(HttpServletRequest req) {
 		
 
 		Send send = new Send();
@@ -42,16 +43,16 @@ public class SendController {
 		sendService.insertSend(insertSend);
 		int sendNo=sendService.selectSendNo();
 		Map insertSms = new HashMap();
-		insertSms.put("receiver", req.getParameter("sendReceiver"));
+		System.out.println(insertSms);
+		
+		//insertSms.put("receiver", temp);
+		
+		insertSms.put("receiver", req.getParameter("phoneList"));
 		insertSms.put("send_no", sendNo);
 		System.out.println(insertSms);
 		
 		sendService.insertSms(insertSms);
 		
-		
-		
-		ModelAndView mav= new ModelAndView("send");
-		
-		return mav;
+		return "send";
 	}
 }
