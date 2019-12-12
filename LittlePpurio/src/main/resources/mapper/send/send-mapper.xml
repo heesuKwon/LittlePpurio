@@ -3,15 +3,14 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="send">
-<insert id="insertSend" useGeneratedKeys="true" parameterType="string">
-  insert into send (sms_content, sms_date )
-  values (#{sms_content}, now())
-</insert>
-<select id="selectSendNo" resultType="int">
-SELECT send_no FROM send ORDER BY send_no DESC LIMIT 1;
-</select>
-<insert id="insertSms" parameterType="map">
-  insert into sms (receiver, send_no) values (#{receiver}, #{send_no})
-</insert>
-	
+	<insert id="insertSend" useGeneratedKeys="true" parameterType="string">
+	  insert into send (sms_content, sms_date )
+	  values (#{sms_content}, now())
+	</insert>
+	<select id="selectSendNo" resultType="int">
+	SELECT send_no FROM send ORDER BY send_no DESC LIMIT 1;
+	</select>
+	<insert id="insertSms" parameterType="map">
+	  insert into sms (receiver, send_no) values (#{receiver}, #{send_no})
+	</insert>
 </mapper>
