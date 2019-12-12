@@ -27,7 +27,10 @@ public class ResultController {
 	public ModelAndView sendBtn(ModelAndView mav) {
 		System.out.println("sendBtn메소드");
 		SMSSender smsSender = new SMSSender();
-		smsSender.send();
+		String phone = "01012341234";
+		String callBack = "01011111111";
+		String massage = "안녕하세요.";
+		smsSender.send(phone, callBack, massage);
 		System.out.println("sendBtn메소드 종료");
 		
 		mav.setViewName("result");

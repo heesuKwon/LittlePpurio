@@ -10,7 +10,7 @@ import com.littleppurio.common.SHA256Util;
 
 public class SMSSender {
 	
-	public void send() {
+	public void send(String phone, String callBack, String message) {
 		//자동 close
 		try(Socket client = new Socket()){
 			//클라이언트 초기화(연결대상 지정)
@@ -26,6 +26,17 @@ public class SMSSender {
 				packet("AU",authInfo,sender,receiver);
 				packet("ST","",sender,receiver);
 				packet("PI","",sender,receiver);
+				
+				//문자 전송
+				String data = "VERSION:=4.0\nDEVICE:=sms\n"
+							+"CMSGID:=1\nPHONE:="+phone+"\nSENDER_NAME:=\n"
+							+"TO_NAME:=\nSUBJECT:=\nCOVER_FLAG:=\nUNIXTIME:=\n"
+							+"CALLBACK:="+callBack+"\nTEMPLATE_FILE:=\nFAX_FILE:=\n"
+							+"MSG:=<<__START__\n" + message+"__END__>>\nWAP_URL:=\n" 
+							+"RETRYCNT:=\nSMS_FLAG:=\nREPLY_FLAG:=\nUSERDATA:=\n"
+							+"EXT_DATA:=\n";
+				packet("DS",data,sender,receiver);
+				
 				packet("EN","",sender,receiver);				
 			}
 		}catch(Throwable e){
@@ -43,23 +54,24 @@ public class SMSSender {
 		//length(8bytes) = 2+message.getBytes().length;
 		int len = 2+message.length();
 		data.append(String.format("%08d", len));
-		System.out.println("Length 넣은 뒤 data: "+data);
+		//System.out.println("Length 넣은 뒤 data: "+data);
 		
 		//구분코드(2bytes) : AU인 경우
 		data.append(divCode);
-		System.out.println("구분코드 넣은 뒤 data: "+data);
+		//System.out.println("구분코드 넣은 뒤 data: "+data);
 		
 		//message
 		data.append(message);
-		System.out.println("message 넣은 뒤 data: "+data);
+		//System.out.println("message 넣은 뒤 data: "+data);
 		
-		//byte 변환				
+		//byte 변환		
+		System.out.println(String.format("sender data - %s", data));
 		sender.write(data.toString().getBytes(), 0, data.length());
 		
 		//서버로부터 데이터 받기
 		//11byte
-		byte[] result = new byte[15];
-		receiver.read(result,0,15);
+		byte[] result = new byte[40];
+		receiver.read(result,0,40);
 		
 		//수신메시지 출력
 		message = new String(result);
