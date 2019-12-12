@@ -1,5 +1,6 @@
 package com.littleppurio.send.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,15 +9,10 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.littleppurio.result.model.service.ResultService;
 import com.littleppurio.send.model.service.SendService;
-import com.littleppurio.send.model.vo.Send;
 
 @Controller
 public class SendController {
@@ -26,32 +22,32 @@ public class SendController {
 	
 	@RequestMapping(value = "/send",method = {RequestMethod.GET,RequestMethod.POST})
 	public String send(HttpServletRequest req) {
-		
-
-		Send send = new Send();
-		
+				
+		// 메시지 내용 가져오기
 		String insertSend=req.getParameter("sendMessage");
 		System.out.println(insertSend);
-//		Map param = new HashMap();
-//		param.put("send_no", send.getSendNo());
-//		param.put("sms_content", req.getParameter("SendMessage"));
-		
-		//int sendSms = sendService.sendSms();
-		//mav.addObject("sms", sendSms);
-		//mav.setViewName("send");
+
 		
 		sendService.insertSend(insertSend);
 		int sendNo=sendService.selectSendNo();
+		
+		
+		String[] insertNumber;
+		
 		Map<String, Object> insertSms = new HashMap<>();
-		System.out.println(insertSms);
 		
-		//insertSms.put("receiver", temp);
+		// 전송할 전화번호 받아오기
+		insertNumber=(req.getParameterValues("phoneList"));
+
+		for(int i=0;i<insertNumber.length;i++)
+		{
+			insertSms.put("receiver", insertNumber[i]);
+			insertSms.put("send_no", sendNo);
+			System.out.println(insertSms);
+			sendService.insertSms(insertSms);
+			//sendSerivce.selectSmsNo();
+		}
 		
-		insertSms.put("receiver", req.getParameter("phoneList"));
-		insertSms.put("send_no", sendNo);
-		System.out.println(insertSms);
-		
-		sendService.insertSms(insertSms);
 		
 		return "send";
 	}
