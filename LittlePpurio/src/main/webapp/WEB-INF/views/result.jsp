@@ -26,6 +26,7 @@
 </div>
 <div align="center" class="chart-container">
 	
+	<div class="fir">
 	<div class="bar-container">
 		<canvas id="myChart" style="padding-top: 40px; padding-right: 30px"></canvas>
 	</div>
