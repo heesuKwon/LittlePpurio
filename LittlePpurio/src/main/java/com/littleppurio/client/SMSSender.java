@@ -10,41 +10,95 @@ import com.littleppurio.common.SHA256Util;
 
 public class SMSSender {
 	
-	public void send(String phone, String callBack, String message) {
-		//자동 close
-		try(Socket client = new Socket()){
-			//클라이언트 초기화(연결대상 지정)
-			InetSocketAddress ipep = new InetSocketAddress("123.2.134.81", 15001);
-			//접속
+	public static Socket client;
+	public static OutputStream sender;
+	public static InputStream receiver;
+	
+	public static void createSocket() {
+		client = new Socket();
+		
+		//클라이언트 초기화(연결대상 지정)
+		InetSocketAddress ipep = new InetSocketAddress("123.2.134.81", 15001);
+		try{
+			//접속		
 			client.connect(ipep);
 			//send,reciever 스트림 받아오기
 			//자동 close
-			try(OutputStream sender = client.getOutputStream();
-					InputStream receiver = client.getInputStream();){				
-				String encodePwd = SHA256Util.getEncodePassword("daou12!!");
-				String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
-				packet("AU",authInfo,sender,receiver);
-				packet("ST","",sender,receiver);
-				packet("PI","",sender,receiver);
-				
-				//문자 전송
-				String data = "VERSION:=4.0\nDEVICE:=sms\n"
-							+"CMSGID:=1\nPHONE:="+phone+"\nSENDER_NAME:=\n"
-							+"TO_NAME:=\nSUBJECT:=\nCOVER_FLAG:=\nUNIXTIME:=\n"
-							+"CALLBACK:="+callBack+"\nTEMPLATE_FILE:=\nFAX_FILE:=\n"
-							+"MSG:=<<__START__\n" + message+"__END__>>\nWAP_URL:=\n" 
-							+"RETRYCNT:=\nSMS_FLAG:=\nREPLY_FLAG:=\nUSERDATA:=\n"
-							+"EXT_DATA:=\n";
-				packet("DS",data,sender,receiver);
-				
-				packet("EN","",sender,receiver);				
-			}
-		}catch(Throwable e){
+			sender= client.getOutputStream();
+			receiver = client.getInputStream();	
+			String encodePwd = SHA256Util.getEncodePassword("daou12!!");
+			String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
+			packet("AU",authInfo);
+			packet("ST","");
+			
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void closeSocket() {
+		try{				
+			packet("EN","");	
+			client.close();
+
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void packet(String divCode, String message, OutputStream sender, InputStream receiver) throws IOException {
+//	public void send2(String phone, String callBack, String message) {
+//		//자동 close
+//		try(Socket client = new Socket()){
+//			//클라이언트 초기화(연결대상 지정)
+//			InetSocketAddress ipep = new InetSocketAddress("123.2.134.81", 15001);
+//			//접속
+//			client.connect(ipep);
+//			//send,reciever 스트림 받아오기
+//			//자동 close
+////			try(OutputStream sender = client.getOutputStream();
+////					InputStream receiver = client.getInputStream();){				
+//				String encodePwd = SHA256Util.getEncodePassword("daou12!!");
+//				String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
+//				packet("AU",authInfo);
+//				packet("ST","");
+//				//packet("PI","",sender,receiver);
+//				
+//				//문자 전송
+//				String data = "VERSION:=4.0\nDEVICE:=sms\n"
+//							+"CMSGID:=1\nPHONE:="+phone+"\nSENDER_NAME:=\n"
+//							+"TO_NAME:=\nSUBJECT:=\nCOVER_FLAG:=\nUNIXTIME:=\n"
+//							+"CALLBACK:="+callBack+"\nTEMPLATE_FILE:=\nFAX_FILE:=\n"
+//							+"MSG:=<<__START__\n" + message+"__END__>>\nWAP_URL:=\n" 
+//							+"RETRYCNT:=\nSMS_FLAG:=\nREPLY_FLAG:=\nUSERDATA:=\n"
+//							+"EXT_DATA:=\n";
+//				packet("DS",data);
+//				
+//				packet("EN","");				
+////			}
+//		}catch(Throwable e){
+//			e.printStackTrace();
+//		}
+//	}
+	
+	public void send(String phone, String callBack, String message) {
+		//packet("PI","");
+		
+		//문자 전송
+		String data = "VERSION:=4.0\nDEVICE:=sms\n"
+					+"CMSGID:=1\nPHONE:="+phone+"\nSENDER_NAME:=\n"
+					+"TO_NAME:=\nSUBJECT:=\nCOVER_FLAG:=\nUNIXTIME:=\n"
+					+"CALLBACK:="+callBack+"\nTEMPLATE_FILE:=\nFAX_FILE:=\n"
+					+"MSG:=<<__START__\n" + message+"__END__>>\nWAP_URL:=\n" 
+					+"RETRYCNT:=\nSMS_FLAG:=\nREPLY_FLAG:=\nUSERDATA:=\n"
+					+"EXT_DATA:=\n";
+		try {
+			packet("DS",data);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void packet(String divCode, String message) throws IOException {
 		
 		//서버로 데이터 보내기
 		StringBuffer data = new StringBuffer();
@@ -54,19 +108,16 @@ public class SMSSender {
 		//length(8bytes) = 2+message.getBytes().length;
 		int len = 2+message.length();
 		data.append(String.format("%08d", len));
-		//System.out.println("Length 넣은 뒤 data: "+data);
 		
 		//구분코드(2bytes) : AU인 경우
 		data.append(divCode);
-		//System.out.println("구분코드 넣은 뒤 data: "+data);
 		
 		//message
 		data.append(message);
-		//System.out.println("message 넣은 뒤 data: "+data);
 		
 		//byte 변환		
 		System.out.println(String.format("sender data - %s", data));
-		sender.write(data.toString().getBytes(), 0, data.length());
+		sender.write(data.toString().getBytes("euc-kr"), 0, data.length());
 		
 		//서버로부터 데이터 받기
 		//11byte

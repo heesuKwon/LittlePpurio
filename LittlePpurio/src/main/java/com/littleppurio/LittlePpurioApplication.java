@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import com.littleppurio.client.SMSSender;
 
 @SpringBootApplication
 @ComponentScan(basePackages= {"com.littleppurio"})
@@ -16,7 +17,7 @@ public class LittlePpurioApplication extends SpringBootServletInitializer{
 		return builder.sources(LittlePpurioApplication.class);
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) {				
 		SpringApplication.run(LittlePpurioApplication.class, args);
 	}
 

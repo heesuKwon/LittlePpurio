@@ -126,8 +126,8 @@ body {
 }
 
 .bar-container {
-	/* position: relative;
-    left: 20%; */
+	position: relative;
+    left: 20%;
 	float: left;
 	background-color: rgb(255, 255, 255);
 	width: 640px;
@@ -136,8 +136,8 @@ body {
 }
 
 .costText {
-	/* position: absolute;
-	left: 1100px; */
+	position: relative;
+    left: 20%;
 	background-color: rgb(255, 255, 255);
 	text-align: center;
 	height: 400px;
@@ -166,4 +166,8 @@ body {
 	float: left;
 	width: 640px;
 	height: 400px;
+}
+
+.top{
+	min-width: 1210px;
 }
