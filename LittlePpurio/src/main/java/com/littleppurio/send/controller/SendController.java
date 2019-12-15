@@ -1,8 +1,6 @@
 package com.littleppurio.send.controller;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,9 +20,14 @@ public class SendController {
 	
 	@RequestMapping(value = "/send",method = {RequestMethod.GET,RequestMethod.POST})
 	public String send(HttpServletRequest req) {
-				
+
+		
 		// 메시지 내용 가져오기
-		String insertSend=req.getParameter("sendMessage");
+		
+		Map<String,String> insertSend = new HashMap<>();
+		
+		insertSend.put("sender", req.getParameter("sender"));
+		insertSend.put("sms_content", req.getParameter("sendMessage"));
 		System.out.println(insertSend);
 
 		
@@ -44,8 +47,18 @@ public class SendController {
 			insertSms.put("receiver", insertNumber[i]);
 			insertSms.put("send_no", sendNo);
 			System.out.println(insertSms);
-			sendService.insertSms(insertSms);
-			//sendSerivce.selectSmsNo();
+			if(sendService.insertSms(insertSms)==1)
+			{
+				int smsNo = sendService.selectSmsNo();
+				if(true)
+				{
+					sendService.ingUpdate(smsNo);
+					if(true) {
+						sendService.compUpdate(smsNo);
+						
+					}//else if(true)리포트서버에 전송실패 했을 때 에러코드를 알 수 없고 (이거는 다시 시도할 수 있나 모르겠네) 그리고 실패면 언제 comp로 전환해야할까
+				}//else if(true) 발송서버 전송에 실패했을 때 --> 아직 wait 그리고 다시 전송시도(횟수 정해야함) 및 소켓 열/닫 횟수?
+			}
 		}
 		
 		
