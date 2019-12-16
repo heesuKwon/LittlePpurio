@@ -14,7 +14,7 @@ public class SendServiceImpl implements SendService {
 	SendDAO sendDAO;
 	
 	@Override
-	public int insertSend(String param){
+	public int insertSend(Map param){
 		
 		return sendDAO.insertSend(param);
 		
@@ -28,4 +28,20 @@ public class SendServiceImpl implements SendService {
 	public int insertSms(Map param){
 		return sendDAO.insertSms(param);
 	}
+	
+	@Override
+	public int selectSmsNo() {
+		return sendDAO.selectSmsNo();
+	}
+	
+	@Override
+	public int ingUpdate(int param) {
+		return sendDAO.ingUpdate(param);
+	}
+	
+	@Override
+	public int compUpdate(int param) {
+		return sendDAO.compUpdate(param);
+	}
+	
 }

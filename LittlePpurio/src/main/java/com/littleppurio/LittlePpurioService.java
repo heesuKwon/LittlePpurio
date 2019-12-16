@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.littleppurio.client.SMSSender;
@@ -27,6 +28,13 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
         SMSSender.createSocket();
         SMSSender.createReport();
     }
+    
+    @Scheduled(cron="*/19 * * * * *")
+    public void ping(){
+    	SMSSender.ping();
+    }
+    
+    
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
     	//애플리케이션 종료시 한번만 실행

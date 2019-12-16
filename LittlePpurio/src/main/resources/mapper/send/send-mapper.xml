@@ -4,8 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="send">
 	<insert id="insertSend" useGeneratedKeys="true" parameterType="string">
-	  insert into send (sms_content, sms_date )
-	  values (#{sms_content}, now())
+	  insert into send (sender, sms_content)
+	  values (#{sender}, #{sms_content})
 	</insert>
 	<select id="selectSendNo" resultType="int">
 	SELECT send_no FROM send ORDER BY send_no DESC LIMIT 1;
@@ -13,4 +13,20 @@
 	<insert id="insertSms" parameterType="map">
 	  insert into sms (receiver, send_no) values (#{receiver}, #{send_no})
 	</insert>
+	<select id="selectSmsNo" resultType ="int">
+	SELECT max(sms_no) FROM sms;
+	</select>
+	
+	
+	<!-- <select id="">
+	SELECT sms.receiver, send.sms_content, send.sender FROM sms 
+	INNER JOIN send ON sms.send_no=send.send_no WHERE sms.`status`='wait';
+	</select>-->
+	<update id="ingUpdate" parameterType="int">
+	UPDATE sms SET `status`='ing' WHERE sms_no = #{sms_no};
+	</update>
+	<update id="compUpdate">
+	UPDATE sms SET `status`='comp' WHERE sms_no = #{sms_no};
+	</update>
+	
 </mapper>
