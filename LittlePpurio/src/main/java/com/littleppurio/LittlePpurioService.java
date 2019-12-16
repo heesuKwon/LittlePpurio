@@ -29,10 +29,10 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
         
     }
     
-    @Scheduled(cron="*/19 * * * * *")
-    public void ping(){
-    	SMSSender.ping();
-    }
+//    @Scheduled(cron="*/19 * * * * *")
+//    public void ping(){
+//    	SMSSender.ping();
+//    }
     
     
     @Override

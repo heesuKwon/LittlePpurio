@@ -4,7 +4,8 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="result">
 	<select id="selectSmsCnt" resultType="int">
-		SELECT count(*)
-		FROM sms
+	
+	SELECT count(*) FROM (sms JOIN send ON send.send_no=sms.send_no) WHERE
+	( sms_date &gt; LAST_DAY(NOW() - interval 1 month) AND sms_date &lt;= LAST_DAY(NOW()) );
 	</select>
 </mapper>

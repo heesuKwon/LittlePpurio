@@ -35,7 +35,7 @@
 			<div align ="center" lang="ko" style= "margin-top: 0px; font-style: bold;">
 				<p>총 전송량은 ${smsCnt} 입니다.</p>
 				<p>이번달 요금은<br> </p>
-				<p style="font-size:1.3em; font-style:bold; margin-left:60px; color:rgb(243,156,18); float:left">10,9000원&nbsp;</p> <p style="float:left; margin-top:50px;">입니다<br></p>
+				<p style="font-size:1.3em; font-style:bold; margin-left:60px; color:rgb(243,156,18); float:left">${price}원&nbsp;</p> <p style="float:left; margin-top:50px;">입니다<br></p>
 				<p style="float:left; margin-left:20px">지난달 대비&nbsp;</p> <p style="float: left; color:rgb(192,57,43)">1000원 증가</p>
 			</div>
 			

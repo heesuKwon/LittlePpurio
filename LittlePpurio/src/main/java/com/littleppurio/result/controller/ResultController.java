@@ -18,7 +18,9 @@ public class ResultController {
 	@GetMapping("/result")
 	public ModelAndView result(ModelAndView mav) {
 		int smsCnt = resultService.selectSmsCnt();
+		float price= (float) (smsCnt*(15.45));
 		mav.addObject("smsCnt", smsCnt);
+		mav.addObject("price",price);
 		mav.setViewName("result");
 		return mav;
 	}

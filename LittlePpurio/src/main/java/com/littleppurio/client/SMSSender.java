@@ -6,6 +6,7 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
+import com.littleppurio.Scheduler;
 import com.littleppurio.common.SHA256Util;
 
 public class SMSSender {
@@ -13,6 +14,8 @@ public class SMSSender {
 	public static Socket client;
 	public static OutputStream sender;
 	public static InputStream receiver;
+	
+	static Scheduler  scheduler = new Scheduler();
 	
 	public static void createSocket() {
 		client = new Socket();
@@ -30,6 +33,7 @@ public class SMSSender {
 			String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
 			packet("AU",authInfo);
 			packet("ST","");
+			scheduler.startScheduler();
 			
 			
 		} catch (IOException e) {
@@ -80,7 +84,7 @@ public class SMSSender {
 //		}
 //	}
 	
-	public static void ping() {
+	public void ping() {
 		try {
 			packet("PI","");
 		} catch (IOException e) {
@@ -92,6 +96,9 @@ public class SMSSender {
 		//packet("PI","");
 		
 		//문자 전송
+		
+		scheduler.stopScheduler();
+		
 		String data = "VERSION:=4.0\nDEVICE:=sms\n"
 					+"CMSGID:=1\nPHONE:="+phone+"\nSENDER_NAME:=\n"
 					+"TO_NAME:=\nSUBJECT:=\nCOVER_FLAG:=\nUNIXTIME:=\n"
@@ -103,6 +110,8 @@ public class SMSSender {
 			packet("DS",data);
 		} catch (IOException e) {
 			e.printStackTrace();
+		}finally {
+			scheduler.startScheduler();
 		}
 	}
 	

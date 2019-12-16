@@ -91,8 +91,14 @@ integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9If
 			phlist.setAttribute("value", tempArray[i]);
 			form.appendChild(phlist);
 		}
-
-		form.submit();
+		
+		if(tempArray.length==0)
+			{
+				alert("전화번호를 입력해 주세요!");
+			}
+		else{
+			form.submit();
+		}
 
 	}
 
@@ -178,7 +184,7 @@ integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9If
 			<div class="phoneshape">
 				<form name="Input" id="Input" method="post"
 					action="/littleppurio/send">
-					<input class="sender form-control" style="width:43%;" type="text" placeholder="발신 번호 입력" id="sender" name="sender">
+					<input class="sender form-control" style="width:43%;" type="text" readonly value=01062531573 id="sender" name="sender">
 					<textarea class="textbox form-control" placeholder="문자를 입력하세요" id="sendMessage"
 						name="sendMessage" style="position: relative; top:230px; height: 440px;" onKeyup="javascript:CheckByte(this,'90')"></textarea>
 						<div class="Byte"><span id="byteInfo">0</span> / 90Bytes</div>
