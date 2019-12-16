@@ -11,8 +11,11 @@ import com.littleppurio.common.SHA256Util;
 public class SMSSender {
 	
 	public static Socket client;
+	public static Socket report;
 	public static OutputStream sender;
 	public static InputStream receiver;
+	public static OutputStream sendReport;
+	public static InputStream receReport;
 	
 	public static void createSocket() {
 		client = new Socket();
@@ -28,18 +31,50 @@ public class SMSSender {
 			receiver = client.getInputStream();	
 			String encodePwd = SHA256Util.getEncodePassword("daou12!!");
 			String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
-			packet("AU",authInfo);
-			packet("ST","");
+			packet("AU",authInfo, sender, receiver);
+			packet("ST","", sender, receiver);
+					
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	public static void createReport() {
+		report = new Socket();
+		
+		//클라이언트 초기화(연결대상 지정)
+		InetSocketAddress ipep = new InetSocketAddress("123.2.134.81", 15100);
+		try{
+			//접속		
+			report.connect(ipep);
+			//send,reciever 스트림 받아오기
+			//자동 close
+			sendReport= report.getOutputStream();
+			receReport = report.getInputStream();	
+			String encodePwd = SHA256Util.getEncodePassword("daou12!!");
+			String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
+			packet("AU",authInfo, sendReport, receReport);
+			packet("ST","", sendReport, receReport);
 			
 			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
 	public static void closeSocket() {
 		try{				
-			packet("EN","");	
+			packet("EN","", sender, receiver);	
 			client.close();
+			report.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void closeReport() {
+		try{				
+			report.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -92,13 +127,14 @@ public class SMSSender {
 					+"RETRYCNT:=\nSMS_FLAG:=\nREPLY_FLAG:=\nUSERDATA:=\n"
 					+"EXT_DATA:=\n";
 		try {
-			packet("DS",data);
+			packet("DS",data,sender,receiver);
+			reportPacket();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void packet(String divCode, String message) throws IOException {
+	public static void packet(String divCode, String message, OutputStream sender, InputStream receiver) throws IOException {
 		
 		//서버로 데이터 보내기
 		StringBuffer data = new StringBuffer();
@@ -109,7 +145,7 @@ public class SMSSender {
 		int len = 2+message.length();
 		data.append(String.format("%08d", len));
 		
-		//구분코드(2bytes) : AU인 경우
+		//구분코드(2bytes)
 		data.append(divCode);
 		
 		//message
@@ -127,8 +163,26 @@ public class SMSSender {
 		//수신메시지 출력
 		message = new String(result);
 		String out = String.format("recieve - %s", message);
+		System.out.println(out);			
+	}
+	
+	public static void reportPacket() throws IOException {
+		//서버로부터 데이터 받기
+		//11byte
+		byte[] result = new byte[180];
+		receReport.read(result,0,180);
+		
+		//수신메시지 출력
+		String message = new String(result);
+		String out = String.format("report recieve - %s", message);
 		System.out.println(out);	
 		
+		//서버로 응답 보내기
+		if(message!=null) {
+			sendReport.write("OK".getBytes("euc-kr"), 0, 2);
+		}
+		else {
+			sendReport.write("NO".getBytes("euc-kr"), 0, 2);
+		}
 	}
-
 }
