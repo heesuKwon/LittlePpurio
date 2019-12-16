@@ -14,7 +14,7 @@ public class SendDAOImpl implements SendDAO {
 	SqlSessionTemplate sqlSession;
 	
 	@Override
-	public int insertSend(String param) {
+	public int insertSend(Map param) {
 		return sqlSession.insert("send.insertSend",param);
 	}
 	
@@ -26,6 +26,21 @@ public class SendDAOImpl implements SendDAO {
 	@Override
 	public int insertSms(Map param) {
 		return sqlSession.insert("send.insertSms",param);
+	}
+	
+	@Override
+	public int selectSmsNo() {
+		return sqlSession.selectOne("send.selectSmsNo");
+	}
+	
+	@Override
+	public int ingUpdate(int param) {
+		return sqlSession.update("send.ingUpdate", param);
+	}
+	
+	@Override
+	public int compUpdate(int param) {
+		return sqlSession.update("send.compUpdate", param);
 	}
 	
 }

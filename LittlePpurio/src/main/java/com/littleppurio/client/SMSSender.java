@@ -80,6 +80,14 @@ public class SMSSender {
 //		}
 //	}
 	
+	public static void ping() {
+		try {
+			packet("PI","");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void send(String phone, String callBack, String message) {
 		//packet("PI","");
 		
@@ -126,6 +134,10 @@ public class SMSSender {
 		
 		//수신메시지 출력
 		message = new String(result);
+		if(message.charAt(8)=='N')
+		{
+			client.close();
+		}
 		String out = String.format("recieve - %s", message);
 		System.out.println(out);	
 		

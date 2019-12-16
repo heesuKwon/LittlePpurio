@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.littleppurio.client.SMSSender;
 import com.littleppurio.send.model.service.SendService;
 
 @Controller
@@ -19,7 +20,35 @@ public class SendController {
 	SendService sendService;
 	
 	@RequestMapping(value = "/send",method = {RequestMethod.GET,RequestMethod.POST})
-	public String send(HttpServletRequest req) {
+	public String send(HttpServletRequest req) {//throws InterruptedException {
+		
+		/*SMSSender sender=new SMSSender();
+		
+		sender.createSocket();
+		
+		
+		Thread[] thread = new Thread[100];
+		Runnable[] run = new Runnable[100];
+
+		
+		for(int j=0;j<100;j++) {
+			run[j]=new Runnable() {
+				@Override
+				public void run() {
+					
+			}
+		};
+		}
+		
+		long start = System.currentTimeMillis();
+		for(int i=0;i<100;i++)
+		{
+			thread[i]= new Thread(run[i]);
+			thread[i].start();
+			thread[i].join();
+		}
+		long end = System.currentTimeMillis();
+		System.out.println(end-start);*/
 
 		
 		// 메시지 내용 가져오기

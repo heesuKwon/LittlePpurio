@@ -4,8 +4,11 @@ import java.util.Map;
 
 public interface SendService {
 	
-	int insertSend(String param);
+	int insertSend(Map param);
 	int selectSendNo();
 	int insertSms(Map param);
-
+	int selectSmsNo();
+	int ingUpdate(int param);
+	int compUpdate(int param);
+	
 }
