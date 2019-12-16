@@ -123,23 +123,53 @@ public class SMSSender {
 		}
 	}
 	
-	public void send(String phone, String callBack, String message) {
-		//packet("PI","");
+	public void send(String phone, String callBack, String message, int smsNo) {
+		//packet("PI","");		
 		
 		//문자 전송
 		String data = "VERSION:=4.0\nDEVICE:=sms\n"
-					+"CMSGID:=1\nPHONE:="+phone+"\nSENDER_NAME:=\n"
+					+"CMSGID:="+smsNo+"\nPHONE:="+phone+"\nSENDER_NAME:=\n"
 					+"TO_NAME:=\nSUBJECT:=\nCOVER_FLAG:=\nUNIXTIME:=\n"
 					+"CALLBACK:="+callBack+"\nTEMPLATE_FILE:=\nFAX_FILE:=\n"
 					+"MSG:=<<__START__\n" + message+"__END__>>\nWAP_URL:=\n" 
 					+"RETRYCNT:=\nSMS_FLAG:=\nREPLY_FLAG:=\nUSERDATA:=\n"
 					+"EXT_DATA:=\n";
+		
 		try {
 			packet("DS",data,sender,receiver);
-			reportPacket();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+	}
+	
+//	public String receiveReport() {
+//		String result = "";
+//
+//		try {
+//			result = reportPacket();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		return result;
+//	}
+	
+	public String receiveReport() {
+		String result = "";
+		
+		try{
+//			String encodePwd = SHA256Util.getEncodePassword("daou12!!");
+//			String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
+//			packet("AU",authInfo, sendReport, receReport);
+			packet("ST","", sendReport, receReport);
+
+			result = reportPacket();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
 	}
 	
 	public static void packet(String divCode, String message, OutputStream sender, InputStream receiver) throws IOException {
@@ -170,15 +200,15 @@ public class SMSSender {
 		
 		//수신메시지 출력
 		message = new String(result);
-		if(message.charAt(8)=='N')
-		{
-			client.close();
-		}
+//		if(message.charAt(8)=='N')
+//		{
+//			client.close();
+//		}
 		String out = String.format("recieve - %s", message);
 		System.out.println(out);			
 	}
 	
-	public static void reportPacket() throws IOException {
+	public String reportPacket() throws IOException {
 		//서버로부터 데이터 받기
 		//11byte
 		byte[] result = new byte[180];
@@ -196,5 +226,7 @@ public class SMSSender {
 		else {
 			sendReport.write("NO".getBytes("euc-kr"), 0, 2);
 		}
+		
+		return message;
 	}
 }

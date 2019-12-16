@@ -22,6 +22,7 @@
 			<input class="sendButton" type="button" value="발송하기">
 		</form> -->
 		<button id="btn-send">발송하기</button>
+		<button id="btn-report">리포트 비우기</button>
 	</div>
 </div>
 <div align="center" class="chart-container">
@@ -178,6 +179,9 @@ var horizontalChart = new Chart(horizontalContext,{
 
 $('#btn-send').click(function(){
 	document.location.href="${pageContext.request.contextPath}/sendBtn";	
+});
+$('#btn-report').click(function(){
+	document.location.href="${pageContext.request.contextPath}/removeReport";	
 });
 </script>
 </html>
