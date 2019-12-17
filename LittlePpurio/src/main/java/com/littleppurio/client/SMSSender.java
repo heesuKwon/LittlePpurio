@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
+import java.net.NoRouteToHostException;
 import java.net.Socket;
 
 import com.littleppurio.Scheduler;
@@ -28,6 +29,7 @@ public class SMSSender {
 		try{
 			//접속		
 			client.connect(ipep);
+			client.setSoTimeout(2000); //2초 타임아웃 설정
 			//send,reciever 스트림 받아오기
 			//자동 close
 			sender= client.getOutputStream();
@@ -58,8 +60,6 @@ public class SMSSender {
 			String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
 			packet("AU",authInfo, sendReport, receReport);
 			packet("ST","", sendReport, receReport);
-			//removePacket();
-
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -70,7 +70,6 @@ public class SMSSender {
 		try{				
 			packet("EN","", sender, receiver);	
 			client.close();
-			report.close();
 
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -129,12 +128,10 @@ public class SMSSender {
 	}
 	
 	public void send(String phone, String callBack, String message, int smsNo) {
-		//packet("PI","");		
-		
-		//문자 전송
 		
 		scheduler.stopScheduler();
 		
+		//문자 전송		
 		String data = "VERSION:=4.0\nDEVICE:=sms\n"
 					+"CMSGID:="+smsNo+"\nPHONE:="+phone+"\nSENDER_NAME:=\n"
 					+"TO_NAME:=\nSUBJECT:=\nCOVER_FLAG:=\nUNIXTIME:=\n"
@@ -143,26 +140,33 @@ public class SMSSender {
 					+"RETRYCNT:=\nSMS_FLAG:=\nREPLY_FLAG:=\nUSERDATA:=\n"
 					+"EXT_DATA:=\n";
 		
-		try {
-			packet("DS",data,sender,receiver);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}finally {
-			scheduler.startScheduler();
+		boolean flag = true;
+		int cnt = 0;
+		//최대 3번 재시도
+		while(flag && cnt<3){
+			try {
+				packet("DS",data,sender,receiver);
+				flag = false;
+				cnt++;
+			} 
+			//2초가 지나서 타임아웃 됐을 때
+			catch(NoRouteToHostException e) {
+				//소켓을 닫음
+				try {
+					sender.close();
+					receiver.close();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				SMSSender.createSocket();
+				flag = true;
+			}
+			catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
+		scheduler.startScheduler();
 
-	}
-	
-	public String removeReport() {
-		String result = "";
-
-		try {
-			result = removePacket();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		return result;
 	}
 	
 	public String receiveReport() {
@@ -178,115 +182,77 @@ public class SMSSender {
 	}
 	
 	public static void packet(String divCode, String message, OutputStream sender, InputStream receiver) throws IOException {
-		
+
 		//서버로 데이터 보내기
 		StringBuffer data = new StringBuffer();
-		
+
 		//data의 기본 구조 : Length(8bytes) + 구분코드(2byte) + massage
-		
-		//length(8bytes) = 2+message.getBytes().length;
+
+		//length(8bytes) = 
 		int len = 2+message.length();
 		data.append(String.format("%08d", len));
-		
+
 		//구분코드(2bytes)
 		data.append(divCode);
-		
+
 		//message
 		data.append(message);
-		
+
 		//byte 변환		
-		System.out.println(String.format("sender data - %s", data));
+		System.out.println(String.format("DATA send - %s", data));
 		sender.write(data.toString().getBytes("euc-kr"), 0, data.length());
-		
+
 		//서버로부터 데이터 받기
 		//11byte
 		byte[] result = new byte[40];
 		receiver.read(result,0,40);
-		
+
 		//수신메시지 출력
 		message = new String(result);
-//		if(message.charAt(8)=='N')
-//		{
-//			client.close();
-//		}
-		String out = String.format("recieve - %s", message);
-		System.out.println(out);			
+		String out = String.format("DATA recieve - %s", message);
+		System.out.println(out);	
+		
 	}
 	
 	public static String reportPacket() throws IOException {
-		String message = "";
 		
+		String message = "";
+
 		breakOut : 
-		while(true) {
-			//서버로부터 데이터 받기
-			//11byte
-			byte[] result = new byte[180];
-			receReport.read(result,0,180);
-			
-			//수신메시지 출력
-			message = new String(result);
-			String out = String.format("report recieve - %s", message);
-			System.out.println(out);	
-			
-			String divCode = message.substring(8,10);
-//			System.out.println("divCode : "+divCode);
-			
-			byte[] responseOk = "00000002OK".getBytes("euc-kr");
-			byte[] responseNo = "00000002NO".getBytes("euc-kr");
-			message = new String(responseOk);
-			//서버로 응답 보내기
-			if(!message.equals("")) {
-			switch(divCode) {
-				case "PI" : sendReport.write(responseOk, 0, responseOk.length); 
-							out = String.format("report send - %s", message);
-							System.out.println(out);
-							break;
-				case "RE" : sendReport.write(responseOk, 0, responseOk.length); 
-							out = String.format("report send - %s", message);
-							System.out.println(out);
-							break breakOut;
-	//			default : sendReport.write(responseNo, 0, responseNo.length); break breakOut;
+			while(true) {
+				//서버로부터 데이터 받기
+				//11byte
+				byte[] result = new byte[180];
+				receReport.read(result,0,180);
+
+				//수신메시지 출력
+				message = new String(result);
+				String out = String.format("report recieve - %s", message);
+				System.out.println(out);	
+
+				String divCode = message.substring(8,10);
+
+				byte[] responseOk = "00000002OK".getBytes("euc-kr");
+				message = new String(responseOk);
+				
+				//서버로 응답 보내기
+				if(message.equals("")) {
+					break;
+				}
+				else {
+					switch(divCode) {
+					case "PI" : sendReport.write(responseOk, 0, responseOk.length); 
+					out = String.format("report send - %s", message);
+					System.out.println(out);
+					break;
+					case "RE" : sendReport.write(responseOk, 0, responseOk.length); 
+					out = String.format("report send - %s", message);
+					System.out.println(out);
+					break breakOut;
+					}
 				}
 			}
-		}
-		
-		return message;
-	}
-	
-	public static String removePacket() throws IOException {
-		String message = "";
-		
-		breakOut : 
-		while(true) {
-			//서버로부터 데이터 받기
-			//11byte
-			byte[] result = new byte[180];
-			receReport.read(result,0,180);
-			
-			//수신메시지 출력
-			message = new String(result);
-			String out = String.format("report recieve - %s", message);
-			System.out.println(out);	
-			
-			String divCode = message.substring(8,10);
-//			System.out.println("divCode : "+divCode);
-			
-			byte[] responseOk = "00000002OK".getBytes("euc-kr");
-			byte[] responseNo = "00000002NO".getBytes("euc-kr");
-			message = new String(responseOk);
-			//서버로 응답 보내기
-			switch(divCode) {
-			case "PI" : sendReport.write(responseOk, 0, responseOk.length); 
-						out = String.format("report send - %s", message);
-						System.out.println(out); 
-						break breakOut;
-			case "RE" : sendReport.write(responseOk, 0, responseOk.length); 
-						out = String.format("report send - %s", message);
-						System.out.println(out); 
-						break;
-			}
-		}
-		
+
 		return message;
 	}
 
