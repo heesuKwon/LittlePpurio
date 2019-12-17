@@ -63,6 +63,7 @@ public class SendController {
 		sendService.insertSend(insertSend);
 		int sendNo=sendService.selectSendNo();
 		
+		SMSSender smsSender = new SMSSender();
 		
 		String[] insertNumber;
 		
@@ -79,9 +80,11 @@ public class SendController {
 			if(sendService.insertSms(insertSms)==1)
 			{
 				int smsNo = sendService.selectSmsNo();
+				smsSender.send(insertNumber[i], insertSend.get("sender"), insertSend.get("sms_content"), smsNo);
 				if(true)
 				{
 					sendService.ingUpdate(smsNo);
+					String result = smsSender.receiveReport();
 					if(true) {
 						sendService.compUpdate(smsNo);
 						

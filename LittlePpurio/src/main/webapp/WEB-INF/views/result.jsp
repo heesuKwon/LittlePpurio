@@ -8,6 +8,8 @@
 <head>
 <meta charset="UTF-8">
 <title>statistic page</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
+integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 <script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.js"></script>
@@ -22,6 +24,7 @@
 			<input class="sendButton" type="button" value="발송하기">
 		</form> -->
 		<button id="btn-send">발송하기</button>
+		<button id="btn-report">리포트 비우기</button>
 	</div>
 </div>
 <div align="center" class="chart-container">
@@ -32,10 +35,11 @@
 		</div>
 		
 		<div class="costText">
-			<div align ="center" lang="ko" style= "margin-top: 0px; font-style: bold;">
-				<p>총 전송량은 ${smsCnt} 입니다.</p>
-				<p>이번달 요금은<br> </p>
-				<p style="font-size:1.3em; font-style:bold; margin-left:60px; color:rgb(243,156,18); float:left">${price}원&nbsp;</p> <p style="float:left; margin-top:50px;">입니다<br></p>
+			<div align ="center" lang="ko" style= "margin-top: 108px; font-style: bold;">
+				<p>총 전송량은 ${smsCnt} 건 입니다.</p>
+				<p>이번달 요금은<br></p>
+				<p style="font-size:1.3em; font-style:bold; color:rgb(243,156,18);">&nbsp;<br>${price}원&nbsp;<br></p>
+				<p style="margin-top:50px;">입니다<br></p>
 				<p style="float:left; margin-left:20px">지난달 대비&nbsp;</p> <p style="float: left; color:rgb(192,57,43)">1000원 증가</p>
 			</div>
 			
@@ -178,6 +182,9 @@ var horizontalChart = new Chart(horizontalContext,{
 
 $('#btn-send').click(function(){
 	document.location.href="${pageContext.request.contextPath}/sendBtn";	
+});
+$('#btn-report').click(function(){
+	document.location.href="${pageContext.request.contextPath}/removeReport";	
 });
 </script>
 </html>

@@ -25,8 +25,8 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     @Override
     public void run(String... args) throws Exception {
     	//애플리케이션 생성시 한번만 실행
-        SMSSender.createSocket();
-        
+        //SMSSender.createSocket();
+        //SMSSender.createReport();
     }
     
 //    @Scheduled(cron="*/19 * * * * *")
@@ -39,6 +39,7 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     public void onApplicationEvent(ContextClosedEvent event) {
     	//애플리케이션 종료시 한번만 실행
         SMSSender.closeSocket();
+        SMSSender.closeReport();
         
         //애플리케이션이 graceful하게 종료하기 위한 코드
         this.connector.pause();
