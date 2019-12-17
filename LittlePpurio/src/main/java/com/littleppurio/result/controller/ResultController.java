@@ -1,5 +1,7 @@
 package com.littleppurio.result.controller;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +46,7 @@ public class ResultController {
 	public ModelAndView removeReport(ModelAndView mav) {
 		System.out.println("removeReport메소드");
 		SMSSender smsSender = new SMSSender();
-		String result = smsSender.receiveReport();
+		String result = smsSender.removeReport();
 //		System.out.println(result);
 		System.out.println("removeReport메소드 종료");
 		

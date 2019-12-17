@@ -54,7 +54,7 @@ public class SMSSender {
 			String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
 			packet("AU",authInfo, sendReport, receReport);
 			packet("ST","", sendReport, receReport);
-			
+			//removePacket();
 			
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -143,27 +143,22 @@ public class SMSSender {
 
 	}
 	
-//	public String receiveReport() {
-//		String result = "";
-//
-//		try {
-//			result = reportPacket();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		return result;
-//	}
+	public String removeReport() {
+		String result = "";
+
+		try {
+			result = removePacket();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		return result;
+	}
 	
 	public String receiveReport() {
 		String result = "";
 		
 		try{
-//			String encodePwd = SHA256Util.getEncodePassword("daou12!!");
-//			String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
-//			packet("AU",authInfo, sendReport, receReport);
-			packet("ST","", sendReport, receReport);
-
 			result = reportPacket();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -208,25 +203,81 @@ public class SMSSender {
 		System.out.println(out);			
 	}
 	
-	public String reportPacket() throws IOException {
-		//서버로부터 데이터 받기
-		//11byte
-		byte[] result = new byte[180];
-		receReport.read(result,0,180);
+	public static String reportPacket() throws IOException {
+		String message = "";
 		
-		//수신메시지 출력
-		String message = new String(result);
-		String out = String.format("report recieve - %s", message);
-		System.out.println(out);	
-		
-		//서버로 응답 보내기
-		if(message!=null) {
-			sendReport.write("OK".getBytes("euc-kr"), 0, 2);
-		}
-		else {
-			sendReport.write("NO".getBytes("euc-kr"), 0, 2);
+		breakOut : 
+		while(true) {
+			//서버로부터 데이터 받기
+			//11byte
+			byte[] result = new byte[180];
+			receReport.read(result,0,180);
+			
+			//수신메시지 출력
+			message = new String(result);
+			String out = String.format("report recieve - %s", message);
+			System.out.println(out);	
+			
+			String divCode = message.substring(8,10);
+//			System.out.println("divCode : "+divCode);
+			
+			byte[] responseOk = "00000002OK".getBytes("euc-kr");
+			byte[] responseNo = "00000002NO".getBytes("euc-kr");
+			message = new String(responseOk);
+			//서버로 응답 보내기
+			if(!message.equals("")) {
+			switch(divCode) {
+				case "PI" : sendReport.write(responseOk, 0, responseOk.length); 
+							out = String.format("report send - %s", message);
+							System.out.println(out);
+							break;
+				case "RE" : sendReport.write(responseOk, 0, responseOk.length); 
+							out = String.format("report send - %s", message);
+							System.out.println(out);
+							break breakOut;
+	//			default : sendReport.write(responseNo, 0, responseNo.length); break breakOut;
+				}
+			}
 		}
 		
 		return message;
 	}
+	
+	public static String removePacket() throws IOException {
+		String message = "";
+		
+		breakOut : 
+		while(true) {
+			//서버로부터 데이터 받기
+			//11byte
+			byte[] result = new byte[180];
+			receReport.read(result,0,180);
+			
+			//수신메시지 출력
+			message = new String(result);
+			String out = String.format("report recieve - %s", message);
+			System.out.println(out);	
+			
+			String divCode = message.substring(8,10);
+//			System.out.println("divCode : "+divCode);
+			
+			byte[] responseOk = "00000002OK".getBytes("euc-kr");
+			byte[] responseNo = "00000002NO".getBytes("euc-kr");
+			message = new String(responseOk);
+			//서버로 응답 보내기
+			switch(divCode) {
+			case "PI" : sendReport.write(responseOk, 0, responseOk.length); 
+						out = String.format("report send - %s", message);
+						System.out.println(out); 
+						break breakOut;
+			case "RE" : sendReport.write(responseOk, 0, responseOk.length); 
+						out = String.format("report send - %s", message);
+						System.out.println(out); 
+						break;
+			}
+		}
+		
+		return message;
+	}
+
 }
