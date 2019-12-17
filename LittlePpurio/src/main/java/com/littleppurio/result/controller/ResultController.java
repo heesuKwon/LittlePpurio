@@ -48,7 +48,7 @@ public class ResultController {
 	public ModelAndView removeReport(ModelAndView mav) {
 		System.out.println("removeReport메소드");
 		SMSSender smsSender = new SMSSender();
-		String result = smsSender.removeReport();
+		String result = smsSender.receiveReport();
 //		System.out.println(result);
 		System.out.println("removeReport메소드 종료");
 		

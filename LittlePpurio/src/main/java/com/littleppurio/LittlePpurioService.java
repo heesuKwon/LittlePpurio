@@ -25,8 +25,8 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     @Override
     public void run(String... args) throws Exception {
     	//애플리케이션 생성시 한번만 실행
-        //SMSSender.createSocket();
-        //SMSSender.createReport();
+        SMSSender.createSocket();
+        SMSSender.createReport();
     }
     
 //    @Scheduled(cron="*/19 * * * * *")
