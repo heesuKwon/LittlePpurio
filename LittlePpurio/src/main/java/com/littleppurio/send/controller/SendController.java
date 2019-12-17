@@ -1,5 +1,6 @@
 package com.littleppurio.send.controller;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,8 +20,9 @@ public class SendController {
 	@Autowired
 	SendService sendService;
 	
+	
 	@RequestMapping(value = "/send",method = {RequestMethod.GET,RequestMethod.POST})
-	public String send(HttpServletRequest req) {//throws InterruptedException {
+	public String send(HttpServletRequest req) throws IOException {//throws InterruptedException {
 		
 		/*SMSSender sender=new SMSSender();
 		
@@ -58,6 +60,8 @@ public class SendController {
 		insertSend.put("sender", req.getParameter("sender"));
 		insertSend.put("sms_content", req.getParameter("sendMessage"));
 		System.out.println(insertSend);
+		String sendnum=insertSend.get("sender");
+		String content=insertSend.get("sms_content");
 
 		
 		sendService.insertSend(insertSend);
@@ -80,16 +84,21 @@ public class SendController {
 			if(sendService.insertSms(insertSms)==1)
 			{
 				int smsNo = sendService.selectSmsNo();
-				smsSender.send(insertNumber[i], insertSend.get("sender"), insertSend.get("sms_content"), smsNo);
-				if(true)
+							
+				String result_s=smsSender.send(insertNumber[i], sendnum, content, smsNo);
+				
+				if(result_s.charAt(8)=='O')
 				{
 					sendService.ingUpdate(smsNo);
-					String result = smsSender.receiveReport();
-					if(true) {
+					//모달
+					
+					
+					String result_r = smsSender.receiveReport();
+					if(result_r.charAt(8)=='O') {
 						sendService.compUpdate(smsNo);
 						
-					}//else if(true)리포트서버에 전송실패 했을 때 에러코드를 알 수 없고 (이거는 다시 시도할 수 있나 모르겠네) 그리고 실패면 언제 comp로 전환해야할까
-				}//else if(true) 발송서버 전송에 실패했을 때 --> 아직 wait 그리고 다시 전송시도(횟수 정해야함) 및 소켓 열/닫 횟수?
+					}
+				}
 			}
 		}
 		
