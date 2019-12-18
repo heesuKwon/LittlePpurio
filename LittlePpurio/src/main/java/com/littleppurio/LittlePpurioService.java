@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.littleppurio.client.SMSSender;
+import com.littleppurio.client.Client;
+import com.littleppurio.client.Report;
 import com.littleppurio.send.model.service.SendService;
 
 @Service
@@ -23,6 +23,8 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
 	private static final Logger log = LoggerFactory.getLogger(LittlePpurioService.class);
 	private static final long TIMEOUT = 300_000L;	//5초
 	private volatile Connector connector;
+	Client client = Client.getInstance(/* "123.2.134.81", 15001 */);
+	Report report = Report.getInstance();
 	
 	
 	@Autowired
@@ -31,9 +33,9 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
 	
     @Override
     public void run(String... args) throws Exception {
-    	//애플리케이션 생성시 한번만 실행
-        SMSSender.createSocket();
-        SMSSender.createReport();
+//    	//애플리케이션 생성시 한번만 실행
+//    	client.connectSocket();
+//    	report.connectSocket();
     }
     
 //    @Scheduled(cron="*/1 * * * * *")
@@ -48,8 +50,8 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
     	//애플리케이션 종료시 한번만 실행
-        SMSSender.closeSocket();
-        SMSSender.closeReport();
+//    	client.closeSocket();
+//    	report.closeSocket();
         
         //애플리케이션이 graceful하게 종료하기 위한 코드
         this.connector.pause();
