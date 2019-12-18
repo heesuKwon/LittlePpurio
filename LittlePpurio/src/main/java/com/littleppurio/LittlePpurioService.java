@@ -34,8 +34,8 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     @Override
     public void run(String... args) throws Exception {
 //    	//애플리케이션 생성시 한번만 실행
-//    	client.connectSocket();
-//    	report.connectSocket();
+    	client.connectSocket();
+    	report.connectSocket();
     }
     
 //    @Scheduled(cron="*/1 * * * * *")
@@ -50,8 +50,8 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
     	//애플리케이션 종료시 한번만 실행
-//    	client.closeSocket();
-//    	report.closeSocket();
+    	client.closeSocket();
+    	report.closeSocket();
         
         //애플리케이션이 graceful하게 종료하기 위한 코드
         this.connector.pause();
