@@ -25,6 +25,7 @@ integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9If
 		</form> -->
 		<button id="btn-send">발송하기</button>
 		<button id="btn-report">리포트 비우기</button>
+		<button id="btn-selMsg">보낼 메세지 선택</button>
 	</div>
 </div>
 <div align="center" class="chart-container">
@@ -185,6 +186,9 @@ $('#btn-send').click(function(){
 });
 $('#btn-report').click(function(){
 	document.location.href="${pageContext.request.contextPath}/removeReport";	
+});
+$('#btn-selMsg').click(function(){
+	document.location.href="${pageContext.request.contextPath}/sendMsg";	
 });
 </script>
 </html>

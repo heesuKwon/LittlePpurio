@@ -16,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.littleppurio.client.SMSSender2;
 import com.littleppurio.send.model.service.SendService;
+import com.littleppurio.send.model.vo.SMS;
 
 @Controller
 public class SendController {
@@ -117,5 +118,23 @@ public class SendController {
 		mav.addObject("sucs", sucs);
 		
 		return mav;
+	}
+
+	@RequestMapping("/sendMsg")
+	public void sendMsg() {
+		System.out.println("===sendMsg 메소드 시작===");
+		
+		SMS sms = sendService.waitChecker();
+				
+		if(sms!=null) {
+			System.out.println(sms.toString());			
+			
+		}
+		else {
+			System.out.println("보낼 메세지가 없습니다.");
+		}
+		
+		System.out.println("===sendMsg 메소드 종료===");
+		
 	}
 }

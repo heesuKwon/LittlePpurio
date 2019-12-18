@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.littleppurio.send.model.dao.SendDAO;
+import com.littleppurio.send.model.vo.SMS;
 
 @Service
 public class SendServiceImpl implements SendService {
@@ -45,7 +46,7 @@ public class SendServiceImpl implements SendService {
 	}
 	
 	@Override
-	public int waitChecker() {
+	public SMS waitChecker() {
 		return sendDAO.waitChecker();
 	}
 	
