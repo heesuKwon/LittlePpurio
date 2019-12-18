@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.littleppurio.client.Client;
 import com.littleppurio.client.SMSSender;
 import com.littleppurio.result.model.service.ResultService;
 
@@ -35,7 +36,7 @@ public class ResultController {
 		int smsNo = 3;
 		smsSender.send(phone, callBack, massage, smsNo);
 		String result = smsSender.receiveReport();
-//		System.out.println(result);
+		System.out.println(result);
 		System.out.println("sendBtn메소드 종료");
 		
 		mav.setViewName("result");
