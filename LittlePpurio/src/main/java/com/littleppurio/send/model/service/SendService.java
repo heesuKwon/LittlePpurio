@@ -10,5 +10,6 @@ public interface SendService {
 	int selectSmsNo();
 	int ingUpdate(int param);
 	int compUpdate(int param);
+	int waitChecker();
 	
 }

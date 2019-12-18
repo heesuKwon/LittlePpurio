@@ -43,4 +43,9 @@ public class SendDAOImpl implements SendDAO {
 		return sqlSession.update("send.compUpdate", param);
 	}
 	
+	@Override
+	public int waitChecker() {
+		return sqlSession.selectOne("send.waitChecker");
+	}
+	
 }

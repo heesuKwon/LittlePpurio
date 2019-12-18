@@ -209,7 +209,7 @@ public class SMSSender {
 	
 	
 	public static String reportPacket() throws IOException {
-		String message = "";
+		String resultMsg = "";
 		
 		breakOut : 
 		while(true) {
@@ -219,16 +219,16 @@ public class SMSSender {
 			receReport.read(result,0,180);
 			
 			//수신메시지 출력
-			message = new String(result);
-			String out = String.format("report recieve - %s", message);
+			resultMsg = new String(result);
+			String out = String.format("report recieve - %s", resultMsg);
 			System.out.println(out);	
 			
-			String divCode = message.substring(8,10);
+			String divCode = resultMsg.substring(8,10);
 //			System.out.println("divCode : "+divCode);
 			
 			byte[] responseOk = "00000002OK".getBytes("euc-kr");
 			byte[] responseNo = "00000002NO".getBytes("euc-kr");
-			message = new String(responseOk);
+			String message = new String(responseOk);
 			//서버로 응답 보내기
 			if(!message.equals("")) {
 			switch(divCode) {
@@ -245,7 +245,7 @@ public class SMSSender {
 			}
 		}
 		
-		return message;
+		return resultMsg;
 	}
 
 }

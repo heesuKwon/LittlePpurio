@@ -44,4 +44,9 @@ public class SendServiceImpl implements SendService {
 		return sendDAO.compUpdate(param);
 	}
 	
+	@Override
+	public int waitChecker() {
+		return sendDAO.waitChecker();
+	}
+	
 }
