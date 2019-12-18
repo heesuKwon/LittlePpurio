@@ -18,7 +18,7 @@ public class SMSSender {
 				flag = false;
 				//타임아웃 테스트용 
 //				if(!flag&&cnt==0) {
-					throw new NoRouteToHostException();
+//					throw new NoRouteToHostException();
 //				}
 			} 
 			//2초가 지나서 타임아웃 됐을 때

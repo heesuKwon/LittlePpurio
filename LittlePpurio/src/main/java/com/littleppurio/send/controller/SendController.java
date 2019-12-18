@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.littleppurio.client.SMSSender2;
+import com.littleppurio.client.SMSSender;
 import com.littleppurio.send.model.service.SendService;
 
 @Controller
@@ -70,7 +70,7 @@ public class SendController {
 		sendService.insertSend(insertSend);
 		int sendNo=sendService.selectSendNo();
 		
-		SMSSender2 smsSender = new SMSSender2();
+		SMSSender smsSender = new SMSSender();
 		
 		String[] insertNumber;
 		
