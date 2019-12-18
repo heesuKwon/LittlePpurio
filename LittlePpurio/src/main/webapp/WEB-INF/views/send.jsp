@@ -12,7 +12,8 @@
 <head>
 <meta charset="UTF-8">
 <title>send page</title>
-	
+
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.js"></script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/send.css"
 	type="text/css">
@@ -21,7 +22,7 @@
 	
 	
 <script type="text/javascript">
-
+	
 
 	//전화번호 형식 셋팅
 	function formatPhoneNumber(phoneNumberString) {
@@ -140,6 +141,20 @@
 	}
 	
 </script>
+<script>
+
+	window.onload = function sampleModalPopup(){
+        // 팝업 호출 url
+        var url = "${pageContext.request.contextPath}/send";
+        
+        if(window.location.pathname==url){        
+	        // 팝업 호출
+	        $("#result").modal("show"); 
+        }
+    }
+
+</script>
+
 </head>
 
 <body>
@@ -204,12 +219,14 @@
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
-								<c:if test='<=%sucs%> eq true'>
+								<c:choose>
+								<c:when test="${sucs}">
 								<div class="modal-body">전송에 성공하였습니다.</div>
-								</c:if>
-								<c:if test="<=%sucs%> eq false">
+								</c:when>
+								<c:otherwise>
 								<div class="modal-body">전송에 실패하였습니다.</div>
-								</c:if>
+								</c:otherwise>
+								</c:choose>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
 										data-dismiss="modal">확인</button>
