@@ -7,6 +7,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.littleppurio.send.model.vo.SMS;
+
 @Repository
 public class SendDAOImpl implements SendDAO {
 
@@ -44,7 +46,7 @@ public class SendDAOImpl implements SendDAO {
 	}
 	
 	@Override
-	public int waitChecker() {
+	public SMS waitChecker() {
 		return sqlSession.selectOne("send.waitChecker");
 	}
 	

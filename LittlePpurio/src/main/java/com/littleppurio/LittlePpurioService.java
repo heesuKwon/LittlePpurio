@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.littleppurio.client.Client;
 import com.littleppurio.client.Report;
+import com.littleppurio.send.controller.SendController;
 import com.littleppurio.send.model.service.SendService;
 
 @Service
@@ -25,12 +27,10 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
 	private volatile Connector connector;
 	Client client = Client.getInstance(/* "123.2.134.81", 15001 */);
 	Report report = Report.getInstance();
-	
-	
+
 	@Autowired
-	SendService sendService;
-	
-	
+	SendController sendController;
+		
     @Override
     public void run(String... args) throws Exception {
 //    	//애플리케이션 생성시 한번만 실행
@@ -38,8 +38,9 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     	report.connectSocket();
     }
     
-//    @Scheduled(cron="*/1 * * * * *")
+//    @Scheduled(cron="*/5 * * * * *")
 //    public void dataChecker(){
+//    	sendController.sendMsg();
 //    	if(sendService.waitChecker()>0)
 //    	{
 //    		System.out.println("발송할 message가 있습니다.");
