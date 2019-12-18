@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import com.littleppurio.client.Client;
 import com.littleppurio.client.Report;
 import com.littleppurio.send.controller.SendController;
-import com.littleppurio.send.model.service.SendService;
 
 @Service
 public class LittlePpurioService implements CommandLineRunner, ApplicationListener<ContextClosedEvent>{
@@ -30,7 +29,7 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
 
 	@Autowired
 	SendController sendController;
-		
+	
     @Override
     public void run(String... args) throws Exception {
 //    	//애플리케이션 생성시 한번만 실행
@@ -38,14 +37,10 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     	report.connectSocket();
     }
     
-//    @Scheduled(cron="*/5 * * * * *")
-//    public void dataChecker(){
-//    	sendController.sendMsg();
-//    	if(sendService.waitChecker()>0)
-//    	{
-//    		System.out.println("발송할 message가 있습니다.");
-//    	}
-//    }
+    @Scheduled(cron="*/5 * * * * *")
+    public void dataChecker(){    	
+    	sendController.sendMsg();
+    }
     
     
     @Override

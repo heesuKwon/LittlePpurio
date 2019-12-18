@@ -3,35 +3,40 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="send">
-	<insert id="insertSend" useGeneratedKeys="true" parameterType="string">
-	  insert into send (sender, sms_content)
-	  values (#{sender}, #{sms_content})
+	<insert id="insertSend" useGeneratedKeys="true"
+		parameterType="string">
+		insert into send (sender, sms_content)
+		values (#{sender}, #{sms_content})
 	</insert>
 	<select id="selectSendNo" resultType="int">
-	SELECT send_no FROM send ORDER BY send_no DESC LIMIT 1
+		SELECT send_no FROM send ORDER BY send_no DESC LIMIT 1
 	</select>
 	<insert id="insertSms" parameterType="map">
-	  insert into sms (receiver, send_no) values (#{receiver}, #{send_no})
+		insert into sms (receiver, send_no) values (#{receiver}, #{send_no})
 	</insert>
-	<select id="selectSmsNo" resultType ="int">
-	SELECT max(sms_no) FROM sms
+	<select id="selectSmsNo" resultType="int">
+		SELECT max(sms_no) FROM sms
 	</select>
-	
-	
+
+
 	<select id="waitChecker" resultType="sms">
-	SELECT sms.sms_no, sms.receiver,send.sms_content, send.sender 
-	FROM sms INNER JOIN send ON sms.send_no=send.send_no 
-	WHERE sms.`status`='wait'
-	ORDER BY sms.sms_no ASC LIMIT 1
+		SELECT sms.sms_no, sms.receiver,send.sms_content, send.sender
+		FROM sms INNER JOIN send ON sms.send_no=send.send_no
+		WHERE sms.`status`='wait'
+		ORDER BY sms.sms_no ASC LIMIT 1
 	</select>
 	
+	<update id="codeReport" parameterType ="map">
+	UPDATE sms SET result_code=#{result_code} WHERE sms_no = #{sms_no}
+	</update>
+
 	<!-- sms.receiver, send.sms_content, send.sender, sms.sms_no -->
-	
+
 	<update id="ingUpdate" parameterType="int">
-	UPDATE sms SET `status`='ing' WHERE sms_no = #{sms_no}
+		UPDATE sms SET `status`='ing' WHERE sms_no = #{sms_no}
 	</update>
 	<update id="compUpdate">
-	UPDATE sms SET `status`='comp' WHERE sms_no = #{sms_no}
+		UPDATE sms SET `status`='comp' WHERE sms_no = #{sms_no}
 	</update>
-	
+
 </mapper>

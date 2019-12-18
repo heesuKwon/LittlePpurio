@@ -50,4 +50,9 @@ public class SendServiceImpl implements SendService {
 		return sendDAO.waitChecker();
 	}
 	
+	@Override
+	public int codeUpdate(Map param) {
+		return sendDAO.codeUpdate(param);
+	}
+	
 }

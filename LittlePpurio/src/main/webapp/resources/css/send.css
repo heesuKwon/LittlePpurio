@@ -1,149 +1,168 @@
 @charset "euc-kr";
 
 @import url(http://fonts.googleapis.com/earlyccess/notosanskr.css);
+
 :lang(ko) {
 	/*font-family: 'Noto Sans KR', sans-serif;*/
 	font-family: 'Jua', sans-serif;
 }
-   
-    .title{
-    color: rgba(41, 128, 185); 
-    font-size: 50px;
-    font-weight: 3px;
-    margin-left: 70px;
-    margin-top:22px;
-    }
-    .receiveman{
-    font-size: 2em;
-    margin-left: 130px;
-    margin-top: 30px
-    }
-    .writesms{
-    position:absoulte;
-    top:10px;
-    position: relative; 
-    top: 35px;
-    font-size: 40px;
-    margin-left: 70px;
-    }
- 
-    .left {
-        width: 450px;
-        height: 970px;
-        float: left;
-        box-sizing: border-box;
-        background: #b4d4ea;
-        float:left;
-    }
-    .list{
-        background: white;
-        margin: 75px auto;
-        height: 720px;
-        width: 350px;
-        overflow: auto;
-    }
-    .right {
-        height: 100%;
-        width: 1200px;
-        box-sizing: border-box;
-        float:left;
-        background: white;
-    }
-    .statisticButton{
-		position: relative;
-		top: 30px;
-        left:1200px;
-		text-align: center;
-		width:150px; 
-		height:61px; 
-		border-radius: 5px;
-		font-size: 1.5em;
-		margin-right: 50px;
-	}
-	.btn-blue{
-		color: rgb(255,255,255);
-		background-color:rgb(52,152,219);
-	}
-	.btn-blue:hover{
-		color: rgb(52,152,219);
-		border-color: rgb(52,152,219);
-		background-color: white;
-	}
-    .phonenum{
-        position: relative;
-        top: 106px;
-        left: 24px;
-        border-radius: 3px;
-        font-size: 1.5em;
-        float:left;
-    }
-    .sender{
-        position: relative;
-        top: 217px;
-        right: 310px;
-        border-radius: 3px;
-        font-size: 1.5em;
-        float:right;
-    }
-    .addButton{
-        position: relative;
-    	top: 108px;
-    	left: 23px;
-        width: 43px;
-        height: 47px;
-        font-size:1em;
-        font-weight:bold;
-        background-color:#ffdf80;
-    }
-    .list-group-item{
-    padding: 6px 1.75rem;
-    }
-    .ul{
-        font-size: 1.5em;
-    }
-    ul#myUL li:nth-child(2n){
-    	background-color: #ddd;
-    }
-    .phoneshape{
-        margin-top: 18px;
-        margin-left: 300px;
-        width:750px;
-        height:880px;
-        background-image: url( "../images/phone.png" );
-        background-size: 100% 100%;
-        background-repeat: no-repeat;
-    }
-    .textbox{
-        margin-top: 240px;
-        margin-left: 113px;
-        width:535px;
-        background-color:#ededed;
-        border-radius: 10px;
-        font-size: 1.5em;
-        resize:none;
-    }
-    .transferButton{
-    	position: relative;
-    	top: 250px;
-    	left: 306px;
-        font-size: 1.5em;
-        width:150px; 
-		height:61px; 
-    }
-    .close {
-      position: absolute;
-      top:0;
-      right:0;
-      padding: 12px 16px 12px 16px;
-    }
-    .close:hover {
-      background-color: #f44336;
-      color: white;
-    }
-    .Byte{
-    position: relative;
-    top: 175px;
-    left: 515px;
-    font-size: 1.2em;
-    }
-    
+
+.title {
+	color: rgba(41, 128, 185);
+	font-size: 50px;
+	font-weight: 3px;
+	margin-left: 70px;
+	margin-top: 22px;
+}
+
+.receiveman {
+	font-size: 2em;
+	margin-left: 130px;
+	margin-top: 30px
+}
+
+.writesms {
+	position: absoulte;
+	top: 10px;
+	position: relative;
+	top: 35px;
+	font-size: 40px;
+	margin-left: 70px;
+}
+
+.left {
+	width: 450px;
+	height: 970px;
+	float: left;
+	box-sizing: border-box;
+	background: #b4d4ea;
+	float: left;
+}
+
+.list {
+	background: white;
+	margin: 75px auto;
+	height: 720px;
+	width: 350px;
+	overflow: auto;
+}
+
+.right {
+	height: 100%;
+	width: 1200px;
+	box-sizing: border-box;
+	float: left;
+	background: white;
+}
+
+.statisticButton {
+	position: relative;
+	top: 30px;
+	left: 1200px;
+	text-align: center;
+	width: 150px;
+	height: 61px;
+	border-radius: 5px;
+	font-size: 1.5em;
+	margin-right: 50px;
+}
+
+.btn-blue {
+	color: rgb(255, 255, 255);
+	background-color: rgb(52, 152, 219);
+}
+
+.btn-blue:hover {
+	color: rgb(52, 152, 219);
+	border-color: rgb(52, 152, 219);
+	background-color: white;
+}
+
+.phonenum {
+	position: relative;
+	top: 106px;
+	left: 24px;
+	border-radius: 3px;
+	font-size: 1.5em;
+	float: left;
+}
+
+.sender {
+	position: relative;
+	top: 217px;
+	right: 310px;
+	border-radius: 3px;
+	font-size: 1.5em;
+	float: right;
+}
+
+.addButton {
+	position: relative;
+	top: 108px;
+	left: 23px;
+	width: 43px;
+	height: 47px;
+	font-size: 1em;
+	font-weight: bold;
+	background-color: #ffdf80;
+}
+
+.list-group-item {
+	padding: 6px 1.75rem;
+}
+
+.ul {
+	font-size: 1.5em;
+}
+
+ul#myUL li:nth-child(2n) {
+	background-color: #ddd;
+}
+
+.phoneshape {
+	margin-top: 18px;
+	margin-left: 300px;
+	width: 750px;
+	height: 880px;
+	background-image: url( "../images/phone.png" );
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+}
+
+.textbox {
+	margin-top: 240px;
+	margin-left: 113px;
+	width: 535px;
+	background-color: #ededed;
+	border-radius: 10px;
+	font-size: 1.5em;
+	resize: none;
+}
+
+.transferButton {
+	position: relative;
+	top: 250px;
+	left: 306px;
+	font-size: 1.5em;
+	width: 150px;
+	height: 61px;
+}
+
+.close {
+	position: absolute;
+	top: 0;
+	right: 0;
+	padding: 12px 16px 12px 16px;
+}
+
+.close:hover {
+	background-color: #f44336;
+	color: white;
+}
+
+.Byte {
+	position: relative;
+	top: 175px;
+	left: 515px;
+	font-size: 1.2em;
+}

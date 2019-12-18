@@ -82,18 +82,20 @@ a:visited {
 	-moz-box-sizing: border-box;
 }
 /* default.css 끝 */
-
-.header{
-	background-color: rgb(255,255,255);
-	padding : 20px;
+.header {
+	background-color: rgb(255, 255, 255);
+	padding: 20px;
 }
 
-#title{
-	color:rgba(41,128,185); font-size: 50px;
+#title {
+	color: rgba(41, 128, 185);
+	font-size: 50px;
 	margin: 10px 10px 10px 70px;
 }
-.header h2{
-	font-size: 35px; margin-left:70px;
+
+.header h2 {
+	font-size: 35px;
+	margin-left: 70px;
 }
 
 .sendButton {
@@ -127,7 +129,7 @@ body {
 
 .bar-container {
 	position: relative;
-    left: 20%;
+	left: 20%;
 	float: left;
 	background-color: rgb(255, 255, 255);
 	width: 640px;
@@ -137,7 +139,7 @@ body {
 
 .costText {
 	position: relative;
-    left: 20%;
+	left: 20%;
 	background-color: rgb(255, 255, 255);
 	text-align: center;
 	height: 400px;
@@ -145,7 +147,7 @@ body {
 	font-size: 2em;
 	font-weight: bold;
 	display: inline-block;
-    float: left;
+	float: left;
 }
 
 .pie-container {
@@ -168,6 +170,6 @@ body {
 	height: 400px;
 }
 
-.top{
+.top {
 	min-width: 1210px;
 }

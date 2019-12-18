@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -8,56 +8,72 @@
 <head>
 <meta charset="UTF-8">
 <title>statistic page</title>
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" 
-integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
+	crossorigin="anonymous">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.js"></script>
-<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/result.css" type="text/css">
+<script
+	src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.js"></script>
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/css/result.css"
+	type="text/css">
 </head>
 <body>
-<div lang="ko" class="header">
-	<h1 id="title"> Little Ppurio </h1>
-	<h2>통계 보기</h2>
-	<div style = "position: relative; top: -10vh; float: right;">
-		<!-- <form action="a.html">
+	<div lang="ko" class="header">
+		<h1 id="title">Little Ppurio</h1>
+		<h2>통계 보기</h2>
+		<div style="position: relative; top: -10vh; float: right;">
+			<!-- <form action="a.html">
 			<input class="sendButton" type="button" value="발송하기">
 		</form> -->
-		<button id="btn-send">발송하기</button>
-		<button id="btn-report">리포트 비우기</button>
-		<button id="btn-selMsg">보낼 메세지 선택</button>
-	</div>
-</div>
-<div align="center" class="chart-container">
-	
-	<div class="top">
-		<div class="bar-container">
-			<canvas id="myChart" style="padding-top: 40px; padding-right: 30px"></canvas>
+			<button id="btn-send">발송하기</button>
+			<button id="btn-report">리포트 비우기</button>
+			<button id="btn-selMsg">보낼 메세지 선택</button>
 		</div>
-		
-		<div class="costText">
-			<div align ="center" lang="ko" style= "margin-top: 108px; font-style: bold;">
-				<p>총 전송량은 ${smsCnt} 건 입니다.</p>
-				<p>이번달 요금은<br></p>
-				<p style="font-size:1.3em; font-style:bold; color:rgb(243,156,18);">&nbsp;<br>${price}원&nbsp;<br></p>
-				<p style="margin-top:50px;">입니다<br></p>
-				<p style="float:left; margin-left:20px">지난달 대비&nbsp;</p> <p style="float: left; color:rgb(192,57,43)">1000원 증가</p>
+	</div>
+	<div align="center" class="chart-container">
+
+		<div class="top">
+			<div class="bar-container">
+				<canvas id="myChart" style="padding-top: 40px; padding-right: 30px"></canvas>
 			</div>
-			
+
+			<div class="costText">
+				<div align="center" lang="ko"
+					style="margin-top: 108px; font-style: bold;">
+					<p>총 전송량은 ${smsCnt} 건 입니다.</p>
+					<p>
+						이번달 요금은<br>
+					</p>
+					<p
+						style="font-size: 1.3em; font-style: bold; color: rgb(243, 156, 18);">
+						&nbsp;<br>${price}원&nbsp;<br>
+					</p>
+					<p style="margin-top: 50px;">
+						입니다<br>
+					</p>
+					<p style="float: left; margin-left: 20px">지난달 대비&nbsp;</p>
+					<p style="float: left; color: rgb(192, 57, 43)">1000원 증가</p>
+				</div>
+
+			</div>
 		</div>
+
+		<div class=bottom>
+			<div class="pie-container">
+				<canvas id="pie"></canvas>
+			</div>
+
+			<div class="horizontal-container">
+				<canvas id="horizontalBar"
+					style="padding-top: 40px; padding-right: 30px"></canvas>
+			</div>
+		</div>
+
 	</div>
-	
-	<div class=bottom>
-		<div class="pie-container">
-		<canvas id="pie"></canvas>
-		</div>
-		
-		<div class="horizontal-container">
-		<canvas id="horizontalBar" style="padding-top: 40px; padding-right:30px"></canvas>
-		</div>
-	</div>
-	
-</div>
 </body>
 <script>
 var barContext = document.getElementById("myChart").getContext('2d');
