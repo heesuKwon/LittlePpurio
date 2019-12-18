@@ -136,7 +136,6 @@
 		}
 	}
 	
-	
 </script>
 </head>
 
@@ -190,7 +189,7 @@
 						</button>
 
 					<!-- Modal -->
-					<div class="modal fade" id="resultSuccess" tabindex="-1"
+					<div class="modal fade" id="result" tabindex="-1"
 						role="dialog" aria-labelledby="exampleModalCenterTitle"
 						aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered" role="document">
