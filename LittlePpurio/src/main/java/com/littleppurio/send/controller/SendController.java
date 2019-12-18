@@ -4,12 +4,15 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.littleppurio.client.SMSSender2;
 import com.littleppurio.send.model.service.SendService;
@@ -22,8 +25,8 @@ public class SendController {
 	
 	
 	@RequestMapping(value = "/send",method = {RequestMethod.GET,RequestMethod.POST})
-	public String send(HttpServletRequest req) throws IOException {//throws InterruptedException {
-		
+	public ModelAndView send(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws IOException, ServletException {//throws InterruptedException {
+
 		/*SMSSender sender=new SMSSender();
 		
 		sender.createSocket();
@@ -73,6 +76,8 @@ public class SendController {
 		
 		Map<String, Object> insertSms = new HashMap<>();
 		
+		boolean sucs = false;
+		
 		// 전송할 전화번호 받아오기
 		insertNumber=(req.getParameterValues("phoneList"));
 
@@ -83,6 +88,7 @@ public class SendController {
 			System.out.println(insertSms);
 			if(sendService.insertSms(insertSms)==1)
 			{
+				
 				int smsNo = sendService.selectSmsNo();
 							
 				String result_s=smsSender.send(insertNumber[i], sendnum, content, smsNo);
@@ -90,19 +96,26 @@ public class SendController {
 				if(result_s.charAt(8)=='O')
 				{
 					sendService.ingUpdate(smsNo);
-					//모달
 					
+					sucs = true;
 					
 					String result_r = smsSender.receiveReport();
-					if(result_r.charAt(8)=='O') {
+					if(result_r.charAt(8)=='R') {
 						sendService.compUpdate(smsNo);
 						
 					}
 				}
+				else {
+					sendService.compUpdate(smsNo);
+				}
+			}
+			else {
 			}
 		}
 		
+		mav.setViewName("send");
+		mav.addObject("sucs", sucs);
 		
-		return "send";
+		return mav;
 	}
 }

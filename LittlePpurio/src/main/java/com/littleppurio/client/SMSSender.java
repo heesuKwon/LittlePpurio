@@ -1,15 +1,8 @@
 package com.littleppurio.client;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.ConnectException;
-import java.net.InetSocketAddress;
 import java.net.NoRouteToHostException;
-import java.net.Socket;
-
-import com.littleppurio.Scheduler;
-import com.littleppurio.common.SHA256Util;
 
 public class SMSSender {
 

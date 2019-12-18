@@ -5,26 +5,24 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
-<head>
-<meta charset="UTF-8">
-<title>send page</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
-<script src="https://code.jquery.com/jquery-3.4.1.js"
-	integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-	crossorigin="anonymous">
+<head>
+<meta charset="UTF-8">
+<title>send page</title>
 	
-</script>
-<script src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.js"></script>
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/send.css"
 	type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Jua&display=swap"
 	rel="stylesheet">
-
+	
+	
 <script type="text/javascript">
+
+
 	//전화번호 형식 셋팅
 	function formatPhoneNumber(phoneNumberString) {
 		var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
@@ -82,20 +80,20 @@
 
 	// 전화번호 리스트 전송
 	function textSend() {
-
+			
 		var tempArray = new Array();
 		$("ul#myUL li").each(function() {
 			tempArray.push($(this).attr("id"));
 		});
 
 		var form = document.getElementById("Input");
-
+	
 		for (var i = 0; i < tempArray.length; i++) {
 			var phlist = document.createElement("input");
 			phlist.setAttribute("type", "hidden");
 			phlist.setAttribute("name", "phoneList");
 			phlist.setAttribute("value", tempArray[i]);
-			form.appendChild(phlist);
+			form.appendChild(phlist);			
 		}
 
 		if (tempArray.length == 0) {
@@ -105,7 +103,9 @@
 		}
 
 	}
-
+	
+	
+	//바이트 체크
 	function CheckByte(obj, maxByte) {
 		var str = obj.value;
 		var str_len = str.length;
@@ -139,13 +139,15 @@
 		}
 	}
 	
-	$("#Goresult").click(function() {
-		document.location.href = "${pageContext.request.contextPath}/result";
-	});
-
+	
 </script>
 </head>
+
 <body>
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>		
+
 	<div class="contant">
 		<div class="left">
 			<h2 class="receiveman"
@@ -153,7 +155,7 @@
 			<div class="form-group green-border-focus" style="height: 81px;">
 				<input type="tel" class="form-control phonenum" rows="2"
 					style="width: 69%; margin-left: 25px; line-height: 0.6;"
-					placeholder="번호를 입력하세요('-'없이)" id="sendReceiver"
+					placeholder="번호를 입력하세요" id="sendReceiver"
 					name="sendReceiver" onkeydown="Enter_Check()">
 					
 				<button class="addButton btn btn-outline-warning" type="button"
@@ -186,36 +188,39 @@
 						<span id="byteInfo">0</span> / 90Bytes
 					</div>
 					<div>
-						<input class="transferButton btn btn-blue" type="button"
-							value="전송" id="send" onclick="textSend()" data-toggle="modal" data-tagrget="exampleModalCenter">
-					</div>
+						<button class="transferButton btn btn-blue" type="button"
+							id="send" onclick="textSend()"> 전송 
+						</button>
 
 					<!-- Modal -->
-					<div class="modal fade" id="exampleModalCenter" tabindex="-1"
+					<div class="modal fade" id="resultSuccess" tabindex="-1"
 						role="dialog" aria-labelledby="exampleModalCenterTitle"
 						aria-hidden="true">
 						<div class="modal-dialog modal-dialog-centered" role="document">
 							<div class="modal-content">
 								<div class="modal-header">
-									<h5 class="modal-title" id="exampleModalLongTitle">Modal
-										title</h5>
+									<h5 class="modal-title" id="exampleModalLongTitle">전송 결과</h5>
 									<button type="button" class="close" data-dismiss="modal"
 										aria-label="Close">
 										<span aria-hidden="true">&times;</span>
 									</button>
 								</div>
-								<div class="modal-body">...</div>
+								<c:if test='<=%sucs%> eq true'>
+								<div class="modal-body">전송에 성공하였습니다.</div>
+								</c:if>
+								<c:if test="<=%sucs%> eq false">
+								<div class="modal-body">전송에 실패하였습니다.</div>
+								</c:if>
 								<div class="modal-footer">
 									<button type="button" class="btn btn-secondary"
-										data-dismiss="modal">Close</button>
-									<button type="button" class="btn btn-primary">Save
-										changes</button>
+										data-dismiss="modal">확인</button>
 								</div>
 							</div>
 						</div>
 					</div>
-
-
+						
+						
+					</div>
 				</form>
 			</div>
 		</div>

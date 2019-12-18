@@ -109,7 +109,7 @@ public class Report {
 				String divCode = message.substring(8,10);
 
 				byte[] responseOk = "00000002OK".getBytes("euc-kr");
-				message = new String(responseOk);
+				String response = new String(responseOk);
 
 				//서버로 응답 보내기
 				if(message.equals("")) {
@@ -118,11 +118,11 @@ public class Report {
 				else {
 					switch(divCode) {
 					case "PI" : sendReport.write(responseOk, 0, responseOk.length); 
-					out = String.format("report send - %s", message);
+					out = String.format("report send - %s", response);
 					System.out.println(out);
 					break;
 					case "RE" : sendReport.write(responseOk, 0, responseOk.length); 
-					out = String.format("report send - %s", message);
+					out = String.format("report send - %s", response);
 					System.out.println(out);
 					break breakOut;
 					}

@@ -18,10 +18,14 @@
 	</select>
 	
 	
-	<!-- <select id="">
-	SELECT sms.receiver, send.sms_content, send.sender FROM sms 
-	INNER JOIN send ON sms.send_no=send.send_no WHERE sms.`status`='wait';
-	</select>-->
+	<select id="waitChecker" resultType="int">
+	SELECT count(*) FROM sms 
+	INNER JOIN send ON sms.send_no=send.send_no WHERE sms.`status`='wait'
+	ORDER BY sms.sms_no ASC LIMIT 1;
+	</select>
+	
+	<!-- sms.receiver, send.sms_content, send.sender, sms.sms_no -->
+	
 	<update id="ingUpdate" parameterType="int">
 	UPDATE sms SET `status`='ing' WHERE sms_no = #{sms_no};
 	</update>

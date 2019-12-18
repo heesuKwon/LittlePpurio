@@ -7,6 +7,7 @@ import java.util.concurrent.TimeUnit;
 import org.apache.catalina.connector.Connector;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import com.littleppurio.client.Client;
 import com.littleppurio.client.Report;
+import com.littleppurio.send.model.service.SendService;
 
 @Service
 public class LittlePpurioService implements CommandLineRunner, ApplicationListener<ContextClosedEvent>{
@@ -24,27 +26,32 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
 	Client client = Client.getInstance(/* "123.2.134.81", 15001 */);
 	Report report = Report.getInstance();
 	
+	
+	@Autowired
+	SendService sendService;
+	
+	
     @Override
     public void run(String... args) throws Exception {
 //    	//애플리케이션 생성시 한번만 실행
-//        SMSSender.createSocket();
-//        SMSSender.createReport();
-    	client.connectSocket();
-    	report.connectSocket();
+//    	client.connectSocket();
+//    	report.connectSocket();
     }
     
-//    @Scheduled(cron="*/19 * * * * *")
-//    public void ping(){
-//    	SMSSender.ping();
+//    @Scheduled(cron="*/1 * * * * *")
+//    public void dataChecker(){
+//    	if(sendService.waitChecker()>0)
+//    	{
+//    		System.out.println("발송할 message가 있습니다.");
+//    	}
 //    }
     
     
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {
     	//애플리케이션 종료시 한번만 실행
-//        SMSSender.closeSocket();
-//        SMSSender.closeReport();
-    	client.closeSocket();
+//    	client.closeSocket();
+//    	report.closeSocket();
         
         //애플리케이션이 graceful하게 종료하기 위한 코드
         this.connector.pause();
