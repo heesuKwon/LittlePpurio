@@ -10,33 +10,33 @@ public class SMSSender {
 	Report report = Report.getInstance();
 
 	public void ping() {
-		boolean flag = true;
-		int cnt=0;
-//		while(flag){
+		try {
+			client.packet("PI","");
+			//Exception 테스트
+//			throw new NoRouteToHostException();
+//			throw new ConnectException();
+		} 
+		//1초가 지나서 타임아웃 됐을 때
+		catch(NoRouteToHostException e) {
+			//소켓 재연결
+			client.closeSocket();
+			client.connectSocket();
+		}
+		//원격 호스트가 연결을 거부한 경우
+		catch (ConnectException e) {
+			//3초 후 소켓 연결
 			try {
-				client.packet("PI","");
-				flag = false;
-				//타임아웃 테스트용 
-//				if(!flag&&cnt==0) {
-//					throw new NoRouteToHostException();
-//				}
-			} 
-			//2초가 지나서 타임아웃 됐을 때
-			catch(NoRouteToHostException e) {
-				//소켓 재연결
-				client.closeSocket();
-				client.connectSocket();
-				flag = true;
-				cnt++;
+				Thread.sleep(3000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
 			}
-			//원격 호스트가 연결을 거부한 경우
-			catch (ConnectException e) {
-				//시간이 조금 지난 후 소켓 연결
-			}
-			catch (IOException e) {
-				e.printStackTrace();
-			}
-//		}
+			client.closeSocket();
+			client.connectSocket();
+			
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public String send(String phone, String callBack, String message, int smsNo) {

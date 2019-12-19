@@ -15,19 +15,16 @@ public class Report {
 	public static InputStream receReport;
 	private InetSocketAddress ipep;
 	
-//	Scheduler scheduler = new Scheduler();
-	
-	private Report(/* String ip, int port */) {
+	private Report() {
 		socket = new Socket();
 		
-		//클라이언트 초기화(연결대상 지정)
+		//리포트 초기화(연결대상 지정)
 		ipep = new InetSocketAddress("123.2.134.81", 15100);
-//		scheduler.startScheduler();
 	}
 	
-	public static Report getInstance(/* String ip, int port */) {
+	public static Report getInstance() {
 		if(report == null) {
-			report = new Report(/* ip, port */);
+			report = new Report();
 		}
 		return report;
 	}

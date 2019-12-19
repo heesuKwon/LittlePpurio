@@ -19,16 +19,14 @@ public class Client {
 	
 	public Scheduler scheduler = new Scheduler();
 	
-	private Client(/* String ip, int port */) {
-//		socket = new Socket();
-		
+	private Client() {
 		//클라이언트 초기화(연결대상 지정)
 		ipep = new InetSocketAddress("123.2.134.81", 15001);
 	}
 	
-	public static Client getInstance(/* String ip, int port */) {
+	public static Client getInstance() {
 		if(client == null) {
-			client = new Client(/* ip, port */);
+			client = new Client();
 		}
 		return client;
 	}
@@ -39,7 +37,7 @@ public class Client {
 		try {
 			
 			socket.connect(ipep);
-			socket.setSoTimeout(2000);	//2초 타임아웃 설정
+			socket.setSoTimeout(1000);	//1초 타임아웃 설정
 			
 			//send,reciever 스트림 받아오기
 			sender= socket.getOutputStream();
