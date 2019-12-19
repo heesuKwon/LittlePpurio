@@ -68,7 +68,7 @@ public class SendController {
 		return mav;
 	}
 
-	@RequestMapping("/sendMsg")
+	
 	public void sendMsg() {
 		
 		Map<String, Object> updateCode= new HashMap<>();
@@ -86,9 +86,12 @@ public class SendController {
 			{
 				sendService.ingUpdate(sms.getSmsNo());
 				
-				String result_r = smsSender.receiveReport();
+				int sub=result_s.indexOf("OK");
+				String msgId=result_s.substring(sub+2).trim();
+				
+				String result_r = smsSender.receiveReport(msgId);
 				if(result_r.charAt(8)=='R') {
-					int sub= result_r.indexOf("RESULT");
+					sub= result_r.indexOf("RESULT");
 					result_r=result_r.substring(sub+8,sub+12);
 					updateCode.put("result_code", result_r);
 					updateCode.put("sms_no", sms.getSmsNo());

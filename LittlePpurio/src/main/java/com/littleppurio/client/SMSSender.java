@@ -65,11 +65,11 @@ public class SMSSender {
 		return result;
 	}
 		
-	public String receiveReport() {
+	public String receiveReport(String msgId) {
 		String result = "";
 
 		try{
-			result = report.reportPacket();
+			result = report.reportPacket(msgId);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

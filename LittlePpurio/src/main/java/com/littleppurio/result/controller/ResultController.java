@@ -27,33 +27,33 @@ public class ResultController {
 		return mav;
 	}
 	
-	@RequestMapping("/sendBtn")
-	public ModelAndView sendBtn(ModelAndView mav) {
-		System.out.println("sendBtn메소드");
-		SMSSender smsSender = new SMSSender();
-		String phone = "01012341234";
-		String callBack = "01062531573";
-		String massage = "안녕하세요.";
-		int smsNo = 3;
-		smsSender.send(phone, callBack, massage, smsNo);
-		String result = smsSender.receiveReport();
-		System.out.println(result);
-		System.out.println("sendBtn메소드 종료");
-		
-		mav.setViewName("result");
-		return mav;
-	}
-	
-	@RequestMapping("/removeReport")
-	public ModelAndView removeReport(ModelAndView mav) {
-		System.out.println("removeReport메소드");
-		SMSSender smsSender = new SMSSender();
-		String result = smsSender.receiveReport();
+//	@RequestMapping("/sendBtn")
+//	public ModelAndView sendBtn(ModelAndView mav) {
+//		System.out.println("sendBtn메소드");
+//		SMSSender smsSender = new SMSSender();
+//		String phone = "01012341234";
+//		String callBack = "01062531573";
+//		String massage = "안녕하세요.";
+//		int smsNo = 3;
+//		smsSender.send(phone, callBack, massage, smsNo);
+//		String result = smsSender.receiveReport();
 //		System.out.println(result);
-		System.out.println("removeReport메소드 종료");
-		
-		mav.setViewName("result");
-		return mav;
-	}
+//		System.out.println("sendBtn메소드 종료");
+//		
+//		mav.setViewName("result");
+//		return mav;
+//	}
+//	
+//	@RequestMapping("/removeReport")
+//	public ModelAndView removeReport(ModelAndView mav) {
+//		System.out.println("removeReport메소드");
+//		SMSSender smsSender = new SMSSender();
+//		String result = smsSender.receiveReport();
+////		System.out.println(result);
+//		System.out.println("removeReport메소드 종료");
+//		
+//		mav.setViewName("result");
+//		return mav;
+//	}
 	
 }

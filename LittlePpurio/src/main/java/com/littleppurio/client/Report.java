@@ -91,7 +91,7 @@ public class Report {
 	}
 	
 	
-	public String reportPacket() throws IOException {
+	public String reportPacket(String msgId) throws IOException {
 		String message = "";
 
 		breakOut : 
@@ -124,7 +124,12 @@ public class Report {
 					case "RE" : sendReport.write(responseOk, 0, responseOk.length); 
 					out = String.format("report send - %s", response);
 					System.out.println(out);
-					break breakOut;
+					int start = message.lastIndexOf("MSGID:=");
+					int end = message.indexOf("PHONE:=");
+					if(message.substring(start+7, end-1).equals(msgId)) {
+						break breakOut;						
+					}
+					break;
 					}
 				}
 			}
