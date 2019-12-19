@@ -29,19 +29,18 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
 
 	@Autowired
 	SendController sendController;
-	
-    @Override
-    public void run(String... args) throws Exception {
-//    	//애플리케이션 생성시 한번만 실행
-    	client.connectSocket();
-    	report.connectSocket();
-    }
     
     @Scheduled(cron="*/5 * * * * *")
     public void dataChecker(){    	
     	sendController.sendMsg();
     }
     
+    @Override
+    public void run(String... args) throws Exception {
+    	//애플리케이션 생성시 한번만 실행
+    	client.connectSocket();
+    	report.connectSocket();
+    }
     
     @Override
     public void onApplicationEvent(ContextClosedEvent event) {

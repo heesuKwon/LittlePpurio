@@ -26,35 +26,28 @@ public class SendController {
 	
 	
 	@RequestMapping(value = "/send",method = {RequestMethod.GET,RequestMethod.POST})
-	public ModelAndView send(HttpServletRequest req, HttpServletResponse res, ModelAndView mav) throws IOException, ServletException {//throws InterruptedException {
+	public ModelAndView send(HttpServletRequest req, HttpServletResponse res, ModelAndView mav){
 	
-		// 메시지 내용 가져오기
-		
+		// 메시지 내용 가져오기		
 		Map<String,String> insertSend = new HashMap<>();
 		
 		insertSend.put("sender", req.getParameter("sender"));
 		insertSend.put("sms_content", req.getParameter("sendMessage"));
-		//System.out.println(insertSend);
 		insertSend.get("sender");
 		insertSend.get("sms_content");
 
 		sendService.insertSend(insertSend);
 		int sendNo=sendService.selectSendNo();
-			
-		String[] insertNumber;
-		
-		Map<String, Object> insertSms = new HashMap<>();
-		
-		boolean sucs = false;
-		
+							
 		// 전송할 전화번호 받아오기
-		insertNumber=(req.getParameterValues("phoneList"));
+		String[] insertNumber = (req.getParameterValues("phoneList"));
+		Map<String, Object> insertSms = new HashMap<>();		
+		boolean sucs = false;
 
 		for(int i=0;i<insertNumber.length;i++)
 		{
 			insertSms.put("receiver", insertNumber[i]);
 			insertSms.put("send_no", sendNo);
-			System.out.println(insertSms);
 			
 			if(sendService.insertSms(insertSms)==1)
 			{
@@ -68,20 +61,18 @@ public class SendController {
 		return mav;
 	}
 
-	
+
 	public void sendMsg() {
 		
 		Map<String, Object> updateCode= new HashMap<>();
 		
 		SMSSender smsSender = new SMSSender();
-		//System.out.println("===sendMsg 메소드 시작===");
 		
 		SMS sms = sendService.waitChecker();
 				
 		if(sms!=null) {
-			System.out.println(sms.toString());
-			System.out.println("scheduler 발동!");
-			String result_s=smsSender.send(sms.getReceiver(), sms.getSender(), sms.getSmsContent(), sms.getSmsNo());
+			String result_s=smsSender.send(sms.getReceiver(), sms.getSender(),
+					sms.getSmsContent(), sms.getSmsNo());
 			if(result_s.charAt(8)=='O')
 			{
 				sendService.ingUpdate(sms.getSmsNo());
@@ -107,12 +98,6 @@ public class SendController {
 				sendService.codeUpdate(updateCode);
 				sendService.compUpdate(sms.getSmsNo());
 			}
-		}
-		else {
-//			System.out.println("보낼 메세지가 없습니다.");
-		}
-		
-		//System.out.println("===sendMsg 메소드 종료===");
-		
+		}				
 	}
 }
