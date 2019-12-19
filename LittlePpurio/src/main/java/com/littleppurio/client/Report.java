@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.littleppurio.common.SHA256Util;
 
@@ -88,7 +90,7 @@ public class Report {
 	}
 	
 	
-	public String reportPacket(String msgId) throws IOException {
+	public String reportPacket() throws IOException{
 		String message = "";
 
 		breakOut : 
@@ -121,12 +123,7 @@ public class Report {
 					case "RE" : sendReport.write(responseOk, 0, responseOk.length); 
 					out = String.format("report send - %s", response);
 					System.out.println(out);
-					int start = message.lastIndexOf("MSGID:=");
-					int end = message.indexOf("PHONE:=");
-					if(message.substring(start+7, end-1).equals(msgId)) {
-						break breakOut;						
-					}
-					break;
+					break breakOut;		
 					}
 				}
 			}

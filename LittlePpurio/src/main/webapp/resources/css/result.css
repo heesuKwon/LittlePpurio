@@ -1,5 +1,11 @@
 @charset "UTF-8";
 
+@import url(http://fonts.googleapis.com/earlyccess/notosanskr.css);
+
+:lang(ko) {
+	/*font-family: 'Noto Sans KR', sans-serif;*/
+	font-family: 'Jua', sans-serif;
+}
 /* default.css */
 html, body, div, p, span, strong, b, em, iframe, pre, h1, h2, h3, h4, h5,
 	h6, img, dl, dt, dd, fieldset, form, legend, label, table, caption,
@@ -11,8 +17,8 @@ html, body, div, p, span, strong, b, em, iframe, pre, h1, h2, h3, h4, h5,
 }
 
 body {
-	font-family: MalgunGothic, '맑은 고딕', '돋움', Dotum, AppleGothic, Sans-serif,
-		Arial;
+	/* font-family: MalgunGothic, '맑은 고딕', '돋움', Dotum, AppleGothic, Sans-serif,
+		Arial; */
 	font-size: 12px;
 	line-height: 1;
 	color: #333;
@@ -172,4 +178,15 @@ body {
 
 .top {
 	min-width: 1210px;
+}
+
+.btn-blue {
+	color: rgb(255, 255, 255);
+	background-color: rgb(52, 152, 219);
+}
+
+.btn-blue:hover {
+	color: rgb(52, 152, 219);
+	border-color: rgb(52, 152, 219);
+	background-color: white;
 }
