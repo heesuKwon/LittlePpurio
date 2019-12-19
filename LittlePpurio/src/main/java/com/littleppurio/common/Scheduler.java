@@ -1,4 +1,4 @@
-package com.littleppurio;
+package com.littleppurio.common;
 
 import java.util.concurrent.TimeUnit;
 

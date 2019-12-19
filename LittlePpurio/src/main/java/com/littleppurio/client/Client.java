@@ -6,8 +6,8 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
-import com.littleppurio.Scheduler;
 import com.littleppurio.common.SHA256Util;
+import com.littleppurio.common.Scheduler;
 
 public class Client {
 	
