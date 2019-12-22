@@ -20,12 +20,13 @@
 <link rel="stylesheet"
 	href="${pageContext.request.contextPath }/resources/css/result.css"
 	type="text/css">
+
 </head>
 <body>
 	<div lang="ko" class="header">
 		<h1 id="title">Little Ppurio</h1>
 		<h2>통계 보기</h2>
-		<div style="position: relative; top: -10vh; float: right;">
+		<div style="position: relative; top: -10vh; float: right;" id="output">
 			<!-- <form action="a.html">
 			<input class="sendButton" type="button" value="발송하기">
 		</form> -->

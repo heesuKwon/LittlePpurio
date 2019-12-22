@@ -26,6 +26,18 @@
 		ORDER BY sms.sms_no ASC LIMIT 1
 	</select>
 	
+	
+	
+	
+	<select id="pickData" resultType="sms">
+		SELECT sms.sms_no, sms.receiver,send.sms_content, send.sender
+		FROM sms INNER JOIN send ON sms.send_no=send.send_no
+		WHERE sms.`status`='wait' AND sms.send_no=#{send_no}
+		ORDER BY sms.sms_no ASC LIMIT 1
+	</select>
+	
+	
+	
 	<update id="codeReport" parameterType ="map">
 	UPDATE sms SET result_code=#{result_code} WHERE sms_no = #{sms_no}
 	</update>

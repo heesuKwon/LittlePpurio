@@ -55,4 +55,10 @@ public class SendDAOImpl implements SendDAO {
 		return sqlSession.update("send.codeReport", param);
 	}
 	
+	@Override
+	public SMS pickData(int param) {
+		return sqlSession.selectOne("send.pickData", param);
+	}
+	
+	
 }

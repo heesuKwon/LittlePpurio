@@ -23,7 +23,36 @@
 
 
 <script type="text/javascript">
-	
+
+	//txt파일 선택
+	function openTextFile() {
+		var input = document.createElement("input");
+
+		input.type = "file";
+		input.accept = "text/plain"; // 확장자가 xxx, yyy 일때, ".xxx, .yyy"
+
+		input.onchange = function(event) {
+			processFile(event.target.files[0]);
+		};
+
+		input.click();
+	}
+
+	function processFile(file) {
+		var reader = new FileReader();
+
+		reader.onload = function() {
+
+			var array = reader.result.toString().split("\n");
+
+			for (i in array) {
+				txtinput(array[i]);
+			}
+		};
+
+		reader.readAsText(file, /* optional */"euc-kr");
+
+	}
 
 	//전화번호 형식 셋팅
 	function formatPhoneNumber(phoneNumberString) {
@@ -73,6 +102,38 @@
 		}
 
 	}
+
+	//txt파일 리스트 추가
+	function txtinput(telList) {
+		var li = document.createElement("li");
+		var inputValue = telList;
+
+		li.setAttribute("id", inputValue);
+		li.setAttribute("class", "list-group-item");
+		inputValue = formatPhoneNumber(inputValue);
+
+		var li_data = document.createTextNode(inputValue);
+		li.appendChild(li_data);
+
+		if (inputValue != null) {
+			document.getElementById("myUL").appendChild(li);
+		}
+		var span = document.createElement("SPAN");
+		var txt = document.createTextNode("\u00D7");
+		span.className = "close";
+		span.appendChild(txt);
+		li.appendChild(span);
+
+		var close = document.getElementsByClassName("close");
+
+		for (i = 0; i < close.length; i++) {
+			close[i].onclick = function() {
+				var div = this.parentElement;
+				div.remove();
+			}
+		}
+	}
+
 	//enter키
 	function Enter_Check() {
 		if (event.keyCode == 13) {
@@ -82,28 +143,27 @@
 
 	// 전화번호 리스트 전송
 	function textSend() {
-		
+
 		var msg = $("#sendMessage").val().trim();
-		
-		if(msg.length==0){
+
+		if (msg.length == 0) {
 			alert("메세지를 입력해주세요!");
-		}
-		else{
+		} else {
 			var tempArray = new Array();
 			$("ul#myUL li").each(function() {
 				tempArray.push($(this).attr("id"));
 			});
-	
+
 			var form = document.getElementById("Input");
-		
+
 			for (var i = 0; i < tempArray.length; i++) {
 				var phlist = document.createElement("input");
 				phlist.setAttribute("type", "hidden");
 				phlist.setAttribute("name", "phoneList");
 				phlist.setAttribute("value", tempArray[i]);
-				form.appendChild(phlist);			
+				form.appendChild(phlist);
 			}
-	
+
 			if (tempArray.length == 0) {
 				alert("전화번호를 입력해 주세요!");
 			} else {
@@ -111,8 +171,7 @@
 			}
 		}
 	}
-	
-	
+
 	//바이트 체크
 	function CheckByte(obj, maxByte) {
 		var str = obj.value;
@@ -145,7 +204,6 @@
 			document.getElementById('byteInfo').innerText = rbyte;
 		}
 	}
-	
 </script>
 <script>
 
@@ -180,7 +238,7 @@
 		<div class="left">
 			<h2 class="receiveman"
 				style="position: absolute; top: 9px; left: 10px">받는 사람</h2>
-			<div class="form-group green-border-focus" style="height: 81px;">
+			<div class="form-group green-border-focus" style="height: 81px;" id="output">
 				<input type="tel" class="form-control phonenum" rows="2"
 					style="width: 69%; margin-left: 25px; line-height: 0.6;"
 					placeholder="번호를 입력하세요" id="sendReceiver" name="sendReceiver"
@@ -188,6 +246,7 @@
 
 				<button class="addButton btn btn-outline-warning" type="button"
 					id="addList" onclick="newElement()" style="color: black;">+</button>
+			<button onclick= "openTextFile()">txt파일 선택</button>
 			</div>
 
 			<div class="list">
