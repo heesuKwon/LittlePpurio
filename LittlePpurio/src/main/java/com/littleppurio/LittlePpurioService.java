@@ -1,8 +1,6 @@
 package com.littleppurio;
 
-import java.util.LinkedList;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Future;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
@@ -13,16 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.littleppurio.client.Client;
 import com.littleppurio.client.Report;
-import com.littleppurio.common.AsyncConfig;
 import com.littleppurio.send.controller.SendController;
-import com.littleppurio.send.model.service.SendService;
 
 @Service
 public class LittlePpurioService implements CommandLineRunner, ApplicationListener<ContextClosedEvent>{
@@ -46,7 +39,7 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     public void run(String... args) throws Exception {
     	//애플리케이션 생성시 한번만 실행
 //    	client.connectSocket();
-    	report.connectSocket();
+//    	report.connectSocket();
     	//SendController sendController = new SendController();
     	
     	//sendController.sendMsg();
@@ -57,7 +50,7 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     public void onApplicationEvent(ContextClosedEvent event) {
     	//애플리케이션 종료시 한번만 실행
 //    	client.closeSocket();
-    	report.closeSocket();
+//    	report.closeSocket();
         
         //애플리케이션이 graceful하게 종료하기 위한 코드
         this.connector.pause();
