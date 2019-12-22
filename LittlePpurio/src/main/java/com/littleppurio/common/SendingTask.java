@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class SendingTask {
-    @Autowired
+//    @Autowired
     SendThread sendThread;
 
     @Async("threadPoolTaskExecutor")

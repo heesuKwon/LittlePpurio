@@ -1,6 +1,5 @@
 package com.littleppurio.common;
 
-import java.util.LinkedList;
 import java.util.Queue;
 
 import org.springframework.beans.factory.annotation.Autowired;

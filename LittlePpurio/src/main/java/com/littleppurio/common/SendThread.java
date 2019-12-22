@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import com.littleppurio.client.Client;
 import com.littleppurio.send.model.service.SendService;
 
-@Component
+
 public class SendThread extends Thread{
 	
 	Client client = new Client();
