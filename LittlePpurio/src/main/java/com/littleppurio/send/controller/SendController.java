@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.littleppurio.LittlePpurioService;
 import com.littleppurio.client.SMSSender;
+import com.littleppurio.common.SendingJobControlTask;
 import com.littleppurio.send.model.service.SendService;
 import com.littleppurio.send.model.vo.SMS;
 
@@ -30,6 +31,8 @@ public class SendController {
 	@RequestMapping(value = "/send",method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView send(HttpServletRequest req, HttpServletResponse res, ModelAndView mav){
 
+		SendingJobControlTask sendQu= new SendingJobControlTask();
+		
 		// 메시지 내용 가져오기		
 		Map<String,String> insertSend = new HashMap<>();
 		boolean sucs = false;
@@ -40,7 +43,7 @@ public class SendController {
 		if(sendService.insertSend(insertSend)==1)
 		{
 			int sendNo=sendService.selectSendNo();
-
+			
 			// 전송할 전화번호 받아오기
 			String[] insertNumber = (req.getParameterValues("phoneList"));
 			Map<String, Object> insertSms = new HashMap<>();		
@@ -56,6 +59,9 @@ public class SendController {
 					sucs = true;
 				}
 			}
+			
+			sendQu.signalQueue.add(sendNo);
+			
 		}
 		
 		
