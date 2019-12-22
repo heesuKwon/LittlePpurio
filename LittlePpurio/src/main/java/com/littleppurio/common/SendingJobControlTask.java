@@ -11,7 +11,7 @@ public class SendingJobControlTask {
     @Autowired
     SendingTask sendingTask;
 
-    Queue<Integer> signalQueue;
+    public Queue<Integer> signalQueue;
 
     public void startSending() {    	
     	
