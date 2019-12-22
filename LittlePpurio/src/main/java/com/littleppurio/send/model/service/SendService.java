@@ -17,6 +17,8 @@ public interface SendService {
 	SMS waitChecker();
 	int codeUpdate(Map param);
 	SMS pickData(int param);
-	void sending()throws Exception;
+//	void sending()throws Exception;
+	int msgIdUpdate(Map param);
+	int compUpdate2(String param);
 	
 }

@@ -60,5 +60,14 @@ public class SendDAOImpl implements SendDAO {
 		return sqlSession.selectOne("send.pickData", param);
 	}
 	
+	@Override
+	public 	int msgIdUpdate(Map param) {
+		return sqlSession.update("send.msgIdUpdate", param);
+	}
+	
+	@Override
+	public int compUpdate2(String param) {
+		return sqlSession.update("send.compUpdate2",param);
+	}
 	
 }

@@ -64,14 +64,24 @@ public class SendServiceImpl implements SendService {
 	}
 	
 	@Override
-	@Async("threadPoolTaskExecutor")
-	public void sending() {
-
-		Map<String, Object> updateCode= new HashMap<>();
-
-		SMSSender smsSender = new SMSSender();
-		
-		System.out.println("쓰레드풀 가동?");
+	public int msgIdUpdate(Map param) {
+		return sendDAO.msgIdUpdate(param);
+	}
+	
+	@Override
+	public int compUpdate2(String param) {
+		return sendDAO.compUpdate2(param);
+	}
+	
+//	@Override
+//	@Async("threadPoolTaskExecutor")
+//	public void sending() {
+//
+//		Map<String, Object> updateCode= new HashMap<>();
+//
+//		SMSSender smsSender = new SMSSender();
+//		
+//		System.out.println("쓰레드풀 가동?");
 
 //		SMS sms = this.waitChecker();
 //
@@ -104,6 +114,6 @@ public class SendServiceImpl implements SendService {
 //				this.compUpdate(sms.getSmsNo());
 //			}
 //		}				
-	}
+//	}
 	
 }
