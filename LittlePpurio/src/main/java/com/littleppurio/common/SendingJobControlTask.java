@@ -1,5 +1,6 @@
 package com.littleppurio.common;
 
+import java.util.LinkedList;
 import java.util.Queue;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,8 @@ public class SendingJobControlTask {
 
     Queue<Integer> signalQueue;
 
-    public void startSending() {
+    public void startSending() {    	
+    	
         signalQueue.stream()
             .forEach(sendNo -> {
                 sendingTask.sendingAsync(sendNo);
