@@ -3,7 +3,9 @@ package com.littleppurio.client;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.ConnectException;
 import java.net.InetSocketAddress;
+import java.net.NoRouteToHostException;
 import java.net.Socket;
 
 import com.littleppurio.common.SHA256Util;
@@ -11,7 +13,7 @@ import com.littleppurio.common.Scheduler;
 
 public class Client {
 	
-	private static Client client = null;
+//	private static Client client = null;
 	private Socket socket;
 	private OutputStream sender;
 	private InputStream receiver;
@@ -19,17 +21,18 @@ public class Client {
 	
 	public Scheduler scheduler = new Scheduler();
 	
-	private Client() {
+	//private Client(){
+	public Client() {
 		//클라이언트 초기화(연결대상 지정)
 		ipep = new InetSocketAddress("123.2.134.81", 15001);
 	}
 	
-	public static Client getInstance() {
-		if(client == null) {
-			client = new Client();
-		}
-		return client;
-	}
+//	public static Client getInstance() {
+//		if(client == null) {
+//			client = new Client();
+//		}
+//		return client;
+//	}
 	
 	public void connectSocket() {
 		socket = new Socket();
@@ -64,6 +67,59 @@ public class Client {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void ping() {
+		try {
+			packet("PI","");
+		} 
+		//1초가 지나서 타임아웃 됐을 때
+		catch(NoRouteToHostException e) {
+			//소켓 재연결
+			closeSocket();
+			connectSocket();
+		}
+		//원격 호스트가 연결을 거부한 경우
+		catch (ConnectException e) {
+			//3초 후 소켓 연결
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			closeSocket();
+			connectSocket();
+			
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public String send(String phone, String callBack, String message, int smsNo) {
+
+		scheduler.stopScheduler();
+
+		//문자 전송		
+		String data = "VERSION:=4.0\nDEVICE:=sms\n"
+				+"CMSGID:="+smsNo+"\nPHONE:="+phone+"\nSENDER_NAME:=\n"
+				+"TO_NAME:=\nSUBJECT:=\nCOVER_FLAG:=\nUNIXTIME:=\n"
+				+"CALLBACK:="+callBack+"\nTEMPLATE_FILE:=\nFAX_FILE:=\n"
+				+"MSG:=<<__START__\n" + message+"__END__>>\nWAP_URL:=\n" 
+				+"RETRYCNT:=\nSMS_FLAG:=\nREPLY_FLAG:=\nUSERDATA:=\n"
+				+"EXT_DATA:=\n";
+		String result = null;
+
+	
+		try {
+			result = packet("DS",data);
+		}
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+		scheduler.startScheduler();
+
+		return result;
 	}
 	
 	public String packet(String divCode, String message) throws IOException {

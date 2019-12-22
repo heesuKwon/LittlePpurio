@@ -33,14 +33,12 @@ public class SendController {
 		
 		insertSend.put("sender", req.getParameter("sender"));
 		insertSend.put("sms_content", req.getParameter("sendMessage"));
-		insertSend.get("sender");
-		insertSend.get("sms_content");
 
 		sendService.insertSend(insertSend);
 		int sendNo=sendService.selectSendNo();
 							
 		// 전송할 전화번호 받아오기
-		String[] insertNumber = (req.getParameterValues("phoneList"));
+		String[] insertNumber = req.getParameterValues("phoneList");
 		Map<String, Object> insertSms = new HashMap<>();		
 		boolean sucs = false;
 
@@ -62,34 +60,34 @@ public class SendController {
 	}
 
 
-	public void sendMsg() {
-		Map<String, Object> updateCode= new HashMap<>();
-		SMSSender smsSender = new SMSSender();
-		
-		SMS sms = sendService.waitChecker();
-				
-		if(sms!=null) {
-			String result=smsSender.send(sms.getReceiver(), sms.getSender(),
-					sms.getSmsContent(), sms.getSmsNo());
-			if(result.charAt(8)=='O')
-			{				
-				int sub=result.indexOf("OK");
-				String msgId_s=result.substring(sub+2).trim();
-				
-//				sendService.msgIdInsert(msgId_s);
-				sendService.ingUpdate(sms.getSmsNo());
-				
-			}
-			else if(result.charAt(8)=='N') {
-				int sub=result.indexOf("NO");
-				result=result.substring(sub+2);
-				updateCode.put("result_code", result);
-				updateCode.put("sms_no", sms.getSmsNo());
-				sendService.codeUpdate(updateCode);
-				sendService.compUpdate(sms.getSmsNo());
-			}
-		}				
-	}
+//	public void sendMsg() {
+//		Map<String, Object> updateCode= new HashMap<>();
+//		SMSSender smsSender = new SMSSender();
+//		
+//		SMS sms = sendService.waitChecker();
+//				
+//		if(sms!=null) {
+//			String result=smsSender.send(sms.getReceiver (), sms.getSender(),
+//					sms.getSmsContent(), sms.getSmsNo());
+//			if(result.charAt(8)=='O')
+//			{				
+//				int sub=result.indexOf("OK");
+//				String msgId_s=result.substring(sub+2).trim();
+//				
+////				sendService.msgIdInsert(msgId_s);
+//				sendService.ingUpdate(sms.getSmsNo());
+//				
+//			}
+//			else if(result.charAt(8)=='N') {
+//				int sub=result.indexOf("NO");
+//				result=result.substring(sub+2);
+//				updateCode.put("result_code", result);
+//				updateCode.put("sms_no", sms.getSmsNo());
+//				sendService.codeUpdate(updateCode);
+//				sendService.compUpdate(sms.getSmsNo());
+//			}
+//		}				
+//	}
 	
 	public void recvReport() {
 		Map<String, Object> updateCode= new HashMap<>();

@@ -28,7 +28,7 @@ public class Scheduler {
 	public Runnable getRunnable() {
 		return ()->{
 			SMSSender sender = new SMSSender();
-			sender.ping();
+//			sender.ping();
 		};
 	}
 	
