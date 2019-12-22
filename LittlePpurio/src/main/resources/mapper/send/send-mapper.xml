@@ -22,7 +22,19 @@
 	<select id="waitChecker" resultType="sms">
 		SELECT sms.sms_no, sms.receiver,send.sms_content, send.sender
 		FROM sms INNER JOIN send ON sms.send_no=send.send_no
-		WHERE sms.`status`='wait'
+		WHERE sms.state='wait'
+		ORDER BY sms.sms_no ASC LIMIT 1
+	</select>
+	
+	
+	<update id="msgIdUpdate" parameterType="map">
+	UPDATE sms SET msg_id=#{msg_id} WHERE sms_no=#{sms_no};
+	</update>
+	
+	<select id="pickData" resultType="sms">
+		SELECT sms.sms_no, sms.receiver,send.sms_content, send.sender
+		FROM sms INNER JOIN send ON sms.send_no=send.send_no
+		WHERE sms.state='wait' AND sms.send_no=#{send_no}
 		ORDER BY sms.sms_no ASC LIMIT 1
 	</select>
 	
@@ -33,10 +45,14 @@
 	<!-- sms.receiver, send.sms_content, send.sender, sms.sms_no -->
 
 	<update id="ingUpdate" parameterType="int">
-		UPDATE sms SET `status`='ing' WHERE sms_no = #{sms_no}
+		UPDATE sms SET state='ing' WHERE sms_no = #{sms_no}
 	</update>
 	<update id="compUpdate">
-		UPDATE sms SET `status`='comp' WHERE sms_no = #{sms_no}
+		UPDATE sms SET state='comp' WHERE sms_no = #{sms_no}
+	</update>
+	
+	<update id="compUpdate2" parameterType ="int">
+		UPDATE SMS SET state='comp' WHERE msg_id= #{msg_id}
 	</update>
 
 </mapper>

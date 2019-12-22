@@ -14,5 +14,8 @@ public interface SendDAO {
 	int compUpdate(int param);
 	SMS waitChecker();
 	int codeUpdate(Map param);
+	SMS pickData(int param);
+	int msgIdUpdate(Map param);
+	int compUpdate2(String param);
 
 }
