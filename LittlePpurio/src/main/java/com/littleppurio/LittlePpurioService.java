@@ -1,5 +1,7 @@
 package com.littleppurio;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -15,6 +17,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.littleppurio.client.Report;
+import com.littleppurio.common.SendThread;
 import com.littleppurio.send.controller.SendController;
 
 @Service
@@ -43,7 +46,7 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     	//SendController sendController = new SendController();
     	
     	//sendController.sendMsg();
- 
+    	
     }
     
     @Override
