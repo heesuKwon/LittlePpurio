@@ -9,7 +9,7 @@
 		values (#{sender}, #{msg_content})
 	</insert>
 	<select id="selectSendNo" resultType="int">
-		SELECT send_no FROM send ORDER BY send_no DESC LIMIT 1
+		SELECT send_no FROM send_tb ORDER BY send_no DESC LIMIT 1
 	</select>
 	<insert id="insertSms" parameterType="map">
 		insert into message_tb (receiver, send_no_fk) values (#{receiver}, #{send_no_fk})

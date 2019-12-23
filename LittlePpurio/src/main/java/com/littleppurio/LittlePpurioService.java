@@ -44,8 +44,9 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     	
     	//sendController.sendMsg();
     	
-    	ReportThread reportThread = new ReportThread();
-    	Thread thread = new Thread(reportThread);
+//    	System.out.println("reportthread 생성");
+//    	ReportThread reportThread = new ReportThread();
+//    	Thread thread = new Thread(reportThread);
 //    	thread.start();
     }
     

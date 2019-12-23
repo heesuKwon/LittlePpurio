@@ -68,7 +68,9 @@ public class ResultController {
 	public ModelAndView removeReport(ModelAndView mav) {
 		System.out.println("removeReport메소드");
 		Report report = new Report();
+		report.connectSocket();
 		String result = report.receiveReport();
+		report.closeSocket();
 //		System.out.println(result);
 		System.out.println("removeReport메소드 종료");
 		

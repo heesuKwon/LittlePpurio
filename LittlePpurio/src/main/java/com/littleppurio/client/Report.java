@@ -76,11 +76,15 @@ public class Report {
 		
 		//서버로부터 데이터 받기
 		//11byte
-		byte[] result = new byte[40];
-		receReport.read(result,0,40);
+		byte[] result = new byte[8];
+		receReport.read(result,0,8);
+        String size_s = new String(result);
+        int size = Integer.parseInt(size_s);
 
+        byte[] recvData = new byte[size];
+        receReport.read(recvData,0,size);
 		//수신메시지 출력
-		message = new String(result);
+		message = new String(recvData);
 		String out = String.format("DATA recieve - %s", message);
 		System.out.println(out);	
 
@@ -108,17 +112,13 @@ public class Report {
 				//11byte
 				byte[] result = new byte[8];
 				receReport.read(result,0,8);
-				long size=0;
-		        for(int i=0;i<8;i++) {
-		            size |= ((result[i]& 0xff)<< (8*i));
-		        }
-		        
-		        System.out.println("size="+size);
+		        String size_s = new String(result);
+		        int size = Integer.parseInt(size_s);
 
-//		        byte[] data = new byte[size];
-//		        receReport.read()
+		        byte[] data = new byte[size];
+		        receReport.read(data,0,size);
 				//수신메시지 출력
-				message = new String(result);
+				message = new String(data);
 				String out = String.format("report recieve - %s", message);
 				System.out.println(out);	
 

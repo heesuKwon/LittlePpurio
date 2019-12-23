@@ -27,7 +27,9 @@ public class SpringAsyncConfig {
         taskExecutor.setQueueCapacity(10);
         taskExecutor.setThreadNamePrefix("Executor-");
         taskExecutor.initialize();
-        taskExecutor.execute(new SendThread());
+//        taskExecutor.execute(new SendThread());
+//        taskExecutor.execute(new SendThread());
+//        taskExecutor.submit(new SendThread());
         return new HandlingExecutor(taskExecutor); // HandlingExecutor로 wrapping 합니다.
     }
  

@@ -143,11 +143,15 @@ public class Client {
 		
 		//서버로부터 데이터 받기
 		//11byte
-		byte[] result = new byte[40];
-		receiver.read(result,0,40);
+		byte[] result = new byte[8];
+		receiver.read(result,0,8);
+        String size_s = new String(result);
+        int size = Integer.parseInt(size_s);
 
+        byte[] recvData = new byte[size];
+        receiver.read(recvData,0,size);
 		//수신메시지 출력
-		message = new String(result);
+		message = new String(recvData);
 		String out = String.format("DATA recieve - %s", message);
 		System.out.println(out);	
 
