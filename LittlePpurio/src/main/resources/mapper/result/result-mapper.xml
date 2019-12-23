@@ -17,4 +17,21 @@
 	SELECT count(*) from sms where result_code=4100
 	</select>
 	
+	<select id="selectW_4410" resultType="int">
+	SELECT count(*) from sms where result_code=4410
+	</select>
+	
+	<select id="selectW_4413" resultType="int">
+	SELECT count(*) from sms where result_code=4413
+	</select>
+	
+	<select id="selectW_4420" resultType="int">
+	SELECT count(*) from sms where result_code=4420
+	</select>
+	
+	<select id="selectW_4421" resultType="int">
+	SELECT count(*) from sms where result_code=4421
+	</select>
+	
+	
 </mapper>

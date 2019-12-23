@@ -19,7 +19,6 @@ public class SendingJobControlTask {
     	
         signalQueue.stream()
             .forEach(sendNo -> {
-            	System.out.println("sendNO는!!!:"+sendNo);
                 sendingTask.sendingAsync(sendNo);
             });
     }

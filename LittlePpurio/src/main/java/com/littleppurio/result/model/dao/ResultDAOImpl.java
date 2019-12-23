@@ -24,4 +24,24 @@ public class ResultDAOImpl implements ResultDAO {
 	public int selectM_suc() {
 		return sqlSession.selectOne("result.selectM_suc");
 	}
+	
+	@Override
+	public int selectW_4410() {
+		return sqlSession.selectOne("result.selectW_4410");
+	}
+	
+	@Override
+	public int selectW_4413() {
+		return sqlSession.selectOne("result.selectW_4413");
+	}
+	
+	@Override
+	public int selectW_4420() {
+		return sqlSession.selectOne("result.selectW_4420");
+	}
+	
+	@Override
+	public int selectW_4421() {
+		return sqlSession.selectOne("result.selectW_4421");
+	}
 }
