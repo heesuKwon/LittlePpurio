@@ -37,7 +37,6 @@ public class SendThread extends Thread{
 		
 		while(true) {
 			Message sms = sendService.pickData(sendNo);
-			System.out.println(sms);
 			
 			if(sms==null) {
 				break;
@@ -45,7 +44,7 @@ public class SendThread extends Thread{
 			
 			String result=client.send(sms.getReceiver (), sms.getSender(),
 					sms.getMsgContent(), sms.getMsgNo());
-			if(result.charAt(8)=='O')
+			if(result.charAt(0)=='O')
 			{				
 				int sub=result.indexOf("OK");
 				String msgId_s=result.substring(sub+2).trim();
@@ -59,7 +58,7 @@ public class SendThread extends Thread{
 				sendService.ingUpdate(sms.getMsgNo());
 				
 			}
-			else if(result.charAt(8)=='N') {
+			else if(result.charAt(0)=='N') {
 				int sub=result.indexOf("NO");
 				result=result.substring(sub+2);
 				updateCode.put("result_cd", result);

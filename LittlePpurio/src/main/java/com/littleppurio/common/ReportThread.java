@@ -38,7 +38,7 @@ public class ReportThread implements Runnable{
 		int end = result.indexOf("PHONE:=");
 		String msgId = result.substring(start+7, end-1);
 		
-		if(result.charAt(8)=='R') {
+		if(result.charAt(0)=='R') {
 			int sub= result.indexOf("RESULT");
 			result=result.substring(sub+8,sub+12);
 			updateCode.put("result_code", result);
