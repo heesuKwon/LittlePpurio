@@ -11,7 +11,7 @@ public class SendingJobControlTask {
     @Autowired
     SendingTask sendingTask;
 
-	public Queue<Integer> signalQueue; /* = new LinkedList<>(); */
+	public Queue<Integer> signalQueue = new LinkedList<>();
 
     public void startSending() {    	
 //    	signalQueue.add(1);

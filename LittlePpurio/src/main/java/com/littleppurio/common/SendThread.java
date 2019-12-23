@@ -31,11 +31,13 @@ public class SendThread implements Runnable{
 	
 	public String sendMsg(int sendNo) {
 		System.out.println(sendNo+" thread 동작");
-		Map<String, Object> updateCode= new HashMap<>();
-		Map<String, Object> updateMsgid =new HashMap<>();
+		Map<String, Object> updateCode = new HashMap<>();
+		Map<String, Object> updateMsgid = new HashMap<>();
 		
 		while(true) {
 			SMS sms = sendService.pickData(sendNo);
+			
+			System.out.println(sms);
 			
 			if(sms==null) {
 				break;
