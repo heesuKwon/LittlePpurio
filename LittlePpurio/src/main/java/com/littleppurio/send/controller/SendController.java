@@ -21,6 +21,7 @@ public class SendController {
 
 	@Autowired
 	SendService sendService;
+	
 	@Autowired
 	SendingJobControlTask sendQu;
 	
@@ -30,7 +31,7 @@ public class SendController {
 		// 메시지 내용 가져오기		
 		Map<String,String> insertSend = new HashMap<>();
 		boolean sucs = false;
-		
+
 		insertSend.put("sender", req.getParameter("sender"));
 		insertSend.put("sms_content", req.getParameter("sendMessage"));
 		
@@ -54,8 +55,7 @@ public class SendController {
 				}
 			}
 			sendQu.signalQueue.add(sendNo);
-			sendQu.startSending();
-			
+			sendQu.startSending();			
 		}
 		
 		
