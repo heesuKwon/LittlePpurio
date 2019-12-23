@@ -51,7 +51,7 @@ public class SendThread implements Runnable{
 				String msgId_s=result.substring(sub+2).trim();
 				
 				updateMsgid.put("msg_id",msgId_s);
-				updateMsgid.put("sms_no", sms.getSmsNo());
+				updateMsgid.put("msg_no", sms.getSmsNo());
 				
 				sendService.msgIdUpdate(updateMsgid);
 				sendService.ingUpdate(sms.getSmsNo());
@@ -60,8 +60,8 @@ public class SendThread implements Runnable{
 			else if(result.charAt(8)=='N') {
 				int sub=result.indexOf("NO");
 				result=result.substring(sub+2);
-				updateCode.put("result_code", result);
-				updateCode.put("sms_no", sms.getSmsNo());
+				updateCode.put("result_cd", result);
+				updateCode.put("msg_no", sms.getSmsNo());
 				sendService.codeUpdate(updateCode);
 				sendService.compUpdate(sms.getSmsNo());
 			}

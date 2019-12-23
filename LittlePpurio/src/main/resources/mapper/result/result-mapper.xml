@@ -3,34 +3,34 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="result">
-	<select id="selectSmsCnt" resultType="int">
+	<select id="selectmessage_tbCnt" resultType="int">
 
-		SELECT count(*) FROM (sms JOIN send ON send.send_no=sms.send_no) WHERE
-		( sms_date &gt; LAST_DAY(NOW() - interval 1 month) AND sms_date &lt;=
+		SELECT count(*) FROM (message_tb JOIN send_tb ON send_tb.send_no=message_tb.send_no) WHERE
+		( msg_dt &gt; LAST_DAY(NOW() - interval 1 month) AND msg_dt &lt;=
 		LAST_DAY(NOW()) );
 	</select>
 	
 	<select id="selectM_total" resultType="int">
-	SELECT count(*) from sms
+	SELECT count(*) from message_tb
 	</select>
 	<select id="selectM_suc" resultType="int">
-	SELECT count(*) from sms where result_code=4100
+	SELECT count(*) from message_tb where result_cd=4100
 	</select>
 	
 	<select id="selectW_4410" resultType="int">
-	SELECT count(*) from sms where result_code=4410
+	SELECT count(*) from message_tb where result_cd=4410
 	</select>
 	
 	<select id="selectW_4413" resultType="int">
-	SELECT count(*) from sms where result_code=4413
+	SELECT count(*) from message_tb where result_cd=4413
 	</select>
 	
 	<select id="selectW_4420" resultType="int">
-	SELECT count(*) from sms where result_code=4420
+	SELECT count(*) from message_tb where result_cd=4420
 	</select>
 	
 	<select id="selectW_4421" resultType="int">
-	SELECT count(*) from sms where result_code=4421
+	SELECT count(*) from message_tb where result_cd=4421
 	</select>
 	
 	

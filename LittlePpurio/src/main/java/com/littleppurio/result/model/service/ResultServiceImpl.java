@@ -25,4 +25,24 @@ public class ResultServiceImpl implements ResultService{
 	public int selectM_suc() {
 		return resultDAO.selectM_suc();
 	}
+	
+	@Override
+	public int selectW_4410() {
+		return resultDAO.selectW_4410();
+	}
+	
+	@Override
+	public int selectW_4413() {
+		return resultDAO.selectW_4413();
+	}
+	
+	@Override
+	public int selectW_4420() {
+		return resultDAO.selectW_4420();
+	}
+	
+	@Override
+	public int selectW_4421() {
+		return resultDAO.selectW_4421();
+	}
 }

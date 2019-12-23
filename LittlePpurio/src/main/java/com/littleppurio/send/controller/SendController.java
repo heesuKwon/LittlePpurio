@@ -33,7 +33,7 @@ public class SendController {
 		boolean sucs = false;
 
 		insertSend.put("sender", req.getParameter("sender"));
-		insertSend.put("sms_content", req.getParameter("sendMessage"));
+		insertSend.put("msg_content", req.getParameter("sendMessage"));
 		
 		if(sendService.insertSend(insertSend)==1)
 		{
@@ -79,11 +79,10 @@ public class SendController {
 		if(result.charAt(8)=='R') {
 			int sub= result.indexOf("RESULT");
 			result=result.substring(sub+8,sub+12);
-			updateCode.put("result_code", result);
+			updateCode.put("result_cd", result);
 			updateCode.put("msg_id", msgId);
 			sendService.codeUpdate(updateCode);
 			sendService.compUpdate2(msgId);
-			//sendService.compUpdate(msgId);
 		}
 	}
 }
