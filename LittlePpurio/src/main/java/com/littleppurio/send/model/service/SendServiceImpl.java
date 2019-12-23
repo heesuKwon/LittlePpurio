@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.littleppurio.client.SMSSender;
 import com.littleppurio.send.model.dao.SendDAO;
-import com.littleppurio.send.model.vo.SMS;
+import com.littleppurio.send.model.vo.Message;
 
 @Service
 public class SendServiceImpl implements SendService {
@@ -49,7 +49,7 @@ public class SendServiceImpl implements SendService {
 	}
 	
 	@Override
-	public SMS waitChecker() {
+	public Message waitChecker() {
 		return sendDAO.waitChecker();
 	}
 	
@@ -59,7 +59,7 @@ public class SendServiceImpl implements SendService {
 	}
 	
 	@Override
-	public SMS pickData(int param) {
+	public Message pickData(int param) {
 		return sendDAO.pickData(param);
 	}
 	

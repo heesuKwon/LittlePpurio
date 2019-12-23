@@ -2,7 +2,7 @@ package com.littleppurio.send.model.dao;
 
 import java.util.Map;
 
-import com.littleppurio.send.model.vo.SMS;
+import com.littleppurio.send.model.vo.Message;
 
 public interface SendDAO {
 	
@@ -12,9 +12,9 @@ public interface SendDAO {
 	int selectSmsNo();
 	int ingUpdate(int param);
 	int compUpdate(int param);
-	SMS waitChecker();
+	Message waitChecker();
 	int codeUpdate(Map param);
-	SMS pickData(int param);
+	Message pickData(int param);
 	int msgIdUpdate(Map param);
 	int compUpdate2(String param);
 

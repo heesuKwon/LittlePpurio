@@ -9,7 +9,7 @@
 		values (#{sender}, #{msg_content})
 	</insert>
 	<select id="selectSendNo" resultType="int">
-		SELECT send_no FROM send ORDER BY send_no DESC LIMIT 1
+		SELECT send_no FROM send_tb ORDER BY send_no DESC LIMIT 1
 	</select>
 	<insert id="insertSms" parameterType="map">
 		insert into message_tb (receiver, send_no_fk) values (#{receiver}, #{send_no_fk})
@@ -19,11 +19,11 @@
 	</select>
 
 
-	<select id="waitChecker" resultType="sms">
+	<select id="waitChecker" resultType="msg">
 		SELECT message_tb.msg_no, message_tb.receiver,send_tb.msg_content, send_tb.sender
 		FROM message_tb INNER JOIN send_tb ON message_tb.send_no_fk=send_tb.send_no
 		WHERE message_tb.msg_st='wait'
-		ORDER BY sms.sms_no ASC LIMIT 1
+		ORDER BY message.msg_no ASC LIMIT 1
 	</select>
 	
 	
@@ -31,10 +31,10 @@
 	UPDATE message_tb SET msg_id=#{msg_id} WHERE msg_no=#{msg_no};
 	</update>
 	
-	<select id="pickData" resultType="sms">
+	<select id="pickData" resultType="msg" parameterType="int">
 		SELECT message_tb.msg_no, message_tb.receiver,send_tb.msg_content, send_tb.sender
 		FROM message_tb INNER JOIN send_tb ON message_tb.send_no_fk=send_tb.send_no
-		WHERE message_tb.msg_st='wait' AND message_tb.send_no_fk=#{send_no}
+		WHERE message_tb.msg_st='wait' AND message_tb.send_no_fk=#{sendNo}
 		ORDER BY message_tb.msg_no ASC LIMIT 1
 	</select>
 	
