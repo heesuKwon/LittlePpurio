@@ -4,11 +4,11 @@ import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
 
-@Alias("sms")
+@Alias("msg")
 @Data 
-public class SMS {
-	private int smsNo;
-	private String smsContent;
+public class Message {
+	private int msgNo;
+	private String msgContent;
 	private String receiver;
 	private String sender;	
 	

@@ -26,6 +26,7 @@ public class SendingJobControlTask {
     	signalQueue.add(10);
         signalQueue.stream()
             .forEach(sendNo -> {
+            	System.out.println("queue에는 들어갔냐!!!!:"+sendNo);
                 sendingTask.sendingAsync(sendNo);
             });
     }

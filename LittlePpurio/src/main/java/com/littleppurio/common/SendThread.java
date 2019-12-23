@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 import com.littleppurio.client.Client;
 import com.littleppurio.send.model.service.SendService;
-import com.littleppurio.send.model.vo.SMS;
+import com.littleppurio.send.model.vo.Message;
 
 @Component
 public class SendThread extends Thread{
@@ -31,41 +31,44 @@ public class SendThread extends Thread{
 	
 	public String sendMsg(int sendNo) {
 		System.out.println(sendNo+" thread 동작");
-//		Map<String, Object> updateCode = new HashMap<>();
-//		Map<String, Object> updateMsgid = new HashMap<>();
-//		
-//		while(true) {
-//			SMS sms = sendService.pickData(sendNo);
-//			
-//			System.out.println(sms);
-//			
-//			if(sms==null) {
-//				break;
-//			}
-//			
-//			String result=client.send(sms.getReceiver (), sms.getSender(),
-//					sms.getSmsContent(), sms.getSmsNo());
-//			if(result.charAt(8)=='O')
-//			{				
-//				int sub=result.indexOf("OK");
-//				String msgId_s=result.substring(sub+2).trim();
-//				
-//				updateMsgid.put("msg_id",msgId_s);
-//				updateMsgid.put("msg_no", sms.getSmsNo());
-//				
-//				sendService.msgIdUpdate(updateMsgid);
-//				sendService.ingUpdate(sms.getSmsNo());
-//				
-//			}
-//			else if(result.charAt(8)=='N') {
-//				int sub=result.indexOf("NO");
-//				result=result.substring(sub+2);
-//				updateCode.put("result_cd", result);
-//				updateCode.put("msg_no", sms.getSmsNo());
-//				sendService.codeUpdate(updateCode);
-//				sendService.compUpdate(sms.getSmsNo());
-//			}
-//		}
+
+		Map<String, Object> updateCode = new HashMap<>();
+		Map<String, Object> updateMsgid = new HashMap<>();
+		
+		while(true) {
+			Message sms = sendService.pickData(sendNo);
+			System.out.println(sms);
+			
+			if(sms==null) {
+				break;
+			}
+			
+			String result=client.send(sms.getReceiver (), sms.getSender(),
+					sms.getMsgContent(), sms.getMsgNo());
+			if(result.charAt(8)=='O')
+			{				
+				int sub=result.indexOf("OK");
+				String msgId_s=result.substring(sub+2).trim();
+				
+				System.out.println("msgID!!!!!!:"+msgId_s);
+				
+				updateMsgid.put("msg_id",msgId_s);
+				updateMsgid.put("msg_no", sms.getMsgNo());
+				
+				sendService.msgIdUpdate(updateMsgid);
+				sendService.ingUpdate(sms.getMsgNo());
+				
+			}
+			else if(result.charAt(8)=='N') {
+				int sub=result.indexOf("NO");
+				result=result.substring(sub+2);
+				updateCode.put("result_cd", result);
+				updateCode.put("msg_no", sms.getMsgNo());
+				sendService.codeUpdate(updateCode);
+				sendService.compUpdate(sms.getMsgNo());
+			}
+		}
+		
 		return sendNo+"thread--------";
 	}
 }
