@@ -9,4 +9,12 @@
 		( sms_date &gt; LAST_DAY(NOW() - interval 1 month) AND sms_date &lt;=
 		LAST_DAY(NOW()) );
 	</select>
+	
+	<select id="selectM_total" resultType="int">
+	SELECT count(*) from sms
+	</select>
+	<select id="selectM_suc" resultType="int">
+	SELECT count(*) from sms where result_code=4100
+	</select>
+	
 </mapper>

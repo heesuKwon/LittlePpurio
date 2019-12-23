@@ -26,12 +26,11 @@ public class SendController {
 
 	@Autowired
 	SendService sendService;
-	LittlePpurioService littlePpurioSerivce;
+	@Autowired
+	SendingJobControlTask sendQu;
 	
 	@RequestMapping(value = "/send",method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView send(HttpServletRequest req, HttpServletResponse res, ModelAndView mav){
-
-		SendingJobControlTask sendQu= new SendingJobControlTask();
 		
 		// 메시지 내용 가져오기		
 		Map<String,String> insertSend = new HashMap<>();
@@ -59,8 +58,8 @@ public class SendController {
 					sucs = true;
 				}
 			}
-			
 			sendQu.signalQueue.add(sendNo);
+			sendQu.startSending();
 			
 		}
 		

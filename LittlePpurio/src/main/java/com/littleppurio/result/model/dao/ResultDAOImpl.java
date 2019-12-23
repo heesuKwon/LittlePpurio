@@ -14,4 +14,14 @@ public class ResultDAOImpl implements ResultDAO {
 	public int selectSmsCnt() {
 		return sqlSession.selectOne("result.selectSmsCnt");
 	}
+	
+	@Override
+	public int selectM_total() {
+		return sqlSession.selectOne("result.selectM_total");
+	}
+	
+	@Override
+	public int selectM_suc() {
+		return sqlSession.selectOne("result.selectM_suc");
+	}
 }

@@ -65,7 +65,11 @@
 
 		<div class=bottom>
 			<div class="pie-container">
-				<canvas id="pie"></canvas>
+				<canvas id="pie">
+				<div>
+				<p>성공률: ${success}</p>
+				</div>
+				</canvas>
 			</div>
 
 			<div class="horizontal-container">
@@ -135,7 +139,7 @@ var pieChart = new Chart(pieContext,{
 		labels: ["성공","실패"],
 		datasets:[{
 			label: '성공률',
-			data: [95,5],
+			data: [${success},${fail}],
 			backgroundColor:[
 				'rgba(54,162,235,0.7)',
 				'rgba(255, 99, 132, 0.7)'
@@ -166,7 +170,7 @@ var horizontalContext = document.getElementById("horizontalBar").getContext('2d'
 var horizontalChart = new Chart(horizontalContext,{
 	type: 'horizontalBar',
 	data: {
-		labels: ["잘못된 \n전화번호", "형식 오류", "없는 번호", " 타임 아웃"],
+		labels: ["잘못된 \n전화번호", "형식 오류", "기타 에러", " 타임 아웃"],
 		datasets: [{
 			label: '실패 요인 통계',
 			data: [10,2,4,7],

@@ -15,4 +15,14 @@ public class ResultServiceImpl implements ResultService{
 	public int selectSmsCnt() {
 		return resultDAO.selectSmsCnt();
 	}
+	
+	@Override
+	public int selectM_total() {
+		return resultDAO.selectM_total();
+	}
+	
+	@Override
+	public int selectM_suc() {
+		return resultDAO.selectM_suc();
+	}
 }
