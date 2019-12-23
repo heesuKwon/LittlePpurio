@@ -27,12 +27,9 @@
 		<h1 id="title">Little Ppurio</h1>
 		<h2>통계 보기</h2>
 		<div style="position: relative; top: -10vh; float: right;" id="output">
-			<!-- <form action="a.html">
-			<input class="sendButton" type="button" value="발송하기">
-		</form> -->
 			<button class="btn btn-blue"
 				onClick="location.href='${pageContext.request.contextPath}/result'">문자보내기</button>
-			<!-- <button id="btn-send">발송하기</button> -->
+			<button id="btn-report">리포트받기</button>
 		</div>
 	</div>
 	<div align="center" class="chart-container">
@@ -204,6 +201,9 @@ var horizontalChart = new Chart(horizontalContext,{
 
 $('#btn-send').click(function(){
 	document.location.href="${pageContext.request.contextPath}/sendBtn";	
+});
+$('#btn-report').click(function(){
+	document.location.href="${pageContext.request.contextPath}/removeReport";	
 });
 </script>
 </html>

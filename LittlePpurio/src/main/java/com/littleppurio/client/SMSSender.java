@@ -7,7 +7,7 @@ import java.net.NoRouteToHostException;
 public class SMSSender {
 
 //	Client client = Client.getInstance();
-	Report report = Report.getInstance();
+//	Report report = Report.getInstance();
 	
 //	public SMSSender() {
 //		client.connectSocket();
@@ -67,16 +67,16 @@ public class SMSSender {
 //		return result;
 //	}
 		
-	public String receiveReport() {
-		String result = "";
-
-		try{
-			result = report.reportPacket();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		return result;
-	}
+//	public String receiveReport() {
+//		String result = "";
+//
+//		try{
+//			result = report.reportPacket();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		return result;
+//	}
 
 }

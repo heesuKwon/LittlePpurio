@@ -5,31 +5,29 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
-import java.util.HashMap;
-import java.util.Map;
 
 import com.littleppurio.common.SHA256Util;
 
 public class Report {
-	private static Report report = null;
+//	private static Report report = null;
 	private Socket socket;
-	public static OutputStream sendReport;
-	public static InputStream receReport;
+	private OutputStream sendReport;
+	private InputStream receReport;
 	private InetSocketAddress ipep;
 	
-	private Report() {
+	public Report() {
 		socket = new Socket();
 		
 		//리포트 초기화(연결대상 지정)
 		ipep = new InetSocketAddress("123.2.134.81", 15100);
 	}
 	
-	public static Report getInstance() {
-		if(report == null) {
-			report = new Report();
-		}
-		return report;
-	}
+//	public static Report getInstance() {
+//		if(report == null) {
+//			report = new Report();
+//		}
+//		return report;
+//	}
 	
 	public void connectSocket() {
 		try {
@@ -89,6 +87,17 @@ public class Report {
 		return message;
 	}
 	
+	public String receiveReport() {
+		String result = "";
+
+		try{
+			result = reportPacket();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
 	
 	public String reportPacket() throws IOException{
 		String message = "";
@@ -97,9 +106,17 @@ public class Report {
 			while(true) {
 				//서버로부터 데이터 받기
 				//11byte
-				byte[] result = new byte[180];
-				receReport.read(result,0,180);
+				byte[] result = new byte[8];
+				receReport.read(result,0,8);
+				long size=0;
+		        for(int i=0;i<8;i++) {
+		            size |= ((result[i]& 0xff)<< (8*i));
+		        }
+		        
+		        System.out.println("size="+size);
 
+//		        byte[] data = new byte[size];
+//		        receReport.read()
 				//수신메시지 출력
 				message = new String(result);
 				String out = String.format("report recieve - %s", message);

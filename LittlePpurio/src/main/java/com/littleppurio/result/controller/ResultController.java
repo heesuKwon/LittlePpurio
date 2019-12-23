@@ -3,8 +3,10 @@ package com.littleppurio.result.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.littleppurio.client.Report;
 import com.littleppurio.result.model.service.ResultService;
 
 @Controller
@@ -53,16 +55,16 @@ public class ResultController {
 //		return mav;
 //	}
 //	
-//	@RequestMapping("/removeReport")
-//	public ModelAndView removeReport(ModelAndView mav) {
-//		System.out.println("removeReport메소드");
-//		SMSSender smsSender = new SMSSender();
-//		String result = smsSender.receiveReport();
-////		System.out.println(result);
-//		System.out.println("removeReport메소드 종료");
-//		
-//		mav.setViewName("result");
-//		return mav;
-//	}
+	@RequestMapping("/removeReport")
+	public ModelAndView removeReport(ModelAndView mav) {
+		System.out.println("removeReport메소드");
+		Report report = new Report();
+		String result = report.receiveReport();
+//		System.out.println(result);
+		System.out.println("removeReport메소드 종료");
+		
+		mav.setViewName("result");
+		return mav;
+	}
 	
 }
