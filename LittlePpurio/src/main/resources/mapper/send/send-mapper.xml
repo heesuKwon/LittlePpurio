@@ -5,54 +5,54 @@
 <mapper namespace="send">
 	<insert id="insertSend" useGeneratedKeys="true"
 		parameterType="string">
-		insert into send (sender, sms_content)
-		values (#{sender}, #{sms_content})
+		insert into send_tb (sender, msg_content)
+		values (#{sender}, #{msg_content})
 	</insert>
 	<select id="selectSendNo" resultType="int">
 		SELECT send_no FROM send ORDER BY send_no DESC LIMIT 1
 	</select>
 	<insert id="insertSms" parameterType="map">
-		insert into sms (receiver, send_no) values (#{receiver}, #{send_no})
+		insert into message_tb (receiver, send_no_fk) values (#{receiver}, #{send_no_fk})
 	</insert>
 	<select id="selectSmsNo" resultType="int">
-		SELECT max(sms_no) FROM sms
+		SELECT max(msg_no) FROM message_tb
 	</select>
 
 
 	<select id="waitChecker" resultType="sms">
-		SELECT sms.sms_no, sms.receiver,send.sms_content, send.sender
-		FROM sms INNER JOIN send ON sms.send_no=send.send_no
-		WHERE sms.state='wait'
+		SELECT message_tb.msg_no, message_tb.receiver,send_tb.msg_content, send_tb.sender
+		FROM message_tb INNER JOIN send_tb ON message_tb.send_no_fk=send_tb.send_no
+		WHERE message_tb.msg_st='wait'
 		ORDER BY sms.sms_no ASC LIMIT 1
 	</select>
 	
 	
 	<update id="msgIdUpdate" parameterType="map">
-	UPDATE sms SET msg_id=#{msg_id} WHERE sms_no=#{sms_no};
+	UPDATE message_tb SET msg_id=#{msg_id} WHERE msg_no=#{msg_no};
 	</update>
 	
 	<select id="pickData" resultType="sms">
-		SELECT sms.sms_no, sms.receiver,send.sms_content, send.sender
-		FROM sms INNER JOIN send ON sms.send_no=send.send_no
-		WHERE sms.state='wait' AND sms.send_no=#{send_no}
-		ORDER BY sms.sms_no ASC LIMIT 1
+		SELECT message_tb.msg_no, message_tb.receiver,send_tb.msg_content, send_tb.sender
+		FROM message_tb INNER JOIN send_tb ON message_tb.send_no_fk=send_tb.send_no
+		WHERE message_tb.msg_st='wait' AND message_tb.send_no_fk=#{send_no}
+		ORDER BY message_tb.msg_no ASC LIMIT 1
 	</select>
 	
 	<update id="codeReport" parameterType ="map">
-	UPDATE sms SET result_code=#{result_code} WHERE msg_id = #{msg_id}
+	UPDATE message_tb SET result_cd=#{result_cd} WHERE msg_id = #{msg_id}
 	</update>
 
 	<!-- sms.receiver, send.sms_content, send.sender, sms.sms_no -->
 
 	<update id="ingUpdate" parameterType="int">
-		UPDATE sms SET state='ing' WHERE sms_no = #{sms_no}
+		UPDATE message_tb SET msg_st='ing' WHERE msg_no = #{msg_no}
 	</update>
 	<update id="compUpdate">
-		UPDATE sms SET state='comp' WHERE sms_no = #{sms_no}
+		UPDATE message_tb SET msg_st='comp' WHERE msg_no = #{msg_no}
 	</update>
 	
 	<update id="compUpdate2" parameterType ="int">
-		UPDATE SMS SET state='comp' WHERE msg_id= #{msg_id}
+		UPDATE message_tb SET msg_st='comp' WHERE msg_id= #{msg_id}
 	</update>
 
 </mapper>

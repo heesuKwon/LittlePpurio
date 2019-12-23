@@ -170,7 +170,7 @@ var horizontalChart = new Chart(horizontalContext,{
 		labels: ["잘못된 \n전화번호", "형식 오류", "기타 에러", " 타임 아웃"],
 		datasets: [{
 			label: '실패 요인 통계',
-			data: [10,2,4,7],
+			data: [${w_4410},${w_4413},${w_4420},${w_4421}],
 			backgroundColor:[
 				'rgba(255,99,132,0.7)',
 				'rgba(54,162,235,0.7)',
@@ -190,11 +190,16 @@ var horizontalChart = new Chart(horizontalContext,{
 	options: {
 		maintainAspectRatio: true,
 		scales: {
-			ticks:{
-				display: false,
-				maxTicksLimit:0,
-				beginAtZero: false
-			}
+			xAxes:[{
+				ticks:{
+					display: false,
+					maxTicksLimit:0,
+					beginAtZero: true
+				}
+			}],
+			yAxes:[{
+				stacked: true
+			}]
 		}
 	}
 });
@@ -205,5 +210,6 @@ $('#btn-send').click(function(){
 $('#btn-report').click(function(){
 	document.location.href="${pageContext.request.contextPath}/removeReport";	
 });
+
 </script>
 </html>

@@ -1,11 +1,8 @@
 package com.littleppurio.send.controller;
 
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,11 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.littleppurio.LittlePpurioService;
 import com.littleppurio.client.SMSSender;
 import com.littleppurio.common.SendingJobControlTask;
 import com.littleppurio.send.model.service.SendService;
-import com.littleppurio.send.model.vo.SMS;
 
 @Controller
 public class SendController {
@@ -38,7 +33,7 @@ public class SendController {
 		boolean sucs = false;
 
 		insertSend.put("sender", req.getParameter("sender"));
-		insertSend.put("sms_content", req.getParameter("sendMessage"));
+		insertSend.put("msg_content", req.getParameter("sendMessage"));
 		
 		if(sendService.insertSend(insertSend)==1)
 		{
@@ -52,7 +47,7 @@ public class SendController {
 			for(int i=0;i<insertNumber.length;i++)
 			{
 				insertSms.put("receiver", insertNumber[i]);
-				insertSms.put("send_no", sendNo);
+				insertSms.put("send_no_fk", sendNo);
 
 				if(sendService.insertSms(insertSms)==1)
 				{
@@ -69,43 +64,6 @@ public class SendController {
 		
 		return mav;
 	}
-
-
-
-//	public void sendMsg() throws Exception{
-//		Map<String, Object> updateCode= new HashMap<>();
-//		Map<String, Object> updateMsgid =new HashMap<>();
-//		
-//		SMSSender smsSender = new SMSSender();
-////		sendService.sending();
-//		
-//		SMS sms = sendService.waitChecker();
-////				
-//		if(sms!=null) {
-//			String result=smsSender.send(sms.getReceiver(), sms.getSender(),
-//					sms.getSmsContent(), sms.getSmsNo());
-//			if(result.charAt(8)=='O')
-//			{				
-//				int sub=result.indexOf("OK");
-//				String msgId_s=result.substring(sub+2).trim();
-//				
-//				updateMsgid.put("msg_id",msgId_s);
-//				updateMsgid.put("sms_no", sms.getSmsNo());
-//				
-//				sendService.msgIdUpdate(updateMsgid);
-//				sendService.ingUpdate(sms.getSmsNo());
-//				
-//			}
-//			else if(result.charAt(8)=='N') {
-//				int sub=result.indexOf("NO");
-//				result=result.substring(sub+2);
-//				updateCode.put("result_code", result);
-//				updateCode.put("sms_no", sms.getSmsNo());
-//				sendService.codeUpdate(updateCode);
-//				sendService.compUpdate(sms.getSmsNo());
-//			}
-//		}				
-//	}
 	
 	
 //	public void recvReport() {
@@ -128,4 +86,5 @@ public class SendController {
 //			//sendService.compUpdate(msgId);
 //		}
 //	}
+
 }
