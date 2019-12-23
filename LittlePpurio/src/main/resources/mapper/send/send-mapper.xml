@@ -21,7 +21,7 @@
 
 	<select id="waitChecker" resultType="sms">
 		SELECT message_tb.msg_no, message_tb.receiver,send_tb.msg_content, send_tb.sender
-		FROM message_tb INNER JOIN send_tb ON message_tb.send_no=send_tb.send_no
+		FROM message_tb INNER JOIN send_tb ON message_tb.send_no_fk=send_tb.send_no
 		WHERE message_tb.msg_st='wait'
 		ORDER BY sms.sms_no ASC LIMIT 1
 	</select>
@@ -33,8 +33,8 @@
 	
 	<select id="pickData" resultType="sms">
 		SELECT message_tb.msg_no, message_tb.receiver,send_tb.msg_content, send_tb.sender
-		FROM message_tb INNER JOIN send_tb ON message_tb.send_no=send_tb.send_no
-		WHERE message_tb.msg_st='wait' AND message_tb.send_no=#{send_no}
+		FROM message_tb INNER JOIN send_tb ON message_tb.send_no_fk=send_tb.send_no
+		WHERE message_tb.msg_st='wait' AND message_tb.send_no_fk=#{send_no}
 		ORDER BY message_tb.msg_no ASC LIMIT 1
 	</select>
 	

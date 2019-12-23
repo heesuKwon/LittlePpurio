@@ -47,7 +47,7 @@ public class SendController {
 			for(int i=0;i<insertNumber.length;i++)
 			{
 				insertSms.put("receiver", insertNumber[i]);
-				insertSms.put("send_no", sendNo);
+				insertSms.put("send_no_fk", sendNo);
 
 				if(sendService.insertSms(insertSms)==1)
 				{

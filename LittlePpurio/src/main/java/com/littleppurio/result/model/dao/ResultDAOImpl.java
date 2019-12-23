@@ -12,7 +12,7 @@ public class ResultDAOImpl implements ResultDAO {
 
 	@Override
 	public int selectSmsCnt() {
-		return sqlSession.selectOne("result.selectSmsCnt");
+		return sqlSession.selectOne("result.selectmessage_tbCnt");
 	}
 	
 	@Override

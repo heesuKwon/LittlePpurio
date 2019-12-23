@@ -5,7 +5,7 @@
 <mapper namespace="result">
 	<select id="selectmessage_tbCnt" resultType="int">
 
-		SELECT count(*) FROM (message_tb JOIN send_tb ON send_tb.send_no=message_tb.send_no) WHERE
+		SELECT count(*) FROM (message_tb JOIN send_tb ON send_tb.send_no=message_tb.send_no_fk) WHERE
 		( msg_dt &gt; LAST_DAY(NOW() - interval 1 month) AND msg_dt &lt;=
 		LAST_DAY(NOW()) );
 	</select>
