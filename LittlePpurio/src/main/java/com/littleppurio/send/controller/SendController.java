@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.littleppurio.client.SMSSender;
-import com.littleppurio.common.SendingJobControlTask;
+import com.littleppurio.client.SendingJobControlTask;
 import com.littleppurio.send.model.service.SendService;
 
 @Controller
@@ -64,27 +63,4 @@ public class SendController {
 		
 		return mav;
 	}
-	
-	
-//	public void recvReport() {
-//		Map<String, Object> updateCode= new HashMap<>();
-//		SMSSender smsSender = new SMSSender();
-//		
-//		String result = smsSender.receiveReport();
-//		
-//		int start = result.lastIndexOf("MSGID:=");
-//		int end = result.indexOf("PHONE:=");
-//		String msgId = result.substring(start+7, end-1);
-//		
-//		if(result.charAt(0)=='R') {
-//			int sub= result.indexOf("RESULT");
-//			result=result.substring(sub+8,sub+12);
-//			updateCode.put("result_code", result);
-//			updateCode.put("msg_id", msgId);
-//			sendService.codeUpdate(updateCode);
-//			sendService.compUpdate2(msgId);
-//			//sendService.compUpdate(msgId);
-//		}
-//	}
-
 }

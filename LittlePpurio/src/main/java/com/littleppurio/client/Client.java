@@ -12,8 +12,6 @@ import com.littleppurio.common.SHA256Util;
 import com.littleppurio.common.Scheduler;
 
 public class Client {
-	
-//	private static Client client = null;
 	private Socket socket;
 	private OutputStream sender;
 	private InputStream receiver;
@@ -21,18 +19,10 @@ public class Client {
 	
 	public Scheduler scheduler = new Scheduler();
 	
-	//private Client(){
 	public Client() {
 		//클라이언트 초기화(연결대상 지정)
 		ipep = new InetSocketAddress("123.2.134.81", 15001);
 	}
-	
-//	public static Client getInstance() {
-//		if(client == null) {
-//			client = new Client();
-//		}
-//		return client;
-//	}
 	
 	public void connectSocket() {
 		socket = new Socket();
@@ -50,7 +40,7 @@ public class Client {
 			String authInfo = "VERSION:=4.0\nUSERID:=daou_intern1\nPASSWD:="+encodePwd+"\nCV:=JD0001\n";
 			packet("AU",authInfo);
 			packet("ST","");			
-			scheduler.startScheduler();
+//			scheduler.startScheduler();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}		
@@ -59,7 +49,7 @@ public class Client {
 	public void closeSocket() {
 		try{				
 			packet("EN","");
-			scheduler.stopScheduler();
+//			scheduler.stopScheduler();
 			sender.close();
 			receiver.close();
 			socket.close();
@@ -98,7 +88,7 @@ public class Client {
 	
 	public String send(String phone, String callBack, String message, int smsNo) {
 
-		scheduler.stopScheduler();
+//		scheduler.stopScheduler();
 
 		//문자 전송		
 		String data = "VERSION:=4.0\nDEVICE:=sms\n"
@@ -117,7 +107,7 @@ public class Client {
 		catch (IOException e) {
 			e.printStackTrace();
 		}
-		scheduler.startScheduler();
+//		scheduler.startScheduler();
 
 		return result;
 	}

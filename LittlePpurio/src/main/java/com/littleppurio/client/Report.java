@@ -9,7 +9,6 @@ import java.net.Socket;
 import com.littleppurio.common.SHA256Util;
 
 public class Report {
-//	private static Report report = null;
 	private Socket socket;
 	private OutputStream sendReport;
 	private InputStream receReport;
@@ -22,12 +21,6 @@ public class Report {
 		ipep = new InetSocketAddress("123.2.134.81", 15100);
 	}
 	
-//	public static Report getInstance() {
-//		if(report == null) {
-//			report = new Report();
-//		}
-//		return report;
-//	}
 	
 	public void connectSocket() {
 		try {

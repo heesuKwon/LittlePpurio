@@ -1,4 +1,4 @@
-package com.littleppurio.common;
+package com.littleppurio.client;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -6,7 +6,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.littleppurio.client.Report;
 import com.littleppurio.send.model.service.SendService;
 
 @Component
@@ -45,7 +44,6 @@ public class ReportThread implements Runnable{
 			updateCode.put("msg_id", msgId);
 			sendService.codeUpdate(updateCode);
 			sendService.compUpdate2(msgId);
-			//sendService.compUpdate(msgId);
 		}
 	}
 }

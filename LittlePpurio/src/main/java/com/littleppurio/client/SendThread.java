@@ -1,19 +1,28 @@
-package com.littleppurio.common;
+package com.littleppurio.client;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.littleppurio.client.Client;
 import com.littleppurio.send.model.service.SendService;
 import com.littleppurio.send.model.vo.Message;
 
 @Component
 public class SendThread extends Thread{
 	
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
 	Client client = new Client();
+	
+	private boolean stopped = false;
+	//19초 sleep을 제거하기 위한 시간 간격
+	private LocalDateTime beforeTime; 
+	private LocalDateTime nowTime;
 	
 	@Autowired
 	SendService sendService;
@@ -21,17 +30,30 @@ public class SendThread extends Thread{
 	
 	public SendThread() {
 		client.connectSocket();
-		System.out.println("=======thread 생성=======");
+		logger.info("===========thread 생성=============");
 	}
 	
 	@Override
 	public void run() {
-//		System.out.println("스타트가 되는걸까?");
+		logger.info("===========thread run=============");
+//		ping();
+	}
+	
+	public void ping() {
+		try {
+			while(!stopped && !Thread.currentThread().isInterrupted()) {
+				logger.info("===========ping()=============");
+				client.ping();
+				Thread.sleep(19000);//19초간 멈춤
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String sendMsg(int sendNo) {
-		System.out.println(sendNo+" thread 동작");
 
+		logger.info(sendNo+" 전송 실행");
 		Map<String, Object> updateCode = new HashMap<>();
 		Map<String, Object> updateMsgid = new HashMap<>();
 		
@@ -47,11 +69,9 @@ public class SendThread extends Thread{
 			if(result.charAt(0)=='O')
 			{				
 				int sub=result.indexOf("OK");
-				String msgId_s=result.substring(sub+2).trim();
+				String msgId=result.substring(sub+2).trim();
 				
-				System.out.println("msgID!!!!!!:"+msgId_s);
-				
-				updateMsgid.put("msg_id",msgId_s);
+				updateMsgid.put("msg_id",msgId);
 				updateMsgid.put("msg_no", sms.getMsgNo());
 				
 				sendService.msgIdUpdate(updateMsgid);
@@ -66,8 +86,10 @@ public class SendThread extends Thread{
 				sendService.codeUpdate(updateCode);
 				sendService.compUpdate(sms.getMsgNo());
 			}
+			
+			beforeTime = LocalDateTime.now();
 		}
 		
-		return sendNo+"thread--------";
+		return sendNo+" 전송 종료";
 	}
 }
