@@ -84,7 +84,7 @@ public class SendThread extends Thread{
 				updateCode.put("result_cd", result);
 				updateCode.put("msg_no", sms.getMsgNo());
 				sendService.codeUpdate(updateCode);
-				sendService.compUpdate(sms.getMsgNo());
+				sendService.compUpdate_send(sms.getMsgNo());
 			}
 			
 			beforeTime = LocalDateTime.now();

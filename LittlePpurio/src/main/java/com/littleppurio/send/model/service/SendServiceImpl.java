@@ -41,8 +41,8 @@ public class SendServiceImpl implements SendService {
 	}
 	
 	@Override
-	public int compUpdate(int param) {
-		return sendDAO.compUpdate(param);
+	public int compUpdate_send(int param) {
+		return sendDAO.compUpdate_send(param);
 	}
 	
 	@Override
@@ -66,8 +66,13 @@ public class SendServiceImpl implements SendService {
 	}
 	
 	@Override
-	public int compUpdate2(String param) {
-		return sendDAO.compUpdate2(param);
+	public int compUpdate_report(String param) {
+		return sendDAO.compUpdate_report(param);
+	}
+	
+	@Override
+	public int msgIdChecker(String param) {
+		return sendDAO.msgIdChecker(param);
 	}
 	
 }

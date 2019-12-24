@@ -24,7 +24,7 @@ public class SendController {
 	@Autowired
 	SendingJobControlTask sendQu;
 	
-	@RequestMapping(value = "/send",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping("/send")
 	public ModelAndView send(HttpServletRequest req, HttpServletResponse res, ModelAndView mav){
 		
 		// 메시지 내용 가져오기		
@@ -54,12 +54,14 @@ public class SendController {
 				}
 			}
 			sendQu.signalQueue.add(sendNo);
-			sendQu.startSending();			
+			sendQu.startSending();
+			mav.addObject("sendNo",sendNo);
 		}
 		
 		
 		mav.setViewName("send");
 		mav.addObject("sucs", sucs);
+		
 		
 		return mav;
 	}

@@ -49,12 +49,13 @@ public class ReportThread implements Runnable{
 		if(result.charAt(0)=='R') {
 			int sub= result.indexOf("RESULT");
 			result=result.substring(sub+8,sub+12);
-			updateCode.put("result_code", result);
-			updateCode.put("msg_id", msgId);
-//			if(sendService.selectMsgId()==1) {
+			if(sendService.msgIdChecker(msgId)==1)
+			{
+				updateCode.put("result_code", result);
+				updateCode.put("msg_id", msgId);
 				sendService.codeUpdate(updateCode);
-				sendService.compUpdate2(msgId);
-//			}
+				sendService.compUpdate_report(msgId);
+			}
 		}
 	}
 }

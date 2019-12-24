@@ -45,4 +45,24 @@ public class ResultServiceImpl implements ResultService{
 	public int selectW_4421() {
 		return resultDAO.selectW_4421();
 	}
+	
+	@Override
+	public int selectResult_t(int param) {
+		return resultDAO.selectResult_t(param);
+	}
+	
+	@Override
+	public int selectResult_s(int param) {
+		return resultDAO.selectResult_s(param);
+	}
+	
+	@Override
+	public int selectResult_f(int param) {
+		return resultDAO.selectResult_f(param);
+	}
+	
+	@Override
+	public int selectResult_i(int param) {
+		return resultDAO.selectResult_i(param);
+	}
 }

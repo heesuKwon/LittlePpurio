@@ -41,8 +41,8 @@ public class SendDAOImpl implements SendDAO {
 	}
 	
 	@Override
-	public int compUpdate(int param) {
-		return sqlSession.update("send.compUpdate", param);
+	public int compUpdate_send(int param) {
+		return sqlSession.update("send.compUpdate_send", param);
 	}
 	
 	@Override
@@ -66,8 +66,13 @@ public class SendDAOImpl implements SendDAO {
 	}
 	
 	@Override
-	public int compUpdate2(String param) {
-		return sqlSession.update("send.compUpdate2",param);
+	public int compUpdate_report(String param) {
+		return sqlSession.update("send.compUpdate_report",param);
+	}
+	
+	@Override
+	public int msgIdChecker(String param) {
+		return sqlSession.selectOne("send.msgIdChecker",param);
 	}
 	
 }
