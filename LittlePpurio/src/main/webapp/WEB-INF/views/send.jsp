@@ -29,7 +29,7 @@
 		var input = document.createElement("input");
 
 		input.type = "file";
-		input.accept = "text/plain"; // 확장자가 xxx, yyy 일때, ".xxx, .yyy"
+		input.accept = "text/plain";
 
 		input.onchange = function(event) {
 			processFile(event.target.files[0]);
@@ -50,8 +50,7 @@
 			}
 		};
 
-		reader.readAsText(file, /* optional */"euc-kr");
-
+		reader.readAsText(file, "euc-kr");
 	}
 
 	//전화번호 형식 셋팅
@@ -205,6 +204,7 @@
 		}
 	}
 </script>
+
 <script>
 
 	window.onload = function sampleModalPopup(){
@@ -260,9 +260,9 @@
 				Ppurio</h1>
 			<h2 class="writesms" style="position: absolute; top: 100px">문자
 				작성</h2>
-			<input type="button" class="statisticButton btn btn-blue"
+			<input type="submit" class="statisticButton btn btn-blue"
 				value="통계보기"
-				onClick="location.href='${pageContext.request.contextPath}/result'">
+				onClick="location.href='${pageContext.request.contextPath}/result?sendNo=${sendNo}'">
 
 			<div class="phoneshape">
 				<form name="Input" id="Input" method="post"

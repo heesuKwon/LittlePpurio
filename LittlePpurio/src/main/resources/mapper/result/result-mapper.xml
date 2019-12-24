@@ -33,5 +33,53 @@
 	SELECT count(*) from message_tb where result_cd=4421
 	</select>
 	
+	<select id="selectResult_t" resultType="int" parameterType="int">
+	SELECT COUNT(*) FROM message_tb 
+	<choose>
+	<when test="#{send_no_fk}!=null">
+	WHERE send_no_fk=#{send_no_fk}
+	</when>
+	<otherwise>
+	WHERE send_no_fk = (Select MAX(send_no_fk) FROM message_tb)
+	</otherwise>
+	</choose>
+	</select>
+
+	<select id="selectResult_s" resultType="int" parameterType="int">
+	SELECT COUNT(*) FROM message_tb
+	<choose>
+	<when test="#{send_no_fk}!=null">
+	WHERE send_no_fk=#{send_no_fk} AND result_cd=4100
+	</when>
+	<otherwise>
+	WHERE send_no_fk = (Select MAX(send_no_fk) FROM message_tb) AND result_cd=4100
+	</otherwise>
+	</choose>
+	</select>
+	
+	<select id="selectResult_f" resultType="int" parameterType="int">
+	SELECT COUNT(*) FROM message_tb
+	<choose>
+	<when test="#{send_no_fk}!=null">
+	WHERE send_no_fk=#{send_no_fk} AND msg_st='comp' AND result_cd!=4100
+	</when>
+	<otherwise>
+	WHERE send_no_fk = (Select MAX(send_no_fk) FROM message_tb) AND msg_st='comp' AND result_cd!=4100
+	</otherwise>
+	</choose>
+	</select>
+	
+	<select id="selectResult_i" resultType="int" parameterType="int">
+	SELECT COUNT(*) FROM message_tb
+	<choose>
+	<when test="#{send_no_fk}!=null">
+	WHERE send_no_fk=#{send_no_fk} AND msg_st='ing'
+	</when>
+	<otherwise>
+	WHERE send_no_fk = (Select MAX(send_no_fk) FROM message_tb) AND msg_st='ing'
+	</otherwise>
+	</choose>
+	</select>
+
 	
 </mapper>

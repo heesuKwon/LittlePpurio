@@ -31,18 +31,53 @@
 			<input class="sendButton" type="button" value="발송하기">
 		</form> -->
 			<button class="btn btn-blue"
-				onClick="location.href='${pageContext.request.contextPath}/result'">문자보내기</button>
+				onClick="location.href='${pageContext.request.contextPath}/'">문자보내기</button>
 			<!-- <button id="btn-send">발송하기</button> -->
 		</div>
 	</div>
 	<div align="center" class="chart-container">
+	<input type="hidden" value="${param.sendNo}">
 
-		<div class="top">
+
+	<div class="top" style="position:relative">
+
+			<table class="table">
+				<thead class="thead-dark">
+				<tr>
+					<th scope="col">총 발송건</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<th scope="col">${result_t}</th>
+				</tr>
+				</tbody>
+				</table>
+				<table class="table">
+				<thead class="thead-dark">
+					<tr>
+						<th scope="col">발송성공</th>
+						<th scope="col">발송중</th>
+						<th scope="col">발송실패</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>${result_s}</td>
+						<td>${result_i}</td>
+						<td>${result_f}</td>
+					</tr>
+				</tbody>
+			</table>
+
+		</div>
+
+		<div class="middle">
 			<div class="bar-container">
 				<canvas id="myChart" style="padding-top: 40px; padding-right: 30px"></canvas>
 			</div>
 
-			<div class="costText">
+			<!-- <div class="costText">
 				<div align="center" lang="ko"
 					style="margin-top: 108px; font-style: bold;">
 					<p>총 전송량은 ${smsCnt} 건 입니다.</p>
@@ -60,7 +95,7 @@
 					<p style="float: left; color: rgb(192, 57, 43)">1000원 증가</p>
 				</div>
 
-			</div>
+			</div> -->
 		</div>
 
 		<div class=bottom>
@@ -81,8 +116,10 @@
 	</div>
 </body>
 <script>
-var barContext = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(barContext, {
+var lineContext = document.getElementById("myChart").getContext('2d');
+
+
+var myChart = new Chart(lineContext, {
     type: 'bar',
     data: {
         labels: ["1월", "2월", "3월", "4월", "5월", "6월","7월","8월","9월","10월","11월","12월"],
@@ -195,13 +232,10 @@ var horizontalChart = new Chart(horizontalContext,{
 		scales: {
 			xAxes:[{
 				ticks:{
-					display: false,
+					display: true,
 					maxTicksLimit:0,
 					beginAtZero: true
 				}
-			}],
-			yAxes:[{
-				stacked: true
 			}]
 		}
 	}
@@ -211,6 +245,5 @@ $('#btn-send').click(function(){
 	document.location.href="${pageContext.request.contextPath}/sendBtn";	
 });
 
-console.log(${w_4410});
 </script>
 </html>
