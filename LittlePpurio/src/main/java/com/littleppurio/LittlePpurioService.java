@@ -14,6 +14,7 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import com.littleppurio.client.ReportThread;
 import com.littleppurio.send.controller.SendController;
 
 @Service
@@ -37,6 +38,10 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     	//애플리케이션 생성시 한번만 실행
 //    	client.connectSocket();
 //    	report.connectSocket();
+    	
+    	ReportThread reportThread = new ReportThread();
+    	Thread thread = new Thread(reportThread);
+    	thread.start();
     }
     
     @Override

@@ -28,8 +28,7 @@
 		<h2>통계 보기</h2>
 		<div style="position: relative; top: -10vh; float: right;" id="output">
 			<button class="btn btn-blue"
-				onClick="location.href='${pageContext.request.contextPath}/result'">문자보내기</button>
-			<button id="btn-report">리포트받기</button>
+				onClick="location.href='${pageContext.request.contextPath}/'">문자보내기</button>
 		</div>
 	</div>
 	<div align="center" class="chart-container">
@@ -206,9 +205,6 @@ var horizontalChart = new Chart(horizontalContext,{
 
 $('#btn-send').click(function(){
 	document.location.href="${pageContext.request.contextPath}/sendBtn";	
-});
-$('#btn-report').click(function(){
-	document.location.href="${pageContext.request.contextPath}/removeReport";	
 });
 
 </script>
