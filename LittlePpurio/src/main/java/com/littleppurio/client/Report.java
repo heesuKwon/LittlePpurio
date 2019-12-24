@@ -115,7 +115,7 @@ public class Report {
 				String out = String.format("report recieve - %s", message);
 				System.out.println(out);	
 
-				String divCode = message.substring(8,10);
+				String divCode = message.substring(0,2);
 
 				byte[] responseOk = "00000002OK".getBytes("euc-kr");
 				String response = new String(responseOk);

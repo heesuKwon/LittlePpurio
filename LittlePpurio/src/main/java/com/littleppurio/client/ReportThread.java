@@ -6,11 +6,13 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.littleppurio.send.model.service.SendService;
 
 @Component
+@Scope("prototype")
 public class ReportThread implements Runnable{
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
@@ -29,15 +31,11 @@ public class ReportThread implements Runnable{
 		logger.info("=========== Report thread run=============");
 		while(true) {
 			recvReport();
-			try {
-				Thread.sleep(5000);//5초 일시정지
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
 		}
 	}
 		
 	public void recvReport() {
+
 		Map<String, Object> updateCode= new HashMap<>();
 		
 		String result = report.receiveReport();
@@ -49,7 +47,9 @@ public class ReportThread implements Runnable{
 		if(result.charAt(0)=='R') {
 			int sub= result.indexOf("RESULT");
 			result=result.substring(sub+8,sub+12);
-			if(sendService.msgIdChecker(msgId)==1)
+			
+			int isMsgId = sendService.msgIdChecker(msgId);
+			if(isMsgId==1)
 			{
 				updateCode.put("result_code", result);
 				updateCode.put("msg_id", msgId);

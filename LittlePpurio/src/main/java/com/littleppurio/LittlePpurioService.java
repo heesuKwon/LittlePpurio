@@ -39,9 +39,9 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
 //    	client.connectSocket();
 //    	report.connectSocket();
     	
-    	ReportThread reportThread = new ReportThread();
-    	Thread thread = new Thread(reportThread);
-    	thread.start();
+//    	ReportThread reportThread = new ReportThread();
+//    	Thread thread = new Thread(reportThread);
+//    	thread.start();
     }
     
     @Override
