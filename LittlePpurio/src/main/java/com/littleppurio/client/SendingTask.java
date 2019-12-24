@@ -1,4 +1,4 @@
-package com.littleppurio.common;
+package com.littleppurio.client;
 
 import java.util.concurrent.Future;
 
@@ -19,7 +19,6 @@ public class SendingTask {
     @Async("threadPoolTaskExecutor")
     public Future<String> sendingAsync(int sendNo) {
     	logger.info(sendThread.sendMsg(sendNo));
-         
         return new AsyncResult<String>("Success");
     }
 }

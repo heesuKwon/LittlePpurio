@@ -1,7 +1,5 @@
 package com.littleppurio;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -16,8 +14,6 @@ import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
-import com.littleppurio.client.Report;
-import com.littleppurio.common.SendThread;
 import com.littleppurio.send.controller.SendController;
 
 @Service
@@ -26,8 +22,6 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
 	private static final Logger log = LoggerFactory.getLogger(LittlePpurioService.class);
 	private static final long TIMEOUT = 300_000L;	//5초
 	private volatile Connector connector;
-//	Client client = Client.getInstance(/* "123.2.134.81", 15001 */);
-	Report report = Report.getInstance();
 
 	@Autowired
 	SendController sendController;
@@ -43,10 +37,6 @@ public class LittlePpurioService implements CommandLineRunner, ApplicationListen
     	//애플리케이션 생성시 한번만 실행
 //    	client.connectSocket();
 //    	report.connectSocket();
-    	//SendController sendController = new SendController();
-    	
-    	//sendController.sendMsg();
-    	
     }
     
     @Override

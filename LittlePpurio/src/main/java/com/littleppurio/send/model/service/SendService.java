@@ -2,8 +2,6 @@ package com.littleppurio.send.model.service;
 
 import java.util.Map;
 
-import org.springframework.scheduling.annotation.Async;
-
 import com.littleppurio.send.model.vo.Message;
 
 public interface SendService {
@@ -13,12 +11,12 @@ public interface SendService {
 	int insertSms(Map param);
 	int selectSmsNo();
 	int ingUpdate(int param);
-	int compUpdate(int param);
+	int compUpdate_send(int param);
 	Message waitChecker();
 	int codeUpdate(Map param);
 	Message pickData(int param);
-//	void sending()throws Exception;
 	int msgIdUpdate(Map param);
-	int compUpdate2(String param);
+	int msgIdChecker(String param);
+	int compUpdate_report(String param);
 	
 }

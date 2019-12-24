@@ -1,19 +1,28 @@
-package com.littleppurio.common;
+package com.littleppurio.client;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.littleppurio.client.Client;
 import com.littleppurio.send.model.service.SendService;
 import com.littleppurio.send.model.vo.Message;
 
 @Component
-public class SendThread implements Runnable{
+public class SendThread extends Thread{
 	
+	private Logger logger = LoggerFactory.getLogger(getClass());
+
 	Client client = new Client();
+	
+	private boolean stopped = false;
+	//19초 sleep을 제거하기 위한 시간 간격
+	private LocalDateTime beforeTime; 
+	private LocalDateTime nowTime;
 	
 	@Autowired
 	SendService sendService;
@@ -21,52 +30,66 @@ public class SendThread implements Runnable{
 	
 	public SendThread() {
 		client.connectSocket();
-		System.out.println("=======thread 생성=======");
+		logger.info("===========thread 생성=============");
 	}
 	
 	@Override
 	public void run() {
-//		System.out.println("스타트가 되는걸까?");
+		logger.info("===========thread run=============");
+//		ping();
+	}
+	
+	public void ping() {
+		try {
+			while(!stopped && !Thread.currentThread().isInterrupted()) {
+				logger.info("===========ping()=============");
+				client.ping();
+				Thread.sleep(19000);//19초간 멈춤
+			}
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public String sendMsg(int sendNo) {
-		System.out.println(sendNo+" thread 동작");
+
+		logger.info(sendNo+" 전송 실행");
 		Map<String, Object> updateCode = new HashMap<>();
 		Map<String, Object> updateMsgid = new HashMap<>();
 		
-		//while(true) {
+		while(true) {
 			Message sms = sendService.pickData(sendNo);
-			System.out.println(sms);
 			
-//			if(sms==null) {
-//				break;
-//			}
+			if(sms==null) {
+				break;
+			}
 			
 			String result=client.send(sms.getReceiver (), sms.getSender(),
 					sms.getMsgContent(), sms.getMsgNo());
-			if(result.charAt(8)=='O')
+			if(result.charAt(0)=='O')
 			{				
 				int sub=result.indexOf("OK");
-				String msgId_s=result.substring(sub+2).trim();
+				String msgId=result.substring(sub+2).trim();
 				
-				System.out.println("msgID!!!!!!:"+msgId_s);
-				
-				updateMsgid.put("msg_id",msgId_s);
+				updateMsgid.put("msg_id",msgId);
 				updateMsgid.put("msg_no", sms.getMsgNo());
 				
 				sendService.msgIdUpdate(updateMsgid);
 				sendService.ingUpdate(sms.getMsgNo());
 				
 			}
-			else if(result.charAt(8)=='N') {
+			else if(result.charAt(0)=='N') {
 				int sub=result.indexOf("NO");
 				result=result.substring(sub+2);
 				updateCode.put("result_cd", result);
 				updateCode.put("msg_no", sms.getMsgNo());
 				sendService.codeUpdate(updateCode);
-				sendService.compUpdate(sms.getMsgNo());
+				sendService.compUpdate_send(sms.getMsgNo());
 			}
-		//}
-		return sendNo+"thread--------";
+			
+			beforeTime = LocalDateTime.now();
+		}
+		
+		return sendNo+" 전송 종료";
 	}
 }

@@ -31,6 +31,11 @@
 	UPDATE message_tb SET msg_id=#{msg_id} WHERE msg_no=#{msg_no};
 	</update>
 	
+	<select id="msgIdChecker" parameterType="string" resultType="int">
+	SELECT COUNT(*) FROM message_tb WHERE msg_id=#{msgId};
+	</select>
+	
+	
 	<select id="pickData" resultType="msg" parameterType="int">
 		SELECT message_tb.msg_no, message_tb.receiver,send_tb.msg_content, send_tb.sender
 		FROM message_tb INNER JOIN send_tb ON message_tb.send_no_fk=send_tb.send_no
@@ -47,11 +52,11 @@
 	<update id="ingUpdate" parameterType="int">
 		UPDATE message_tb SET msg_st='ing' WHERE msg_no = #{msg_no}
 	</update>
-	<update id="compUpdate">
+	<update id="compUpdate_send">
 		UPDATE message_tb SET msg_st='comp' WHERE msg_no = #{msg_no}
 	</update>
 	
-	<update id="compUpdate2" parameterType ="int">
+	<update id="compUpdate_report" parameterType ="int">
 		UPDATE message_tb SET msg_st='comp' WHERE msg_id= #{msg_id}
 	</update>
 

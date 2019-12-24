@@ -1,13 +1,10 @@
 package com.littleppurio.send.model.service;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import com.littleppurio.client.SMSSender;
 import com.littleppurio.send.model.dao.SendDAO;
 import com.littleppurio.send.model.vo.Message;
 
@@ -44,8 +41,8 @@ public class SendServiceImpl implements SendService {
 	}
 	
 	@Override
-	public int compUpdate(int param) {
-		return sendDAO.compUpdate(param);
+	public int compUpdate_send(int param) {
+		return sendDAO.compUpdate_send(param);
 	}
 	
 	@Override
@@ -69,8 +66,13 @@ public class SendServiceImpl implements SendService {
 	}
 	
 	@Override
-	public int compUpdate2(String param) {
-		return sendDAO.compUpdate2(param);
+	public int compUpdate_report(String param) {
+		return sendDAO.compUpdate_report(param);
+	}
+	
+	@Override
+	public int msgIdChecker(String param) {
+		return sendDAO.msgIdChecker(param);
 	}
 	
 }

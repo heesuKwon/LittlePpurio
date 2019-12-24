@@ -11,11 +11,12 @@ public interface SendDAO {
 	int insertSms(Map param);
 	int selectSmsNo();
 	int ingUpdate(int param);
-	int compUpdate(int param);
+	int compUpdate_send(int param);
 	Message waitChecker();
 	int codeUpdate(Map param);
 	Message pickData(int param);
 	int msgIdUpdate(Map param);
-	int compUpdate2(String param);
+	int compUpdate_report(String param);
+	int msgIdChecker(String param);
 
 }
