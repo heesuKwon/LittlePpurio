@@ -236,8 +236,6 @@ var horizontalChart = new Chart(horizontalContext,{
 		}
 	}
 });
-
-$('#btn-send').click(function(){
-	document.location.href="${pageContext.request.contextPath}/sendBtn";	
+	
 </script>
 </html>
