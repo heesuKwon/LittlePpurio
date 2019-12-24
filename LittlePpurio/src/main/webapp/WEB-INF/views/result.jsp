@@ -28,13 +28,7 @@
 		<h2>통계 보기</h2>
 		<div style="position: relative; top: -10vh; float: right;" id="output">
 			<button class="btn btn-blue"
-<<<<<<< HEAD
 				onClick="location.href='${pageContext.request.contextPath}/'">문자보내기</button>
-			<!-- <button id="btn-send">발송하기</button> -->
-=======
-				onClick="location.href='${pageContext.request.contextPath}/result'">문자보내기</button>
-			<button id="btn-report">리포트받기</button>
->>>>>>> branch 'master' of https://github.com/heesuKwon/LittlePpurio.git
 		</div>
 	</div>
 	<div align="center" class="chart-container">
@@ -243,17 +237,5 @@ var horizontalChart = new Chart(horizontalContext,{
 	}
 });
 
-$('#btn-send').click(function(){
-	document.location.href="${pageContext.request.contextPath}/sendBtn";	
-<<<<<<< HEAD
-});
-
-=======
-});
-$('#btn-report').click(function(){
-	document.location.href="${pageContext.request.contextPath}/removeReport";	
-});
-
->>>>>>> branch 'master' of https://github.com/heesuKwon/LittlePpurio.git
 </script>
 </html>

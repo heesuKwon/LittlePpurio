@@ -12,6 +12,7 @@ import org.springframework.core.task.AsyncTaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import com.littleppurio.client.ReportThread;
 import com.littleppurio.client.SendThread;
 
 @Configuration
@@ -32,6 +33,7 @@ public class SpringAsyncConfig {
         taskExecutor.submit(new SendThread());
         taskExecutor.submit(new SendThread());
         taskExecutor.submit(new SendThread());
+//        taskExecutor.submit(new ReportThread());
         return new HandlingExecutor(taskExecutor); // HandlingExecutor로 wrappingg함으로써 예외처리
     }
  
