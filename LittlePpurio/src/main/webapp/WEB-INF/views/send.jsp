@@ -52,19 +52,68 @@
 
 		reader.readAsText(file, "euc-kr");
 	}
+	
+	//전화번호 검사
+	function numberValidation(match){
+		
+		var validator=['02','031','032','033','041','042','043',
+			'044','051','052','053','054','055','061','062','063','064',
+			'010']
+		var check=0;
+		for(i=0;i<validator.length;i++){
+			if(match==validator[i]){
+				check=1;	
+			}
+		}
+		if(check==1)
+			return true;
+		else
+			return null;
+	}
+	
 
 	//전화번호 형식 셋팅
 	function formatPhoneNumber(phoneNumberString) {
-		var cleaned = ('' + phoneNumberString).replace(/\D/g, '')
+		var cleaned = ('' + phoneNumberString).replace(/\D/g, '');
 		var match1 = cleaned.match(/^(\d{3})(\d{4})(\d{4})$/);
 		var match2 = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+		var match3 = cleaned.match(/^(\d{2})(\d{3})(\d{4})$/);
+		var match4 = cleaned.match(/^(\d{2})(\d{4})(\d{4})$/);
+		
+		console.log("match2:"+match2);
+		console.log("match3!!:"+match3);
+		console.log("match4!!:"+match4);
+		
 		if (match1) {
-			return match1[1] + '-' + match1[2] + '-' + match1[3]
-		} else if (match2) {
-			return match2[1] + '-' + match2[2] + '-' + match2[3]
+			if(numberValidation(match1[1])==true){
+				return match1[1] + '-' + match1[2] + '-' + match1[3];
+			}else{
+				return null;
+			}
+		}if(match4 && match4[1]=='02'){
+			console.log("match4!!:"+match4)
+			if(numberValidation(match4[1])==true){
+				return match4[1] + '-' + match4[2] + '-' + match4[3];
+			}else{
+				return null;
+			}
+		}if (match2) {
+			if(numberValidation(match2[1])==true){
+				return match2[1] + '-' + match2[2] + '-' + match2[3];
+			}else{
+				return null;
+			}
+		}if(match3){
+			if(numberValidation(match3[1])==true){
+				return match3[1] + '-' + match3[2] + '-' + match3[3];
+			}else{
+				return null;
+			}
 		}
-		return null
+		return null;
 	}
+	
+
 
 	//전화번호 리스트 생성 및 삭제
 	function newElement() {
@@ -79,7 +128,7 @@
 		li.appendChild(li_data);
 
 		if (inputValue == null) {
-			alert("전화번호를 입력해 주세요!");
+			alert("올바른 전화번호를 입력해 주세요!");
 		} else {
 			document.getElementById("myUL").appendChild(li);
 		}

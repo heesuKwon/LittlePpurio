@@ -16,6 +16,7 @@ import com.littleppurio.send.model.vo.Message;
 public class SendThread extends Thread{
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
+	protected Logger errorLogger = LoggerFactory.getLogger("error");
 
 	Client client = new Client();
 	
@@ -73,18 +74,37 @@ public class SendThread extends Thread{
 				
 				updateMsgid.put("msg_id",msgId);
 				updateMsgid.put("msg_no", sms.getMsgNo());
-				
-				sendService.msgIdUpdate(updateMsgid);
-				sendService.ingUpdate(sms.getMsgNo());
-				
+				try {
+					sendService.msgIdUpdate(updateMsgid);
+				}catch(Exception e) {
+					handle(e);
+					System.out.println("msgId 업데이트에 실패하였습니다.");
+
+				}
+				try {
+					sendService.ingUpdate(sms.getMsgNo());
+				}catch(Exception e) {
+					handle(e);
+					System.out.println("ing 업데이트에 실패하였습니다.");
+				}
 			}
 			else if(result.charAt(0)=='N') {
 				int sub=result.indexOf("NO");
 				result=result.substring(sub+2);
 				updateCode.put("result_cd", result);
 				updateCode.put("msg_no", sms.getMsgNo());
-				sendService.codeUpdate(updateCode);
-				sendService.compUpdate_send(sms.getMsgNo());
+				try {
+					sendService.codeUpdate(updateCode);
+				}catch(Exception e) {
+					handle(e);
+					System.out.println("No응답에 대한 result code 업데이트에 실패하였습니다.");
+				}
+				try {
+					sendService.compUpdate_send(sms.getMsgNo());
+				}catch(Exception e) {
+					handle(e);
+					System.out.println("NO응답에 대한 comp 업데이트에 실패하였습니다.");					
+				}
 			}
 			
 			beforeTime = LocalDateTime.now();
@@ -92,4 +112,9 @@ public class SendThread extends Thread{
 		
 		return sendNo+" 전송 종료";
 	}
+	
+    private void handle(Exception ex) {
+        errorLogger.info("Failed to execute task. : {}", ex.getMessage());
+        errorLogger.error("Failed to execute task. ",ex);
+    }
 }

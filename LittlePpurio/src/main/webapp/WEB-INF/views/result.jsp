@@ -8,11 +8,248 @@
 <head>
 <meta charset="UTF-8">
 <title>statistic page</title>
+
+<link rel="stylesheet"
+	href="${pageContext.request.contextPath }/resources/css/result.css"
+	type="text/css">
+
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
 	integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh"
 	crossorigin="anonymous">
+	
+<link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  
+  <script
+	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+
 <script
+	src="${pageContext.request.contextPath}/resources/js/jquery-3.4.1.js"></script>
+
+
+<style>
+.btn-blue {
+	color: rgb(255, 255, 255);
+	background-color: rgb(52, 152, 219);
+}
+
+.btn-blue:hover {
+	color: rgb(52, 152, 219);
+	border-color: rgb(52, 152, 219);
+	background-color: white;
+}
+</style>
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.min.css" rel="stylesheet">
+  
+    <div lang="ko" class="header" style="background-color: rgb(255, 255, 255);	padding: 20px;">
+		<h1 id="title" 	style=" color: rgba(41, 128, 185); font-size: 50px;	margin: 10px 10px 10px 70px;" >Little Ppurio</h1>
+		<h2 style="font-size: 35px;	margin-left: 70px;">통계 보기</h2>
+		<div style="position: relative; top: -10vh; float: right;" id="output">
+			<button class="btn btn-blue"
+				onClick="location.href='${pageContext.request.contextPath}/'">문자보내기</button>
+		</div>
+	</div>
+	</head>
+  <body>
+
+    <div class="container">
+        <div class="row">
+        <div class="col-md-3">
+	<!-- Earnings (Monthly) Card Example -->
+            <div class="mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-uppercase mb-1"style="color:rgb(52, 152, 219)" >총 발송건</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">${result_t}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+
+			<div class="col-md-3">
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">발송성공</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">${result_s}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+            
+            <div class="col-md-3">
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">발송중</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">${result_i}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+
+			<div class="col-md-3">
+            <!-- Pending Requests Card Example -->
+         <div class="mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">발송실패</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">${result_f}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-comments fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+          
+    
+       <div class="row">
+            <!-- Pie Chart -->
+            <div class="col-xl-4 col-lg-5">
+              <div class="card shadow mb-4">
+                <!-- Card Header - Dropdown -->
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                  <h6 class="m-0 font-weight-bold"style="color:rgb(52, 152, 219)" >전체 성공률</h6>
+                  <div class="dropdown no-arrow">
+                  </div>
+                </div>
+                <!-- Card Body -->
+                <div class="card-body">
+                  <div class="chart-pie pt-4 pb-2">
+                    <canvas id="myPieChart"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <div class="col-md-6">
+                <!-- Bar Chart -->
+              <div class="card shadow mb-4" style="width:654px; margin-left:73px">
+                <div class="card-header py-3">
+                  <h6 class="m-0 font-weight-bold" style="color:rgb(52, 152, 219)">전체 실패 통계 차트</h6>
+                </div>
+                <div class="card-body">
+                  <div class="chart-bar">
+                    <canvas id="myBarChart"></canvas>
+                  </div>
+                  <hr>
+                </div>
+              </div>
+             </div>
+   		 </div>
+   		 </div>
+          <script>
+          var pieContext = document.getElementById("myPieChart").getContext('2d');
+          var pieChart = new Chart(pieContext,{
+          	type: 'doughnut',
+          	data: {
+          		labels: ["성공","실패"],
+          		datasets:[{
+          			label: '성공률',
+          			data: [${success},${fail}],
+          			backgroundColor:[
+          				'rgba(54,162,235,0.7)',
+          				'rgba(255, 99, 132, 0.7)'
+          				
+          			],
+          			borderColor: [
+          				'rgba(54,162,235,1)',
+          				'rgba(255,99,132,1)'
+          				
+          			],
+          			borderWidth: 1
+          		}]
+          	},
+          	options: {
+          		maintainAspectRatio: true,
+          		scales: {
+          			ticks:{
+          				display: false,
+          				maxTicksLimit:0,
+          				beginAtZero: false
+          			}
+          			
+          		}
+          	}
+          });
+          
+          var horizontalContext = document.getElementById("myBarChart").getContext('2d');
+          var horizontalChart = new Chart(horizontalContext,{
+          	type: 'horizontalBar',
+          	data: {
+          		labels: ["잘못된 \n전화번호", "형식 오류", "기타 에러", " 타임 아웃"],
+          		datasets: [{
+          			label: '실패 요인 통계',
+          			data: [${w_4410},${w_4413},${w_4420},${w_4421}],
+          			backgroundColor:[
+          				'rgba(255,99,132,0.7)',
+          				'rgba(54,162,235,0.7)',
+          				'rgba(255, 206, 86, 0.7)',
+                          'rgba(75, 192, 192, 0.7)'
+          			],
+          			borderColor: [
+          				'rgba(255,99,132,1)',
+          				'rgba(54,162,235,1)',
+          				'rgba(255, 206, 86, 0.7)',
+                          'rgba(75, 192, 192, 0.7)'
+          			],
+          		
+          			borderWidth: 1
+          			}]
+          	},
+          	options: {
+          		maintainAspectRatio: true,
+          		scales: {
+          			xAxes:[{
+          				ticks:{
+          					display: true,
+          					maxTicksLimit:0,
+          					beginAtZero: true
+          				}
+          			}]
+          		}
+          	}
+          });
+          </script>
+          </body>
+
+          
+<!--<script
 	src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
 <script
@@ -71,7 +308,7 @@
 		<div class="middle">
 			<div class="bar-container">
 				<canvas id="myChart" style="padding-top: 40px; padding-right: 30px"></canvas>
-			</div>
+			</div>!-->
 
 			<!-- <div class="costText">
 				<div align="center" lang="ko"
@@ -92,7 +329,7 @@
 				</div>
 
 			</div> -->
-		</div>
+	<!--	</div>
 
 		<div class=bottom>
 			<div class="pie-container">
@@ -236,6 +473,5 @@ var horizontalChart = new Chart(horizontalContext,{
 		}
 	}
 });
-
-</script>
+</script>!-->
 </html>

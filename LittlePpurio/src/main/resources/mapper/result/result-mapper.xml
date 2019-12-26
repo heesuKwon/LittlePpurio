@@ -39,9 +39,9 @@
 	<when test="#{send_no_fk}!=null">
 	WHERE send_no_fk=#{send_no_fk}
 	</when>
-	<otherwise>
+	<when test="#{send_no_fk}==0">
 	WHERE send_no_fk = (Select MAX(send_no_fk) FROM message_tb)
-	</otherwise>
+	</when>
 	</choose>
 	</select>
 
@@ -75,9 +75,9 @@
 	<when test="#{send_no_fk}!=null">
 	WHERE send_no_fk=#{send_no_fk} AND msg_st='ing'
 	</when>
-	<otherwise>
+	<when test="#{send_no_fk}==null">
 	WHERE send_no_fk = (Select MAX(send_no_fk) FROM message_tb) AND msg_st='ing'
-	</otherwise>
+	</when>
 	</choose>
 	</select>
 

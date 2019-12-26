@@ -46,6 +46,7 @@ public class ResultController {
 		int result_f=resultService.selectResult_f(sendNoFk);
 		int result_i=resultService.selectResult_i(sendNoFk);
 		
+		
 		mav.addObject("result_t",result_t);
 		mav.addObject("result_s",result_s);
 		mav.addObject("result_f",result_f);

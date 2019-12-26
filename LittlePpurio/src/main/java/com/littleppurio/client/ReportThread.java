@@ -3,14 +3,20 @@ package com.littleppurio.client;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import com.littleppurio.send.model.service.SendService;
 
 @Component
+@Scope("prototype")
 public class ReportThread implements Runnable{
 	
+	private Logger logger = LoggerFactory.getLogger(getClass());
+	protected Logger errorLogger = LoggerFactory.getLogger("error");
 	Report report = new Report();
 	
 	@Autowired
@@ -18,17 +24,19 @@ public class ReportThread implements Runnable{
 	
 	public ReportThread() {
 		report.connectSocket();
-		System.out.println("Report thread 생성");
+		logger.info("=========== Report thread 생성=============");
 	}
 	
 	@Override
 	public void run() {
+		logger.info("=========== Report thread run=============");
 		while(true) {
 			recvReport();
 		}
 	}
 		
 	public void recvReport() {
+
 		Map<String, Object> updateCode= new HashMap<>();
 		
 		String result = report.receiveReport();
@@ -37,16 +45,35 @@ public class ReportThread implements Runnable{
 		int end = result.indexOf("PHONE:=");
 		String msgId = result.substring(start+7, end-1);
 		
+		System.out.println(msgId);
+		
 		if(result.charAt(0)=='R') {
 			int sub= result.indexOf("RESULT");
 			result=result.substring(sub+8,sub+12);
-			if(sendService.msgIdChecker(msgId)==1)
+			
+			int isMsgId = sendService.msgIdChecker(msgId);
+			if(isMsgId==1)
 			{
 				updateCode.put("result_code", result);
 				updateCode.put("msg_id", msgId);
-				sendService.codeUpdate(updateCode);
-				sendService.compUpdate_report(msgId);
+				try {
+					sendService.codeUpdate(updateCode);
+				}catch(Exception e) {
+					handle(e);
+					System.out.println("result_code 업데이트에 실패하였습니다.");
+				}
+				try {
+					sendService.compUpdate_report(msgId);
+				}catch(Exception e) {
+					handle(e);
+					System.out.println("comp 업데이트에 실패하였습니다.");
+				}
 			}
 		}
 	}
+    private void handle(Exception ex) {
+        errorLogger.info("Failed to execute task. : {}", ex.getMessage());
+        errorLogger.error("Failed to execute task. ",ex);
+    }
+
 }

@@ -17,7 +17,8 @@ public class LittlePpurioApplication extends SpringBootServletInitializer{
 		return builder.sources(LittlePpurioApplication.class);
 	}
 
-	public static void main(String[] args) {				
+	public static void main(String[] args) {		
+		
 		SpringApplication.run(LittlePpurioApplication.class, args);
 	}
 
