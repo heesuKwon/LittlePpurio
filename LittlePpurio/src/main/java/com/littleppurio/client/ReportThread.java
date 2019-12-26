@@ -29,13 +29,18 @@ public class ReportThread implements Runnable{
 	@Override
 	public void run() {
 		logger.info("=========== Report thread run=============");
-		while(true) {
+		while(/*!Thread.currentThread().isInterrupted()*/true) {
 			recvReport();
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 		
 	public void recvReport() {
-
+		logger.info("========== Report ===========");
 		Map<String, Object> updateCode= new HashMap<>();
 		
 		String result = report.receiveReport();
@@ -47,15 +52,18 @@ public class ReportThread implements Runnable{
 		if(result.charAt(0)=='R') {
 			int sub= result.indexOf("RESULT");
 			result=result.substring(sub+8,sub+12);
-			
+			System.out.println("result="+result);
 			int isMsgId = sendService.msgIdChecker(msgId);
+			System.out.println("isMsgId="+isMsgId);
 			if(isMsgId==1)
 			{
+				System.out.println("isMsgId="+isMsgId);
 				updateCode.put("result_code", result);
 				updateCode.put("msg_id", msgId);
 				sendService.codeUpdate(updateCode);
 				sendService.compUpdate_report(msgId);
 			}
-		}
+			System.out.println("다 되는건가?");
+		}			
 	}
 }

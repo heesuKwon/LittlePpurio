@@ -31,7 +31,7 @@
 	UPDATE message_tb SET msg_id=#{msg_id} WHERE msg_no=#{msg_no};
 	</update>
 	
-	<select id="msgIdChecker" parameterType="string" resultType="int">
+	<select id="msgIdChecker" parameterType="String" resultType="int">
 	SELECT COUNT(*) FROM message_tb WHERE msg_id=#{msgId};
 	</select>
 	

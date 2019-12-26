@@ -1,6 +1,13 @@
 package com.littleppurio.common;
 
+import java.util.concurrent.TimeUnit;
+
+import org.springframework.scheduling.Trigger;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
+import org.springframework.scheduling.support.PeriodicTrigger;
 import org.springframework.stereotype.Component;
+
+import com.littleppurio.client.SendThread;
 
 @Component
 public class Scheduler {
@@ -19,10 +26,7 @@ public class Scheduler {
 //	}
 //	
 //	public Runnable getRunnable() {
-//		return ()->{
-//			SMSSender sender = new SMSSender();
-////			sender.ping();
-//		};
+//		return ;
 //	}
 //	
 //	private Trigger getTrigger() {

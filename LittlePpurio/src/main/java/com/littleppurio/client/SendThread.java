@@ -9,11 +9,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.littleppurio.common.Scheduler;
 import com.littleppurio.send.model.service.SendService;
 import com.littleppurio.send.model.vo.Message;
 
 @Component
-public class SendThread extends Thread{
+public class SendThread implements Runnable{
 	
 	private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -24,6 +25,7 @@ public class SendThread extends Thread{
 	private LocalDateTime beforeTime; 
 	private LocalDateTime nowTime;
 	
+	Scheduler scheduler = new Scheduler();
 	@Autowired
 	SendService sendService;
 	
@@ -31,65 +33,68 @@ public class SendThread extends Thread{
 	public SendThread() {
 		client.connectSocket();
 		logger.info("===========thread 생성=============");
+//		scheduler.startScheduler();
 	}
 	
 	@Override
 	public void run() {
 		logger.info("===========thread run=============");
-//		ping();
+		ping();
 	}
 	
 	public void ping() {
-		try {
-			while(!stopped && !Thread.currentThread().isInterrupted()) {
+//		try {
+//			while(!stopped && !Thread.currentThread().isInterrupted()) {
 				logger.info("===========ping()=============");
-				client.ping();
-				Thread.sleep(19000);//19초간 멈춤
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+//				client.ping();
+//				Thread.sleep(19000);//19초간 멈춤
+//			}
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
 	}
 	
 	public String sendMsg(int sendNo) {
 
+//		scheduler.stopScheduler();
 		logger.info(sendNo+" 전송 실행");
-		Map<String, Object> updateCode = new HashMap<>();
-		Map<String, Object> updateMsgid = new HashMap<>();
+//		Map<String, Object> updateCode = new HashMap<>();
+//		Map<String, Object> updateMsgid = new HashMap<>();
+//		
+//		while(true) {
+//			Message sms = sendService.pickData(sendNo);
+//			
+//			if(sms==null) {
+//				break;
+//			}
+//			
+//			String result=client.send(sms.getReceiver (), sms.getSender(),
+//					sms.getMsgContent(), sms.getMsgNo());
+//			if(result.charAt(0)=='O')
+//			{				
+//				int sub=result.indexOf("OK");
+//				String msgId=result.substring(sub+2).trim();
+//				
+//				updateMsgid.put("msg_id",msgId);
+//				updateMsgid.put("msg_no", sms.getMsgNo());
+//				
+//				sendService.msgIdUpdate(updateMsgid);
+//				sendService.ingUpdate(sms.getMsgNo());
+//				
+//			}
+//			else if(result.charAt(0)=='N') {
+//				int sub=result.indexOf("NO");
+//				result=result.substring(sub+2);
+//				updateCode.put("result_cd", result);
+//				updateCode.put("msg_no", sms.getMsgNo());
+//				sendService.codeUpdate(updateCode);
+//				sendService.compUpdate_send(sms.getMsgNo());
+//			}
+//			
+//			beforeTime = LocalDateTime.now();
+//		}
 		
-		while(true) {
-			Message sms = sendService.pickData(sendNo);
-			
-			if(sms==null) {
-				break;
-			}
-			
-			String result=client.send(sms.getReceiver (), sms.getSender(),
-					sms.getMsgContent(), sms.getMsgNo());
-			if(result.charAt(0)=='O')
-			{				
-				int sub=result.indexOf("OK");
-				String msgId=result.substring(sub+2).trim();
-				
-				updateMsgid.put("msg_id",msgId);
-				updateMsgid.put("msg_no", sms.getMsgNo());
-				
-				sendService.msgIdUpdate(updateMsgid);
-				sendService.ingUpdate(sms.getMsgNo());
-				
-			}
-			else if(result.charAt(0)=='N') {
-				int sub=result.indexOf("NO");
-				result=result.substring(sub+2);
-				updateCode.put("result_cd", result);
-				updateCode.put("msg_no", sms.getMsgNo());
-				sendService.codeUpdate(updateCode);
-				sendService.compUpdate_send(sms.getMsgNo());
-			}
-			
-			beforeTime = LocalDateTime.now();
-		}
-		
+//		scheduler.startScheduler();
 		return sendNo+" 전송 종료";
 	}
 }
