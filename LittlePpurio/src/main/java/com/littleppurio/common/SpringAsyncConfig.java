@@ -6,9 +6,11 @@ import java.util.concurrent.Future;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.task.AsyncTaskExecutor;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -17,18 +19,34 @@ import com.littleppurio.client.SendThread;
 
 @Configuration
 @EnableAsync
-public class SpringAsyncConfig {
+public class SpringAsyncConfig implements AsyncConfigurer{
  
     protected Logger logger = LoggerFactory.getLogger(getClass());
     protected Logger errorLogger = LoggerFactory.getLogger("error");
  
-    @Bean
+    @Bean(name="executor")
+    @Override
+    public Executor getAsyncExecutor() {
+    	ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
+        taskExecutor.setCorePoolSize(1);
+        taskExecutor.setMaxPoolSize(1);
+        taskExecutor.setQueueCapacity(10);
+        taskExecutor.setThreadNamePrefix("Executor-");
+        taskExecutor.initialize();
+        taskExecutor.submit(new ReportThread());
+//        taskExecutor.submit(new ReportThread());
+//        taskExecutor.submit(new ReportThread());
+        return new HandlingExecutor(taskExecutor); // HandlingExecutor로 wrappingg함으로써 예외처리
+    }
+
+    @Bean(name="threadPoolTaskExecutor")
+    @Qualifier
     public Executor threadPoolTaskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
         taskExecutor.setCorePoolSize(3);
         taskExecutor.setMaxPoolSize(3);
         taskExecutor.setQueueCapacity(20);
-        taskExecutor.setThreadNamePrefix("Executor-");
+        taskExecutor.setThreadNamePrefix("TaskExecutor-");
         taskExecutor.initialize();
         taskExecutor.submit(new SendThread());
         taskExecutor.submit(new SendThread());
